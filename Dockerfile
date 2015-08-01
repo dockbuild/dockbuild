@@ -13,6 +13,13 @@ RUN yum update -y && \
    wget \
    zlib-devel
 
+WORKDIR /usr/src
+RUN wget http://people.centos.org/tru/devtools-2/devtools-2.repo
+RUN yum install -y devtoolset-2-gcc \
+  devtoolset-2-binutils \
+  devtoolset-2-gcc-gfortran \
+  devtoolset-2-gcc-c++
+
 # Build and install git from source.
 WORKDIR /usr/src
 ENV GIT_VERSION 2.5.0
