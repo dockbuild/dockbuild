@@ -13,7 +13,7 @@ RUN yum update -y && \
    wget \
    zlib-devel
 
-WORKDIR /usr/src
+WORKDIR /etc/yum.repos.d
 RUN wget http://people.centos.org/tru/devtools-2/devtools-2.repo
 RUN yum install -y devtoolset-2-gcc \
   devtoolset-2-binutils \
