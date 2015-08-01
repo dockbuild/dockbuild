@@ -40,3 +40,6 @@ RUN /usr/src/CMake/bootstrap \
     -DCMAKE_USE_OPENSSL:BOOL=ON . && \
   make install && \
   rm -rf *
+
+WORKDIR /usr/src
+CMD /bin/bash
