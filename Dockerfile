@@ -19,6 +19,9 @@ RUN yum install -y devtoolset-2-gcc \
   devtoolset-2-binutils \
   devtoolset-2-gcc-gfortran \
   devtoolset-2-gcc-c++
+ENV CC /opt/rh/devtoolset-2/root/usr/bin/gcc
+ENV CXX /opt/rh/devtoolset-2/root/usr/bin/g++
+ENV FC /opt/rh/devtoolset-2/root/usr/bin/gfortran
 
 # Build and install git from source.
 WORKDIR /usr/src
