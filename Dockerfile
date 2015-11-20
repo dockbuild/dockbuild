@@ -9,6 +9,7 @@ RUN yum update -y && \
    gcc \
    gcc-c++ \
    gettext \
+   openssl-devel \
    perl \
    wget \
    zlib-devel
@@ -45,7 +46,7 @@ RUN /usr/src/CMake/bootstrap \
     --parallel=$(nproc) \
     --prefix=/usr && \
   make && \
-  ./bin/cmake -DCMAKE_USE_SYSTEM_CURL:BOOL=ON \
+  ./bin/cmake \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DCMAKE_USE_OPENSSL:BOOL=ON . && \
   make install && \
