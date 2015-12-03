@@ -43,9 +43,9 @@ RUN git clone git://cmake.org/cmake.git CMake && \
 RUN mkdir CMake-build
 WORKDIR /usr/src/CMake-build
 RUN /usr/src/CMake/bootstrap \
-    --parallel=$(nproc) \
+    --parallel=$(grep -c processor /proc/cpuinfo) \
     --prefix=/usr && \
-  make && \
+  make -j$(grep -c processor /proc/cpuinfo) && \
   ./bin/cmake \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DCMAKE_USE_OPENSSL:BOOL=ON . && \
@@ -59,7 +59,7 @@ RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VER
   tar xvzf Python-${PYTHON_VERSION}.tgz && \
   cd Python-${PYTHON_VERSION} && \
   ./configure && \
-  make && \
+  make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
   cd .. && rm -rf Python-${PYTHON_VERSION}*
 
