@@ -39,10 +39,10 @@ RUN wget https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz &
 WORKDIR /usr/src
 RUN git clone git://cmake.org/cmake.git CMake && \
   cd CMake && \
-  git checkout v3.4.1
-RUN mkdir CMake-build
-WORKDIR /usr/src/CMake-build
-RUN /usr/src/CMake/bootstrap \
+  git checkout v3.4.1 && \
+  mkdir /usr/src/CMake-build && \
+  cd /usr/src/CMake-build && \
+  /usr/src/CMake/bootstrap \
     --parallel=$(grep -c processor /proc/cpuinfo) \
     --prefix=/usr && \
   make -j$(grep -c processor /proc/cpuinfo) && \
