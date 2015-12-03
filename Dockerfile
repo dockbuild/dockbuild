@@ -39,7 +39,7 @@ RUN wget https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz &
 WORKDIR /usr/src
 RUN git clone git://cmake.org/cmake.git CMake && \
   cd CMake && \
-  git checkout v3.4.0
+  git checkout v3.4.1
 RUN mkdir CMake-build
 WORKDIR /usr/src/CMake-build
 RUN /usr/src/CMake/bootstrap \
