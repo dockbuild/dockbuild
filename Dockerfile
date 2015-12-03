@@ -33,7 +33,7 @@ RUN wget https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz &
   ./configure --prefix=/usr && \
   make && \
   make install && \
-  cd .. && rm -rf git-${GIT_VERSION}
+  cd .. && rm -rf git-${GIT_VERSION}*
 
 # Build and install CMake from source.
 WORKDIR /usr/src
@@ -50,7 +50,7 @@ RUN /usr/src/CMake/bootstrap \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DCMAKE_USE_OPENSSL:BOOL=ON . && \
   make install && \
-  rm -rf *
+  cd .. && rm -rf CMake*
 
 # Build and install Python from source.
 WORKDIR /usr/src
@@ -61,7 +61,7 @@ RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VER
   ./configure && \
   make && \
   make install && \
-  cd .. && rm -rf Python-${PYTHON_VERSION}
+  cd .. && rm -rf Python-${PYTHON_VERSION}*
 
 # Build and install ninja from source.
 RUN git clone https://github.com/martine/ninja.git && \
