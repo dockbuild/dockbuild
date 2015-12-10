@@ -49,7 +49,6 @@ RUN git clone git://cmake.org/cmake.git CMake && \
   ./bin/cmake \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DCMAKE_USE_OPENSSL:BOOL=ON . && \
-  make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
   cd .. && rm -rf CMake*
 
