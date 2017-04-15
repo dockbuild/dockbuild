@@ -69,7 +69,7 @@ RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VER
 # Build and install ninja from source.
 RUN git clone https://github.com/martine/ninja.git && \
   cd ninja && \
-  git checkout v1.6.0 && \
+  git checkout v1.7.2 && \
   ./configure.py --bootstrap && \
   mv ninja /usr/bin/ && \
   cd .. && rm -rf ninja
