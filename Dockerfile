@@ -27,7 +27,7 @@ ENV FC /opt/rh/devtoolset-2/root/usr/bin/gfortran
 # Build and install git from source.
 WORKDIR /usr/src
 ENV GIT_VERSION 2.5.0
-RUN wget https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz && \
+RUN wget --no-check-certificate https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz && \
   tar xvzf git-${GIT_VERSION}.tar.gz && \
   cd git-${GIT_VERSION} && \
   ./configure --prefix=/usr && \
@@ -39,7 +39,7 @@ RUN wget https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz &
 WORKDIR /usr/src
 RUN git clone git://cmake.org/cmake.git CMake && \
   cd CMake && \
-  git checkout v3.4.1 && \
+  git checkout v3.7.2 && \
   mkdir /usr/src/CMake-build && \
   cd /usr/src/CMake-build && \
   /usr/src/CMake/bootstrap \
