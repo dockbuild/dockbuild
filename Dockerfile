@@ -1,6 +1,9 @@
 FROM centos:5
 MAINTAINER Matt McCormick <matt.mccormick@kitware.com>
 
+ADD etc/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+ADD etc/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo
+ADD etc/libselinux.repo /etc/yum.repos.d/libselinux.repo
 RUN yum update -y && \
   yum groupinstall -y "Development Tools" && \
   yum install -y curl \
