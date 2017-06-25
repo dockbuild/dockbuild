@@ -15,7 +15,8 @@ RUN yum update -y && \
    openssl-devel \
    perl \
    wget \
-   zlib-devel
+   zlib-devel \
+   bzip2-devel
 
 WORKDIR /etc/yum.repos.d
 RUN wget http://people.centos.org/tru/devtools-2/devtools-2.repo
