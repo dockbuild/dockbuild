@@ -56,6 +56,10 @@ RUN git clone git://cmake.org/cmake.git CMake && \
   make install && \
   cd .. && rm -rf CMake*
 
+# Add /usr/local/lib to ldconfig
+RUN echo '/usr/local/lib' >> /etc/ld.so.conf.d/usr-local.conf && \
+    ldconfig
+
 # Build and install Python from source.
 WORKDIR /usr/src
 ENV PYTHON_VERSION 2.7.12
@@ -65,7 +69,7 @@ RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VER
   ./configure --enable-shared && \
   make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
-  ldconfig /usr/local/lib && \
+  ldconfig && \
   cd .. && rm -rf Python-${PYTHON_VERSION}*
 
 # Build and install ninja from source.
