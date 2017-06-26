@@ -62,9 +62,10 @@ ENV PYTHON_VERSION 2.7.12
 RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && \
   tar xvzf Python-${PYTHON_VERSION}.tgz && \
   cd Python-${PYTHON_VERSION} && \
-  ./configure && \
+  ./configure --enable-shared && \
   make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
+  ldconfig /usr/local/lib && \
   cd .. && rm -rf Python-${PYTHON_VERSION}*
 
 # Build and install ninja from source.
