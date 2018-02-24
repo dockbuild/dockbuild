@@ -11,8 +11,11 @@ ORG = thewtex
 # Docker project
 PROJ = centos-build
 
+IMAGES = centos6
+OBSOLETE_IMAGES = centos5
+
 # These images are built using the "build implicit rule"
-IMAGES = centos5 centos6
+ALL_IMAGES = $(IMAGES) $(OBSOLETE_IMAGES)
 
 #
 # images: This target builds all IMAGES (because it is the first one, it is built by default)
@@ -23,7 +26,7 @@ images: $(IMAGES)
 # display
 #
 display_images:
-	for image in $(IMAGES); do echo $$image; done
+	for image in $(ALL_IMAGES); do echo $$image; done
 
 $(VERBOSE).SILENT: display_images
 
@@ -31,7 +34,7 @@ $(VERBOSE).SILENT: display_images
 # build implicit rule
 #
 
-$(IMAGES): %: %/Dockerfile
+$(ALL_IMAGES): %: %/Dockerfile
 	$(DOCKER) build -t $(ORG)/$(PROJ):$@-latest \
 		--build-arg IMAGE=$(ORG)/$(PROJ):$@-latest \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
