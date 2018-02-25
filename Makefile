@@ -11,7 +11,7 @@ ORG = thewtex
 # Docker project
 PROJ = centos-build
 
-IMAGES = centos6
+IMAGES = centos6 centos7
 OBSOLETE_IMAGES = centos5
 
 # These images are built using the "build implicit rule"
