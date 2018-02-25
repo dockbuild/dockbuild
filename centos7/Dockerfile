@@ -108,7 +108,11 @@ RUN yum update -y && \
   #
   # cleanup
   #
-  yum -y clean all && rm -rf /var/cache/yum
+  yum -y clean all && rm -rf /var/cache/yum && \
+  #
+  # we don't need libpython*.a, and they're many megabytes
+  #
+  find /usr/local/lib -name '*.a' -print0 | xargs -0 rm -f
 
 WORKDIR /usr/src
 CMD /bin/bash
