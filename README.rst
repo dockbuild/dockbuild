@@ -11,7 +11,7 @@ Maintained images
   :target: https://microbadger.com/images/thewtex/centos-build:centos6-latest
 
 thewtex/centos-build:centos6-latest
-  |centos6-latest| Centos6 based image including the `devtools-2 <https://people.centos.org/tru/devtools-2/>`_ (See specs `here <https://people.centos.org/tru/devtools-2/>`_), git 2.16.2, cmake 3.10.2 and ninja 1.8.2. Note that the python version included in the base image is 3.5.2.
+  |centos6-latest| Centos6 based image including the `devtools-2 <https://people.centos.org/tru/devtools-2/>`_ (See specs `here <https://people.centos.org/tru/devtools-2/>`_), git 2.16.2, cmake 3.10.2, python 3.6.4 and ninja 1.8.2.
 
 
 Obsolete images
