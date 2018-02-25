@@ -10,8 +10,18 @@ Maintained images
 .. |centos6-latest| image:: https://images.microbadger.com/badges/image/thewtex/centos-build:centos6-latest.svg
   :target: https://microbadger.com/images/thewtex/centos-build:centos6-latest
 
+.. _devtools-2: https://people.centos.org/tru/devtools-2/
+
 thewtex/centos-build:centos6-latest
-  |centos6-latest| Centos6 based image including the `devtools-2 <https://people.centos.org/tru/devtools-2/>`_ (See specs `here <https://people.centos.org/tru/devtools-2/>`_), git 2.16.2, cmake 3.10.2, python 3.6.4 and ninja 1.8.2.
+  |centos6-latest| Centos6 based image including the `devtools-2`_, git 2.16.2, cmake 3.10.2, python 3.6.4 and ninja 1.8.2.
+
+.. |centos7-latest| image:: https://images.microbadger.com/badges/image/thewtex/centos-build:centos7-latest.svg
+  :target: https://microbadger.com/images/thewtex/centos-build:centos7-latest
+
+.. _devtools-4: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/4/html-single/4.1_release_notes/
+
+thewtex/centos-build:centos7-latest
+  |centos7-latest| Centos7 based image including the `devtools-4`_, git 2.16.2, cmake 3.10.2, python 3.6.4 and ninja 1.8.2.
 
 
 Obsolete images
@@ -21,4 +31,4 @@ Obsolete images
   :target: https://microbadger.com/images/thewtex/centos-build:latest
 
 thewtex/centos-build:latest
-  |centos5-latest| Centos5 based image including the `devtools-2 <https://people.centos.org/tru/devtools-2/>`_ (See specs `here <https://people.centos.org/tru/devtools-2/>`_), git 2.5.0, cmake 3.7.2, Python 2.7.12 and ninja 1.7.2.
+  |centos5-latest| Centos5 based image including the `devtools-2`_, git 2.5.0, cmake 3.7.2, Python 2.7.12 and ninja 1.7.2.
