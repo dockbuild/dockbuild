@@ -7,7 +7,7 @@ jobs:
          name: centos6 build
          command: |
            docker pull centos:6
-           make centos5
+           make centos6
 
 workflows:
   version: 2
