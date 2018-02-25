@@ -31,7 +31,8 @@ RUN yum update -y && \
    wget \
    which \
    yasm \
-   zlib-devel && \
+   zlib-devel \
+  && \
   #
   # Install devtoolset
   #
@@ -41,7 +42,8 @@ RUN yum update -y && \
    devtoolset-2-gcc \
    devtoolset-2-binutils \
    devtoolset-2-gcc-gfortran \
-   devtoolset-2-gcc-c++ && \
+   devtoolset-2-gcc-c++ \
+  && \
   #
   # Install CMake
   #

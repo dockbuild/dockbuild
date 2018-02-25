@@ -31,7 +31,8 @@ RUN yum update -y && \
    wget \
    which \
    yasm \
-   zlib-devel && \
+   zlib-devel \
+  && \
   #
   # Install devtoolset (See http://linuxpitstop.com/install-and-use-red-hat-developer-toolset-4-1-on-centos-7/)
   #
@@ -40,7 +41,8 @@ RUN yum update -y && \
    devtoolset-4-gcc \
    devtoolset-4-binutils \
    devtoolset-4-gcc-gfortran \
-   devtoolset-4-gcc-c++ && \
+   devtoolset-4-gcc-c++ \
+  && \
   #
   # Install CMake
   #
