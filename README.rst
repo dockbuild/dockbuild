@@ -4,6 +4,9 @@ docker-centos-build
 Collection of Docker images to `build C/C++ executables
 <https://kitware.com/blog/home/post/986>`_.
 
+.. image:: https://circleci.com/gh/dockcross/centos-build/tree/master.svg?style=svg
+  :target: https://circleci.com/gh/dockcross/centos-build/tree/master
+
 Maintained images
 -----------------
 
