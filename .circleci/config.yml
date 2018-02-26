@@ -1,6 +1,10 @@
-version: 2
+
+build-settings: &build-settings
+  machine: true
+
 jobs:
   centos6:
+    <<: *build-settings
     steps:
       - checkout
       - run:
@@ -9,6 +13,7 @@ jobs:
            docker pull centos:6
            make centos6
   centos7:
+    <<: *build-settings
     steps:
       - checkout
       - run:
