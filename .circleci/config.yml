@@ -1,25 +1,74 @@
-version: 2
+
+build-settings: &build-settings
+  machine: true
+
 jobs:
   centos6:
+    <<: *build-settings
     steps:
+      - restore_cache:
+          keys:
+            - centosbuild-6-assets-
       - checkout
       - run:
          name: centos6 build
          command: |
+           docker load -i ~/docker/centosbuild-6.tar > /dev/null 2>&1 || true
            docker pull centos:6
            make centos6
+           mkdir -p ~/docker
+           docker save -o ~/docker/centosbuild-6.tar centosbuild/6:latest
+      - save_cache:
+          key: centosbuild-6-assets-{{ .Revision }}
+          paths: ~/docker/centosbuild-6.tar
   centos7:
+    <<: *build-settings
     steps:
+      - restore_cache:
+          keys:
+            - centosbuild-7-assets-
       - checkout
       - run:
          name: centos7 build
          command: |
+           docker load -i ~/docker/centosbuild-7.tar > /dev/null 2>&1 || true
            docker pull centos:7
            make centos7
-
+           mkdir -p ~/docker
+           docker save -o ~/docker/centosbuild-7.tar centosbuild/7:latest
+      - save_cache:
+          key: centosbuild-7-assets-{{ .Revision }}
+          paths: ~/docker/centosbuild-7.tar
+  deploy:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          key: centosbuild-6-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy centos6
+          command: |
+            docker load -i ~/docker/centosbuild-6.tar
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push centosbuild/6:latest
+            fi
+      - restore_cache:
+          key: centosbuild-7-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy centos7
+          command: |
+            docker load -i ~/docker/centosbuild-7.tar
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push centosbuild/7:latest
+            fi
 workflows:
   version: 2
   build-test-deploy:
     jobs:
       - centos6
       - centos7
+      - deploy:
+          requires:
+            - centos6
+            - centos7
