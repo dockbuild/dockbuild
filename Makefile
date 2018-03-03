@@ -46,4 +46,8 @@ $(ALL_IMAGES): %: %/Dockerfile
 		$@
 	docker rmi $$(docker images -f "dangling=true" -q) || true
 
-.PHONY: images display_images $(IMAGES)
+.SECONDEXPANSION:
+$(addsuffix .run,$(ALL_IMAGES)):
+	$(DOCKER) run -ti --rm $(ORG)/$(basename $@):latest bash
+
+.PHONY: images display_images $(ALL_IMAGES) $(addsuffix .run,$(ALL_IMAGES))
