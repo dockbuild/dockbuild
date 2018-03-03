@@ -3,6 +3,24 @@ build-settings: &build-settings
   machine: true
 
 jobs:
+  centos5:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - centosbuild-5-assets-
+      - checkout
+      - run:
+         name: centos5 build
+         command: |
+           docker load -i ~/docker/centosbuild-5.tar > /dev/null 2>&1 || true
+           docker pull centos:5
+           make centos5
+           mkdir -p ~/docker
+           docker save -o ~/docker/centosbuild-5.tar centosbuild/centos5:latest
+      - save_cache:
+          key: centosbuild-5-assets-{{ .Revision }}
+          paths: ~/docker/centosbuild-5.tar
   centos6:
     <<: *build-settings
     steps:
@@ -43,6 +61,16 @@ jobs:
     <<: *build-settings
     steps:
       - restore_cache:
+          key: centosbuild-5-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy centos5
+          command: |
+            docker load -i ~/docker/centosbuild-5.tar
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push centosbuild/centos5:latest
+            fi
+      - restore_cache:
           key: centosbuild-6-assets-{{ .Revision }}
       - deploy:
           name: Deploy centos6
@@ -66,9 +94,11 @@ workflows:
   version: 2
   build-test-deploy:
     jobs:
+      - centos5
       - centos6
       - centos7
       - deploy:
           requires:
+            - centos5
             - centos6
             - centos7

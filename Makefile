@@ -8,11 +8,10 @@ DOCKER = docker
 # Docker organization to pull the images from
 ORG = centosbuild
 
-IMAGES = centos6 centos7
-OBSOLETE_IMAGES = centos5
+IMAGES = centos5 centos6 centos7
 
 # These images are built using the "build implicit rule"
-ALL_IMAGES = $(IMAGES) $(OBSOLETE_IMAGES)
+ALL_IMAGES = $(IMAGES)
 
 #
 # images: This target builds all IMAGES (because it is the first one, it is built by default)
