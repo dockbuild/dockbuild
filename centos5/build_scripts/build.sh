@@ -248,21 +248,31 @@ find /usr/include/ -type f -exec sed -i 's/\bextern _*inline_*\b/extern __inline
 
 
 #
-# Install CMake
+# Build and Install CMake
 #
 CMAKE_VERSION=3.10.2
 cd /usr/src && \
-CMAKE_VERSION_XY=$(echo $CMAKE_VERSION | sed -r 's/\.[0-9]+$//') && \
-curl -LO https://cmake.org/files/v${CMAKE_VERSION_XY}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-rm -f cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-cd cmake-${CMAKE_VERSION}-Linux-x86_64 && \
+git clone git://cmake.org/cmake.git CMake && \
+cd CMake && \
+git checkout v$CMAKE_VERSION && \
+mkdir /usr/src/CMake-build && \
+cd /usr/src/CMake-build && \
+/usr/src/CMake/bootstrap \
+  --parallel=$(grep -c processor /proc/cpuinfo) \
+  --prefix=/usr/src/cmake-$CMAKE_VERSION \
+make -j$(grep -c processor /proc/cpuinfo) && \
+./bin/cmake \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DCMAKE_USE_OPENSSL:BOOL=ON . && \
+make install && \
+cd /usr/src/cmake-$CMAKE_VERSION && \
 rm -rf doc man && \
-rm -rf bin/cmake-gui && \
 ln -s $(pwd)/bin/cmake /usr/local/bin/cmake && \
 ln -s $(pwd)/bin/ctest /usr/local/bin/ctest && \
 ln -s $(pwd)/bin/cpack /usr/local/bin/cpack && \
 ln -s $(pwd)/bin/ccmake /usr/local/bin/ccmake && \
+rm -rf /usr/src/CMake* && \
+
 #
 # Install ninja
 #
