@@ -18,27 +18,27 @@ In addition to the devtools, all images include:
 Maintained images
 -----------------
 
-.. |centos5-latest| image:: https://images.microbadger.com/badges/image/centosbuild/centos5:latest.svg
-  :target: https://microbadger.com/images/centosbuild/centos5:latest
+.. |centos5-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos5:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos5:latest
 
-centosbuild/centos5:latest
+dockbuild/centos5:latest
   |centos5-latest| Centos5 based image including the `devtools-2`_.
 
 
-.. |centos6-latest| image:: https://images.microbadger.com/badges/image/centosbuild/centos6:latest.svg
-  :target: https://microbadger.com/images/centosbuild/centos6:latest
+.. |centos6-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos6:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos6:latest
 
 .. _devtools-2: https://people.centos.org/tru/devtools-2/
 
-centosbuild/centos6:latest
+dockbuild/centos6:latest
   |centos6-latest| Centos6 based image including the `devtools-2`_.
 
 
-.. |centos7-latest| image:: https://images.microbadger.com/badges/image/centosbuild/centos7:latest.svg
-  :target: https://microbadger.com/images/centosbuild/centos7:latest
+.. |centos7-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos7:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos7:latest
 
 .. _devtools-4: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/4/html-single/4.1_release_notes/
 
-centosbuild/centos7:latest
+dockbuild/centos7:latest
   |centos7-latest| Centos7 based image including the `devtools-4`_.
 

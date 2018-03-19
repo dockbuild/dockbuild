@@ -6,7 +6,7 @@
 DOCKER = docker
 
 # Docker organization to pull the images from
-ORG = centosbuild
+ORG = dockbuild
 
 IMAGES = centos5 centos6 centos7
 
