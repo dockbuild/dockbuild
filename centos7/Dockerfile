@@ -7,6 +7,7 @@ ENV CC=/opt/rh/devtoolset-4/root/usr/bin/gcc \
     PATH=/opt/rh/devtoolset-4/root/usr/bin${PATH:+:${PATH}} \
     CMAKE_VERSION=3.10.2 \
     GIT_VERSION=2.16.2 \
+    NINJA_VERSION=1.8.2 \
     # http://bugs.python.org/issue19846
     # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
     LANG=C.UTF-8 \
@@ -47,8 +48,10 @@ RUN yum update -y && \
   # Install CMake
   #
   cd /usr/src && \
-  CMAKE_VERSION_XY=$(echo ${CMAKE_VERSION} | sed -r 's/\.[0-9]+$//') && \
-  wget https://cmake.org/files/v${CMAKE_VERSION_XY}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
+  CMAKE_VERSION_XY=$(echo ${CMAKE_VERSION} | sed -r 's/\.[0-9]+(\-rc[0-9])?$//') && \
+  url=https://cmake.org/files/v${CMAKE_VERSION_XY}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
+  echo "Downloading $url" && \
+  curl -# -LO $url && \
   tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
   rm -f cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
   cd cmake-${CMAKE_VERSION}-Linux-x86_64 && \
@@ -62,7 +65,9 @@ RUN yum update -y && \
   # Install ninja
   #
   cd /usr/src && \
-  wget https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip && \
+  url="https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-linux.zip" && \
+  echo "Downloading $url" && \
+  curl -# -LO $url && \
   unzip ninja-linux.zip && \
   mv ninja /usr/local/bin/ && \
   rm -f ninja-linux.zip && \
@@ -75,7 +80,9 @@ RUN yum update -y && \
   # Build and install git from source.
   #
   cd /usr/src && \
-  wget https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz && \
+  url="https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz" && \
+  echo "Downloading $url" && \
+  curl -# -LO $url && \
   tar xvzf git-${GIT_VERSION}.tar.gz && \
   cd git-${GIT_VERSION} && \
   ./configure --prefix=/usr/local && \
@@ -86,7 +93,9 @@ RUN yum update -y && \
   # Build and install Python from source.
   #
   cd /usr/src && \
-  wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && \
+  url="https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz" && \
+  echo "Downloading $url" && \
+  curl -# -LO $url && \
   tar xvzf Python-${PYTHON_VERSION}.tgz && \
   cd Python-${PYTHON_VERSION} && \
   ./configure --enable-shared && \
@@ -95,11 +104,11 @@ RUN yum update -y && \
   ldconfig && \
   cd .. && rm -rf Python-${PYTHON_VERSION}* && \
   cd /usr/local/bin && \
-	ln -s pip3 pip && \
-	ln -s idle3 idle && \
-	ln -s pydoc3 pydoc && \
-	ln -s python3 python && \
-  ln -s python3-config python-config && \
+	ln -s $(which pip3) pip && \
+	ln -s $(which idle3) idle && \
+	ln -s $(which pydoc3) pydoc && \
+	ln -s $(which python3) python && \
+  ln -s $(which python3-config) python-config && \
   # Copied from https://github.com/docker-library/python/blob/master/3.6/stretch/slim/Dockerfile
   (find /usr/local/lib -depth \
       \( -type d -a -name test -o -name tests \) \
@@ -113,6 +122,7 @@ RUN yum update -y && \
   # we don't need libpython*.a, and they're many megabytes
   #
   find /usr/local/lib -name '*.a' -print0 | xargs -0 rm -f
+
 
 WORKDIR /usr/src
 CMD /bin/bash
