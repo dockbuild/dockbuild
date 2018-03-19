@@ -68,7 +68,7 @@ jobs:
             docker load -i ~/docker/centosbuild-5.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker push centosbuild/centos5:latest
+              docker push dockbuild/centos5:latest
             fi
       - restore_cache:
           key: centosbuild-6-assets-{{ .Revision }}
@@ -78,7 +78,7 @@ jobs:
             docker load -i ~/docker/centosbuild-6.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker push centosbuild/centos6:latest
+              docker push dockbuild/centos6:latest
             fi
       - restore_cache:
           key: centosbuild-7-assets-{{ .Revision }}
@@ -88,7 +88,7 @@ jobs:
             docker load -i ~/docker/centosbuild-7.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker push centosbuild/centos7:latest
+              docker push dockbuild/centos7:latest
             fi
 workflows:
   version: 2
