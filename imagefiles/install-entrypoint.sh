@@ -7,6 +7,12 @@ if ! command -v curl &> /dev/null; then
 	exit 1
 fi
 
+# gosu is required to use "entrypoint.sh"
+if ! command -v gosu &> /dev/null; then
+	echo >&2 'error: "gosu" not found!'
+	exit 1
+fi
+
 mkdir -p /dockcross
 
 cd /dockcross

@@ -24,7 +24,7 @@ RUN \
   #
   # Custom install
   #
-  /imagefiles/install-cmake-binary.sh && \
+  /imagefiles/install-gosu-binary.sh && \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/install-entrypoint.sh && \
   rm -rf /imagefiles

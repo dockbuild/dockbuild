@@ -183,6 +183,10 @@ ln -s $($PY36_BIN/python -c 'import certifi; print(certifi.where())') \
 # Dockerfiles:
 export SSL_CERT_FILE=/opt/_internal/certs.pem
 
+# [centosbuild]
+/imagefiles/build-and-install-cmake.sh
+# [/centosbuild]
+
 # Now we can delete our built OpenSSL headers/static libs since we've linked everything we need
 rm -rf /usr/local/ssl
 
