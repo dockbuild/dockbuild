@@ -17,7 +17,7 @@ jobs:
            docker pull centos:5
            make centos5
            mkdir -p ~/docker
-           docker save -o ~/docker/centosbuild-5.tar centosbuild/centos5:latest
+           docker save -o ~/docker/centosbuild-5.tar dockbuild/centos5:latest
       - save_cache:
           key: centosbuild-5-assets-{{ .Revision }}
           paths: ~/docker/centosbuild-5.tar
@@ -35,7 +35,7 @@ jobs:
            docker pull centos:6
            make centos6
            mkdir -p ~/docker
-           docker save -o ~/docker/centosbuild-6.tar centosbuild/centos6:latest
+           docker save -o ~/docker/centosbuild-6.tar dockbuild/centos6:latest
       - save_cache:
           key: centosbuild-6-assets-{{ .Revision }}
           paths: ~/docker/centosbuild-6.tar
@@ -53,7 +53,7 @@ jobs:
            docker pull centos:7
            make centos7
            mkdir -p ~/docker
-           docker save -o ~/docker/centosbuild-7.tar centosbuild/centos7:latest
+           docker save -o ~/docker/centosbuild-7.tar dockbuild/centos7:latest
       - save_cache:
           key: centosbuild-7-assets-{{ .Revision }}
           paths: ~/docker/centosbuild-7.tar

@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# Drop "--cache-from" argument if it is not supported
+#
+# Docker wrapper
+#
+# (1) Ignore "--cache-from" argument if it is not supported.
+#
 
 declare -a ARGS
 
