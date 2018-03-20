@@ -31,7 +31,7 @@ $(VERBOSE).SILENT: display_images
 #
 
 $(ALL_IMAGES): %: %/Dockerfile
-	$(DOCKER) build --cache-from=centos:$(subst centos,,$@),$(ORG)/$@:latest -t $(ORG)/$@:latest \
+	$(DOCKER) build --cache-from=`cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2`,$(ORG)/$@:latest -t $(ORG)/$@:latest \
 		--build-arg IMAGE=$(ORG)/$@:latest \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 	  --build-arg VCS_URL=`git config --get remote.origin.url` \
