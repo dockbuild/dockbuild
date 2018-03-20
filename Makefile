@@ -41,7 +41,7 @@ $(VERBOSE).SILENT: display_images
 #
 
 $(ALL_IMAGES): %: %/Dockerfile
-	mkdir -p $@/imagefiles && cp -r imagefiles $@/
+	mkdir -p $@/imagefiles && cp --remove-destination -r imagefiles $@/
 	$(DOCKER) build --cache-from=`cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2`,$(ORG)/$@:latest -t $(ORG)/$@:latest \
 		--build-arg IMAGE=$(ORG)/$@:latest \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
