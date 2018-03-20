@@ -18,6 +18,10 @@ jobs:
            make centos5
            mkdir -p ~/docker
            docker save -o ~/docker/centosbuild-5.tar dockbuild/centos5:latest
+      - run:
+         name: centos5 test
+         command: |
+           make centos5.test
       - save_cache:
           key: centosbuild-5-assets-{{ .Revision }}
           paths: ~/docker/centosbuild-5.tar
@@ -36,6 +40,10 @@ jobs:
            make centos6
            mkdir -p ~/docker
            docker save -o ~/docker/centosbuild-6.tar dockbuild/centos6:latest
+      - run:
+         name: centos6 test
+         command: |
+           make centos6.test
       - save_cache:
           key: centosbuild-6-assets-{{ .Revision }}
           paths: ~/docker/centosbuild-6.tar
@@ -54,6 +62,10 @@ jobs:
            make centos7
            mkdir -p ~/docker
            docker save -o ~/docker/centosbuild-7.tar dockbuild/centos7:latest
+      - run:
+         name: centos7 test
+         command: |
+           make centos7.test
       - save_cache:
           key: centosbuild-7-assets-{{ .Revision }}
           paths: ~/docker/centosbuild-7.tar
