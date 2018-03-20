@@ -51,6 +51,7 @@ RUN yum update -y && \
   # Custom install
   #
   /imagefiles/install-cmake-binary.sh && \
+  /imagefiles/install-gosu-binary.sh && \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
