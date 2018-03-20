@@ -3,7 +3,7 @@
 #
 
 # Name of the docker executable
-DOCKER = docker
+DOCKER = imagefiles/docker.sh
 
 # Docker organization to pull the images from
 ORG = dockbuild
@@ -36,14 +36,8 @@ $(ALL_IMAGES): %: %/Dockerfile
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 	  --build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-		$@ || \
-	$(DOCKER) build -t $(ORG)/$@:latest \
-		--build-arg IMAGE=$(ORG)/$@:latest \
-		--build-arg VCS_REF=`git rev-parse --short HEAD` \
-		--build-arg VCS_URL=`git config --get remote.origin.url` \
-		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		$@
-	docker rmi $$(docker images -f "dangling=true" -q) || true
+	$(DOCKER) rmi $$($(DOCKER) images -f "dangling=true" -q) || true
 
 .SECONDEXPANSION:
 $(addsuffix .run,$(ALL_IMAGES)):
