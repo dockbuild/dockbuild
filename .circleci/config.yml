@@ -69,6 +69,50 @@ jobs:
       - save_cache:
           key: centosbuild-7-assets-{{ .Revision }}
           paths: ~/docker/centosbuild-7.tar
+  ubuntu1604:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - ubuntu1604-assets-
+      - checkout
+      - run:
+         name: ubuntu1604 build
+         command: |
+           docker load -i ~/docker/ubuntu1604.tar > /dev/null 2>&1 || true
+           docker pull ubuntu:16.04
+           make ubuntu1604
+           mkdir -p ~/docker
+           docker save -o ~/docker/ubuntu1604.tar dockbuild/ubuntu1604:latest
+      - run:
+         name: ubuntu1604 test
+         command: |
+           make ubuntu1604.test
+      - save_cache:
+          key: ubuntu1604-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu1604.tar
+  ubuntu1804:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - ubuntu1804-assets-
+      - checkout
+      - run:
+         name: ubuntu1804 build
+         command: |
+           docker load -i ~/docker/ubuntu1804.tar > /dev/null 2>&1 || true
+           docker pull ubuntu:18.04
+           make ubuntu1804
+           mkdir -p ~/docker
+           docker save -o ~/docker/ubuntu1804.tar dockbuild/ubuntu1804:latest
+      - run:
+         name: ubuntu1804 test
+         command: |
+           make ubuntu1804.test
+      - save_cache:
+          key: ubuntu1804-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu1804.tar
   deploy:
     <<: *build-settings
     steps:
@@ -102,6 +146,26 @@ jobs:
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/centos7:latest
             fi
+      - restore_cache:
+          key: ubuntu1604-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy ubuntu1604
+          command: |
+            docker load -i ~/docker/ubuntu1604.tar
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/ubuntu1604:latest
+            fi
+      - restore_cache:
+          key: ubuntu1804-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy ubuntu1804
+          command: |
+            docker load -i ~/docker/ubuntu1804.tar
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/ubuntu1804:latest
+            fi
 workflows:
   version: 2
   build-test-deploy:
@@ -109,8 +173,12 @@ workflows:
       - centos5
       - centos6
       - centos7
+      - ubuntu1604
+      - ubuntu1804
       - deploy:
           requires:
             - centos5
             - centos6
             - centos7
+            - ubuntu1604
+            - ubuntu1804
