@@ -246,29 +246,3 @@ done
 # Fix libc headers to remain compatible with C99 compilers.
 find /usr/include/ -type f -exec sed -i 's/\bextern _*inline_*\b/extern __inline __attribute__ ((__gnu_inline__))/g' {} +
 
-
-#
-# Install CMake
-#
-CMAKE_VERSION=3.10.2
-cd /usr/src && \
-CMAKE_VERSION_XY=$(echo $CMAKE_VERSION | sed -r 's/\.[0-9]+$//') && \
-curl -LO https://cmake.org/files/v${CMAKE_VERSION_XY}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-rm -f cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-cd cmake-${CMAKE_VERSION}-Linux-x86_64 && \
-rm -rf doc man && \
-rm -rf bin/cmake-gui && \
-ln -s $(pwd)/bin/cmake /usr/local/bin/cmake && \
-ln -s $(pwd)/bin/ctest /usr/local/bin/ctest && \
-ln -s $(pwd)/bin/cpack /usr/local/bin/cpack && \
-ln -s $(pwd)/bin/ccmake /usr/local/bin/ccmake && \
-#
-# Install ninja
-#
-cd /usr/src && \
-curl -LO https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip && \
-  unzip ninja-linux.zip && \
-  mv ninja /usr/local/bin/ && \
-  rm -f ninja-linux.zip
-

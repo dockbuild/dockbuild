@@ -31,6 +31,7 @@ $(VERBOSE).SILENT: display_images
 #
 
 $(ALL_IMAGES): %: %/Dockerfile
+	mkdir -p $@/imagefiles && cp -r imagefiles $@/
 	$(DOCKER) build --cache-from=`cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2`,$(ORG)/$@:latest -t $(ORG)/$@:latest \
 		--build-arg IMAGE=$(ORG)/$@:latest \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
@@ -38,6 +39,7 @@ $(ALL_IMAGES): %: %/Dockerfile
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		$@
 	$(DOCKER) rmi $$($(DOCKER) images -f "dangling=true" -q) || true
+	rm -rf $@/imagefiles
 
 .SECONDEXPANSION:
 $(addsuffix .run,$(ALL_IMAGES)):

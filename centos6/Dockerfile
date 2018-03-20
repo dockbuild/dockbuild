@@ -1,7 +1,8 @@
 FROM centos:6
 MAINTAINER Matt McCormick <matt.mccormick@kitware.com>
 
-ENV CC=/opt/rh/devtoolset-2/root/usr/bin/gcc \
+ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/centos6 \
+    CC=/opt/rh/devtoolset-2/root/usr/bin/gcc \
     CXX=/opt/rh/devtoolset-2/root/usr/bin/g++ \
     FC=/opt/rh/devtoolset-2/root/usr/bin/gfortran \
     PATH=/opt/rh/devtoolset-2/root/usr/bin${PATH:+:${PATH}} \
@@ -12,6 +13,8 @@ ENV CC=/opt/rh/devtoolset-2/root/usr/bin/gcc \
     # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
     LANG=C.UTF-8 \
     PYTHON_VERSION=3.6.4
+
+COPY imagefiles /imagefiles
 
 RUN yum update -y && \
   yum install -y \
@@ -46,86 +49,22 @@ RUN yum update -y && \
    devtoolset-2-gcc-c++ \
   && \
   #
-  # Install CMake
+  # Custom install
   #
-  cd /usr/src && \
-  CMAKE_VERSION_XY=$(echo $CMAKE_VERSION | sed -r 's/\.[0-9]+(\-rc[0-9])?$//') && \
-  url=https://cmake.org/files/v${CMAKE_VERSION_XY}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-  echo "Downloading $url" && \
-  curl -# -LO $url && \
-  tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-  rm -f cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-  cd cmake-${CMAKE_VERSION}-Linux-x86_64 && \
-  rm -rf doc man && \
-  rm -rf bin/cmake-gui && \
-  ln -s $(pwd)/bin/cmake /usr/local/bin/cmake && \
-  ln -s $(pwd)/bin/ctest /usr/local/bin/ctest && \
-  ln -s $(pwd)/bin/cpack /usr/local/bin/cpack && \
-  ln -s $(pwd)/bin/ccmake /usr/local/bin/ccmake && \
-  #
-  # Install ninja
-  #
-  cd /usr/src && \
-  url="https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-linux.zip" && \
-  echo "Downloading $url" && \
-  curl -# -LO $url && \
-    unzip ninja-linux.zip && \
-    mv ninja /usr/local/bin/ && \
-    rm -f ninja-linux.zip && \
-  #
-  # Add /usr/local/lib to ldconfig
-  #
-  echo '/usr/local/lib' >> /etc/ld.so.conf.d/usr-local.conf && \
-  ldconfig && \
-  #
-  # Build and install git from source.
-  #
-  cd /usr/src && \
-  url="https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz" && \
-  echo "Downloading $url" && \
-  curl -# -LO $url && \
-    tar xvzf git-${GIT_VERSION}.tar.gz && \
-    cd git-${GIT_VERSION} && \
-    ./configure --prefix=/usr/local && \
-    make && \
-    make install && \
-    cd .. && rm -rf git-${GIT_VERSION}* && \
-  #
-  # Build and install Python from source.
-  #
-  cd /usr/src && \
-  url="https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz" && \
-  echo "Downloading $url" && \
-  curl -# -LO $url && \
-  tar xvzf Python-${PYTHON_VERSION}.tgz && \
-  cd Python-${PYTHON_VERSION} && \
-  ./configure --enable-shared && \
-  make -j$(grep -c processor /proc/cpuinfo) && \
-  make install && \
-  ldconfig && \
-  cd .. && rm -rf Python-${PYTHON_VERSION}* && \
-  cd /usr/local/bin && \
-	ln -s $(which pip3) pip && \
-	ln -s $(which idle3) idle && \
-	ln -s $(which pydoc3) pydoc && \
-	ln -s $(which python3) python && \
-  ln -s $(which python3-config) python-config && \
-  # Copied from https://github.com/docker-library/python/blob/master/3.6/stretch/slim/Dockerfile
-  (find /usr/local/lib -depth \
-      \( -type d -a -name test -o -name tests \) \
-   -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
-   -exec rm -rf '{}' +;) && \
+  /imagefiles/install-cmake-binary.sh && \
+  /imagefiles/install-ninja-binary.sh && \
+  /imagefiles/build-and-install-git.sh && \
+  /imagefiles/build-and-install-python.sh && \
+  /imagefiles/install-entrypoint.sh && \
+  rm -rf /imagefiles && \
   #
   # cleanup
   #
-  yum -y clean all && rm -rf /var/cache/yum && \
-  #
-  # we don't need libpython*.a, and they're many megabytes
-  #
-  find /usr/local/lib -name '*.a' -print0 | xargs -0 rm -f
+  yum -y clean all && rm -rf /var/cache/yum
 
-WORKDIR /usr/src
-CMD /bin/bash
+WORKDIR /work
+
+ENTRYPOINT ["/dockcross/entrypoint.sh"]
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE

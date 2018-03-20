@@ -63,6 +63,107 @@ dockbuild/centos7:latest
   |centos7-latest| Centos7 based image including the `devtools-4`_.
 
 
+Installation
+------------
+
+This image does not need to be run manually. Instead, there is a helper script
+to execute build commands on source code existing on the local host filesystem. This
+script is bundled with the image.
+
+To install the helper script, run one of the images with no arguments, and
+redirect the output to a file::
+
+  docker run --rm IMAGE_NAME > ./dockbuild
+  chmod +x ./dockbuild
+  mv ./dockbuild ~/bin/
+
+Where `IMAGE_NAME` is the name of the compiling environment
+Docker instance, e.g. `dockbuild/centos5`.
+
+Only 64-bit images are provided; a 64-bit host system is required.
+
+
+Usage
+-----
+
+For the impatient, here's how to compile a hello world on centos5::
+
+  cd ~/src/dockbuild
+  docker run --rm dockbuild/centos5 > ./dockbuild-centos5
+  chmod +x ./dockbuild-centos5
+  ./dockbuild-centos5 bash -c '$CC test/C/hello.c -o hello_centos5'
+
+Note how invoking any build command (make, gcc, etc.) is just a matter of prepending the **dockbuild** script on the commandline::
+
+  ./dockbuild-centos5 [command] [args...]
+
+The dockbuild script will execute the given command-line inside the container,
+along with all arguments passed after the command. Commands that evaluate
+environmental variables in the image, like `$CC` above, should be executed in
+`bash -c`. The present working directory is mounted within the image, which
+can be used to make source code available in the Docker container.
+
+
+Built-in update commands
+------------------------
+
+A special update command can be executed that will update the
+source cross-compiler Docker image or the dockbuild script itself.
+
+- ``dockbuild [--] command [args...]``: Forces a command to run inside the container (in case of a name clash with a built-in command), use ``--`` before the command.
+- ``dockbuild update-image``: Fetch the latest version of the docker image.
+- ``dockbuild update-script``: Update the installed dockbuild script with the one bundled in the image.
+- ``dockbuild update``: Update both the docker image, and the dockbuild script.
+
+
+Download all images
+-------------------
+
+To easily download all images, the convenience target ``display_images`` could be used::
+
+  curl https://raw.githubusercontent.com/dockbuild/dockbuild/master/Makefile -o dockbuild-Makefile
+  for image in $(make -f dockbuild-Makefile display_images); do
+    echo "Pulling dockbuild/$image"
+    docker pull dockbuild/$image
+  done
+
+
+Install all dockbuild scripts
+-----------------------------
+
+To automatically install in ``~/bin`` the dockbuild scripts for each images already downloaded, the
+convenience target ``display_images`` could be used::
+
+  curl https://raw.githubusercontent.com/dockbuild/dockbuild/master/Makefile -o dockbuild-Makefile
+  for image in $(make -f dockbuild-Makefile display_images); do
+    if [[ $(docker images -q dockbuild/$image) == "" ]]; then
+      echo "~/bin/dockbuild-$image skipping: image not found locally"
+      continue
+    fi
+    echo "~/bin/dockbuild-$image ok"
+    docker run dockbuild/$image > ~/bin/dockbuild-$image && \
+    chmod u+x  ~/bin/dockbuild-$image
+  done
+
+
+Dockbuild configuration
+-----------------------
+
+*TBD*
+
+
+Per-project dockbuild configuration
+-----------------------------------
+
+*TBD*
+
+
+How to extend Dockbuild images
+------------------------------
+
+*TBD*
+
+
 Articles
 --------
 
