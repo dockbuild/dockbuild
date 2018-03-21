@@ -42,13 +42,17 @@ $(VERBOSE).SILENT: display_images
 
 $(ALL_IMAGES): %: %/Dockerfile
 	mkdir -p $@/imagefiles && cp --remove-destination -r imagefiles $@/
-	$(DOCKER) build --cache-from=`cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2`,$(ORG)/$@:latest -t $(ORG)/$@:latest \
-		--build-arg IMAGE=$(ORG)/$@:latest \
+	$(eval REPO := $@)
+	$(eval TAG := latest)
+	$(eval BASEIMAGE := $(shell cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2))
+	$(eval IMAGEID := $(shell $(DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
+	$(DOCKER) build --cache-from=$(BASEIMAGE),$(ORG)/$(REPO):$(TAG) -t $(ORG)/$(REPO):$(TAG) \
+		--build-arg IMAGE=$(ORG)/$(REPO):$(TAG) \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 	  --build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		$@
-	$(DOCKER) rmi $$($(DOCKER) images -f "dangling=true" -q) || true
+	if [ -n "$(IMAGEID)" ]; then $(DOCKER) rmi "$(IMAGEID)"; fi
 	rm -rf $@/imagefiles
 
 #
