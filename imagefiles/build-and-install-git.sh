@@ -39,3 +39,6 @@ popd
 ldconfig
 
 rm -rf git-${GIT_VERSION}
+
+# turn the detached message off
+git config --global advice.detachedHead false

@@ -128,6 +128,10 @@ curl-config --features
 # Install a git we link against OpenSSL so that we can use TLS 1.2
 build_git $GIT_ROOT $GIT_HASH
 git version
+# [centosbuild]
+# turn the detached message off
+git config --global advice.detachedHead false
+# [/centosbuild]
 
 # Install newest autoconf
 build_autoconf $AUTOCONF_ROOT $AUTOCONF_HASH
