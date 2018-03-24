@@ -60,15 +60,18 @@ $(ALL_IMAGES): %: %/Dockerfile
 #
 .SECONDEXPANSION:
 $(addsuffix .run,$(ALL_IMAGES)):
-	$(DOCKER) run -ti --rm $(ORG)/$(basename $@):latest bash
+	$(eval REPO := $(basename $@))
+	$(eval TAG := latest)
+	$(DOCKER) run -ti --rm $(ORG)/$(REPO):$(TAG) bash
 
 #
 # test implicit rule
 #
 .SECONDEXPANSION:
 $(addsuffix .test,$(ALL_IMAGES)): $$(basename $$@)
-	$(DOCKER) run $(RM) dockbuild/$(basename $@) > $(BIN)/dockbuild-$(basename $@) && chmod +x $(BIN)/dockbuild-$(basename $@)
-	$(BIN)/dockbuild-$(basename $@) python test/run.py $($@_ARGS)
+	$(eval REPO := $(basename $@))
+	$(DOCKER) run $(RM) dockbuild/$(REPO) > $(BIN)/dockbuild-$(REPO) && chmod +x $(BIN)/dockbuild-$(REPO)
+	$(BIN)/dockbuild-$(REPO) python test/run.py $($@_ARGS)
 
 #
 # test prerequisites implicit rule
