@@ -63,6 +63,20 @@ dockbuild/centos7:latest
   |centos7-latest| Centos7 based image including the `devtools-4`_.
 
 
+.. |ubuntu1604-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1604:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu1604:latest
+
+dockbuild/ubuntu1604:latest
+  |ubuntu1604-latest| Ubuntu 16.04 based image.
+
+
+.. |ubuntu1804-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1804:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu1804:latest
+
+dockbuild/ubuntu1804:latest
+  |ubuntu1804-latest| Ubuntu 18.04 based image.
+
+
 Installation
 ------------
 
