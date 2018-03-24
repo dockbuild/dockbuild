@@ -5,7 +5,7 @@
 # Name of the docker executable
 DOCKER = imagefiles/docker.sh
 
-# Docker organization to pull the images from
+# DockerHub organization to pull/push the images from/to
 ORG = dockbuild
 
 # Directory where to generate the dockbuild script for each images (e.g bin/dockbuild-centos5)
