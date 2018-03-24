@@ -182,7 +182,7 @@ Articles
 --------
 
 - `How to build distributable C++ executables for Linux with Docker
-  <https://kitware.com/blog/home/post/986/>`_
+  <https://blog.kitware.com/how-to-build-distributable-c-executables-for-linux-with-docker/>`_
 
 
 ---
