@@ -10,7 +10,13 @@ ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/ubuntu1604 \
     LANG=C.UTF-8 \
     PYTHON_VERSION=3.6.4
 
-COPY imagefiles /imagefiles
+COPY \
+  imagefiles/install-cmake-binary.sh \
+  imagefiles/install-ninja-binary.sh \
+  imagefiles/build-and-install-git.sh \
+  imagefiles/build-and-install-python.sh \
+  imagefiles/install-entrypoint.sh \
+  /imagefiles/
 
 RUN apt-get update && \
   apt-get -y upgrade && \

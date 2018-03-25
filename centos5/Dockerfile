@@ -16,7 +16,13 @@ ADD etc/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo
 ADD etc/libselinux.repo /etc/yum.repos.d/libselinux.repo
 
 COPY build_scripts /build_scripts
-COPY imagefiles /imagefiles
+
+COPY \
+  imagefiles/build-and-install-cmake.sh \
+  imagefiles/install-gosu-binary.sh \
+  imagefiles/install-ninja-binary.sh \
+  imagefiles/install-entrypoint.sh \
+  /imagefiles/
 
 RUN \
   build_scripts/build.sh && \

@@ -14,7 +14,14 @@ ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/centos6 \
     LANG=C.UTF-8 \
     PYTHON_VERSION=3.6.4
 
-COPY imagefiles /imagefiles
+COPY \
+  imagefiles/install-cmake-binary.sh \
+  imagefiles/install-gosu-binary.sh \
+  imagefiles/install-ninja-binary.sh \
+  imagefiles/build-and-install-git.sh \
+  imagefiles/build-and-install-python.sh \
+  imagefiles/install-entrypoint.sh \
+  /imagefiles/
 
 RUN yum update -y && \
   yum install -y \
