@@ -11,7 +11,7 @@ ORG = dockbuild
 # Directory where to generate the dockbuild script for each images (e.g bin/dockbuild-centos5)
 BIN = ./bin
 
-IMAGES = centos5 centos6 centos7 ubuntu1604 ubuntu1804
+IMAGES = centos5 centos6 centos7 ubuntu1004 ubuntu1604 ubuntu1804
 
 # These images are built using the "build implicit rule"
 ALL_IMAGES = $(IMAGES)

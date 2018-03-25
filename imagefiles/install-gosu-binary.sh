@@ -27,6 +27,6 @@ curl -o /usr/local/bin/gosu.asc -# -SL $url
 gpg --verify /usr/local/bin/gosu.asc
 
 rm /usr/local/bin/gosu.asc
-rm -r /root/.gnupg/
+rm -r /root/.gnupg/ || echo "/root/.gnupg/ not found"
 
 chmod +x /usr/local/bin/gosu
