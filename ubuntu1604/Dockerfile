@@ -1,5 +1,4 @@
 FROM ubuntu:16.04
-MAINTAINER Jean-Christophe Fillion-Robin <jchris.fillionr@kitware.com>
 
 ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/ubuntu1604 \
     CMAKE_VERSION=3.10.2 \
@@ -69,4 +68,5 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name=$IMAGE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url=$VCS_URL \
-org.label-schema.schema-version="1.0"
+      org.label-schema.schema-version="1.0" \
+      maintainer="Jean-Christophe Fillion-Robin <jchris.fillionr@kitware.com>"

@@ -1,5 +1,4 @@
 FROM centos:7
-MAINTAINER Matt McCormick <matt.mccormick@kitware.com>
 
 ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/centos7 \
     CC=/opt/rh/devtoolset-4/root/usr/bin/gcc \
@@ -83,4 +82,5 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name=$IMAGE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url=$VCS_URL \
-      org.label-schema.schema-version="1.0"
+      org.label-schema.schema-version="1.0" \
+      maintainer="Matt McCormick <matt.mccormick@kitware.com>"
