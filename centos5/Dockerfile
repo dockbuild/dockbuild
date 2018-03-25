@@ -1,5 +1,4 @@
 FROM centos:5
-MAINTAINER Matt McCormick <matt.mccormick@kitware.com>
 
 ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/centos5 \
     CC=/opt/rh/devtoolset-2/root/usr/bin/gcc \
@@ -7,16 +6,23 @@ ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/centos5 \
     FC=/opt/rh/devtoolset-2/root/usr/bin/gfortran \
     PATH=/opt/rh/devtoolset-2/root/usr/bin${PATH:+:${PATH}} \
     LD_LIBRARY_PATH=/opt/rh/devtoolset-2/root/usr/lib64:/opt/rh/devtoolset-2/root/usr/lib:/usr/local/lib64:/usr/local/lib \
-    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
-    CMAKE_VERSION=3.10.2 \
-    NINJA_VERSION=1.8.2
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+ARG CMAKE_VERSION=3.10.2
+ARG NINJA_VERSION=1.8.2
 
 ADD etc/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 ADD etc/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo
 ADD etc/libselinux.repo /etc/yum.repos.d/libselinux.repo
 
 COPY build_scripts /build_scripts
-COPY imagefiles /imagefiles
+
+COPY \
+  imagefiles/build-and-install-cmake.sh \
+  imagefiles/install-gosu-binary.sh \
+  imagefiles/install-ninja-binary.sh \
+  imagefiles/install-entrypoint.sh \
+  /imagefiles/
 
 RUN \
   build_scripts/build.sh && \
@@ -44,4 +50,5 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name=$IMAGE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url=$VCS_URL \
-      org.label-schema.schema-version="1.0"
+      org.label-schema.schema-version="1.0" \
+      maintainer="Matt McCormick <matt.mccormick@kitware.com>"
