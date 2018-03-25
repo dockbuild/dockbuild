@@ -6,9 +6,10 @@ ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/centos5 \
     FC=/opt/rh/devtoolset-2/root/usr/bin/gfortran \
     PATH=/opt/rh/devtoolset-2/root/usr/bin${PATH:+:${PATH}} \
     LD_LIBRARY_PATH=/opt/rh/devtoolset-2/root/usr/lib64:/opt/rh/devtoolset-2/root/usr/lib:/usr/local/lib64:/usr/local/lib \
-    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
-    CMAKE_VERSION=3.10.2 \
-    NINJA_VERSION=1.8.2
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+ARG CMAKE_VERSION=3.10.2
+ARG NINJA_VERSION=1.8.2
 
 ADD etc/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 ADD etc/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo
