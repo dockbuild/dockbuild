@@ -55,7 +55,8 @@ RUN \
   #
   # cleanup
   #
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* && \
+  mkdir /var/lib/apt/lists/partial
 
 ENV AS=/usr/bin/as \
     AR=/usr/bin/ar \
