@@ -93,3 +93,15 @@ test.prerequisites:
 
 $(addsuffix .test,base $(ALL_IMAGES)): test.prerequisites
 
+#
+# pull implicit rule
+#
+.SECONDEXPANSION:
+$(addsuffix .pull,$(ALL_IMAGES)):
+	$(eval REPO := $(basename $@))
+	$(eval TAG := latest)
+	$(DOCKER) pull $(ORG)/$(REPO):$(TAG)
+
+pull: $(addsuffix .pull,$(ALL_IMAGES))
+
+.PHONY: pull $(addsuffix .pull,$(ALL_IMAGES))
