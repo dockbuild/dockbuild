@@ -58,12 +58,11 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   mkdir /var/lib/apt/lists/partial
 
-ENV AS=/usr/bin/as \
-    AR=/usr/bin/ar \
+ENV AR=/usr/bin/ar \
+    AS=/usr/bin/as \
     CC=/usr/bin/gcc \
     CPP=/usr/bin/cpp \
-    CXX=/usr/bin/g++ \
-    LD=/usr/bin/ld
+    CXX=/usr/bin/g++
 
 WORKDIR /work
 

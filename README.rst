@@ -10,7 +10,7 @@ Features
 --------
 
 * Commands in the container are run as the calling user, so that any created files have the expected ownership, (i.e. not root).
-* Make variables (`CC`, `LD` etc) are set to point to the appropriate tools in the container.
+* Make variables (`CC`, `CXX` etc) are set to point to the appropriate tools in the container.
 * Recent `CMake <https://cmake.org>`_ and ninja are precompiled.
 * `Conan.io <https://www.conan.io>`_ can be used as a package manager.
 * Current directory is mounted as the container's workdir, ``/work``.
