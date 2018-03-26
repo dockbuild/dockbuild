@@ -213,5 +213,6 @@ workflows:
             - centos5
             - centos6
             - centos7
+            - ubuntu1004
             - ubuntu1604
             - ubuntu1804
