@@ -69,6 +69,28 @@ jobs:
       - save_cache:
           key: centosbuild-7-assets-{{ .Revision }}
           paths: ~/docker/centosbuild-7.tar
+  ubuntu1004:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - ubuntu1004-assets-
+      - checkout
+      - run:
+         name: ubuntu1004 build
+         command: |
+           docker load -i ~/docker/ubuntu1004.tar > /dev/null 2>&1 || true
+           docker pull ubuntu:16.04
+           make ubuntu1004
+           mkdir -p ~/docker
+           docker save -o ~/docker/ubuntu1004.tar dockbuild/ubuntu1004:latest
+      - run:
+         name: ubuntu1004 test
+         command: |
+           make ubuntu1004.test
+      - save_cache:
+          key: ubuntu1004-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu1004.tar
   ubuntu1604:
     <<: *build-settings
     steps:
@@ -147,6 +169,16 @@ jobs:
               docker push dockbuild/centos7:latest
             fi
       - restore_cache:
+          key: ubuntu1004-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy ubuntu1004
+          command: |
+            docker load -i ~/docker/ubuntu1004.tar
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/ubuntu1004:latest
+            fi
+      - restore_cache:
           key: ubuntu1604-assets-{{ .Revision }}
       - deploy:
           name: Deploy ubuntu1604
@@ -173,6 +205,7 @@ workflows:
       - centos5
       - centos6
       - centos7
+      - ubuntu1004
       - ubuntu1604
       - ubuntu1804
       - deploy:
