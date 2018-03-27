@@ -18,6 +18,8 @@ COPY \
   imagefiles/install-entrypoint.sh \
   /imagefiles/
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update && \
   apt-get -y upgrade && \
   apt-get update && \

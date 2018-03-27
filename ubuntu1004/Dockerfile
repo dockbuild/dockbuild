@@ -2,8 +2,6 @@ FROM ubuntu:10.04
 
 ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/ubuntu1004
 
-ARG DEBIAN_FRONTEND=noninteractive
-
 ARG CMAKE_VERSION=3.10.2
 ARG GIT_VERSION=2.16.2
 ARG NINJA_VERSION=1.8.2
@@ -20,6 +18,8 @@ COPY \
   imagefiles/install-ninja-binary.sh \
   imagefiles/utils.sh \
   /imagefiles/
+
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN \
   sed -i "s/archive.ubuntu.com/old-releases.ubuntu.com/" /etc/apt/sources.list && \
