@@ -188,6 +188,7 @@ ln -s $($PY36_BIN/python -c 'import certifi; print(certifi.where())') \
 export SSL_CERT_FILE=/opt/_internal/certs.pem
 
 # [centosbuild]
+/imagefiles/build-and-install-openssh.sh
 /imagefiles/build-and-install-cmake.sh
 # [/centosbuild]
 

@@ -18,6 +18,8 @@ COPY \
   imagefiles/install-entrypoint.sh \
   /imagefiles/
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update && \
   apt-get -y upgrade && \
   apt-get update && \
@@ -25,6 +27,7 @@ RUN apt-get update && \
     build-essential \
     curl \
     gosu \
+    openssh-client \
     unzip \
   && \
   # Needed to build Git from source

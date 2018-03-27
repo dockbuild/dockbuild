@@ -19,6 +19,7 @@ COPY build_scripts /build_scripts
 
 COPY \
   imagefiles/build-and-install-cmake.sh \
+  imagefiles/build-and-install-openssh.sh \
   imagefiles/install-gosu-binary.sh \
   imagefiles/install-ninja-binary.sh \
   imagefiles/install-entrypoint.sh \

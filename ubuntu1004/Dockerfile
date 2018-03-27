@@ -2,8 +2,6 @@ FROM ubuntu:10.04
 
 ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/ubuntu1004
 
-ARG DEBIAN_FRONTEND=noninteractive
-
 ARG CMAKE_VERSION=3.10.2
 ARG GIT_VERSION=2.16.2
 ARG NINJA_VERSION=1.8.2
@@ -14,6 +12,7 @@ COPY \
   imagefiles/build-and-install-git.sh \
   imagefiles/install-gosu-binary.sh \
   imagefiles/build-and-install-openssl.sh \
+  imagefiles/build-and-install-openssh.sh \
   imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-entrypoint.sh \
@@ -21,12 +20,15 @@ COPY \
   imagefiles/utils.sh \
   /imagefiles/
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN \
   sed -i "s/archive.ubuntu.com/old-releases.ubuntu.com/" /etc/apt/sources.list && \
   apt-get update && \
   apt-get -y upgrade && \
   apt-get update && \
   apt-get install -y \
+    autoconf \
     build-essential \
     curl \
     unzip \
@@ -45,6 +47,7 @@ RUN \
   #
   /imagefiles/build-and-install-openssl.sh && \
   /imagefiles/build-and-install-curl.sh && \
+  /imagefiles/build-and-install-openssh.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
   /imagefiles/install-cmake-binary.sh && \
