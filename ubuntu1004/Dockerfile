@@ -12,6 +12,7 @@ COPY \
   imagefiles/build-and-install-git.sh \
   imagefiles/install-gosu-binary.sh \
   imagefiles/build-and-install-openssl.sh \
+  imagefiles/build-and-install-openssh.sh \
   imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-entrypoint.sh \
@@ -27,6 +28,7 @@ RUN \
   apt-get -y upgrade && \
   apt-get update && \
   apt-get install -y \
+    autoconf \
     build-essential \
     curl \
     unzip \
@@ -45,6 +47,7 @@ RUN \
   #
   /imagefiles/build-and-install-openssl.sh && \
   /imagefiles/build-and-install-curl.sh && \
+  /imagefiles/build-and-install-openssh.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
   /imagefiles/install-cmake-binary.sh && \

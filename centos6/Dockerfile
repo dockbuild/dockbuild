@@ -34,6 +34,7 @@ RUN yum update -y && \
    file \
    gettext \
    make \
+   openssh-clients \
    openssl-devel \
    patch \
    perl \

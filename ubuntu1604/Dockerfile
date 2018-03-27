@@ -27,6 +27,7 @@ RUN apt-get update && \
     build-essential \
     curl \
     gosu \
+    openssh-client \
     unzip \
   && \
   # Needed to build Git from source
