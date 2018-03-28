@@ -80,7 +80,7 @@ jobs:
          name: ubuntu1004-gcc4 build
          command: |
            docker load -i ~/docker/ubuntu1004-gcc4.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:16.04
+           docker pull ubuntu:10.04
            make ubuntu1004-gcc4
            mkdir -p ~/docker
            docker save -o ~/docker/ubuntu1004-gcc4.tar dockbuild/ubuntu1004-gcc4:latest
