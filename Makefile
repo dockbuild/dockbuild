@@ -85,19 +85,11 @@ $(addsuffix .run,$(ALL_IMAGES)):
 .SECONDEXPANSION:
 $(addsuffix .test,$(ALL_IMAGES)): $$(basename $$@)
 	$(eval REPO := $(basename $@))
+	mkdir -p $(BIN)
 	$(DOCKER) run $(RM) dockbuild/$(REPO) > $(BIN)/dockbuild-$(REPO) && chmod +x $(BIN)/dockbuild-$(REPO)
 	$(BIN)/dockbuild-$(REPO) python test/run.py $($@_ARGS)
 
 .PHONY: $(addsuffix .test,$(ALL_IMAGES))
-
-
-#
-# test prerequisites implicit rule
-#
-test.prerequisites:
-	mkdir -p $(BIN)
-
-$(addsuffix .test,$(ALL_IMAGES)): test.prerequisites
 
 #
 # pull implicit rule
