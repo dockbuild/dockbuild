@@ -38,50 +38,50 @@ a toolchain file.
 Compiling environments
 ----------------------
 
-.. |centos5-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos5:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos5:latest
+.. |centos5-devtoolset2-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos5-devtoolset2-gcc4:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos5-devtoolset2-gcc4:latest
 
-dockbuild/centos5:latest
-  |centos5-latest| Centos5 based image including the `devtools-2`_.
+dockbuild/centos5-devtoolset2-gcc4:latest, dockbuild/centos5:latest
+  |centos5-devtoolset2-gcc4-latest| Centos5 based image including the `devtools-2`_.
 
 
-.. |centos6-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos6:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos6:latest
+.. |centos6-devtoolset2-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos6-devtoolset2-gcc4:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos6-devtoolset2-gcc4:latest
 
 .. _devtools-2: https://people.centos.org/tru/devtools-2/
 
-dockbuild/centos6:latest
-  |centos6-latest| Centos6 based image including the `devtools-2`_.
+dockbuild/centos6-devtoolset2-gcc4:latest, dockbuild/centos6:latest
+  |centos6-devtoolset2-gcc4-latest| Centos6 based image including the `devtools-2`_.
 
 
-.. |centos7-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos7:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos7:latest
+.. |centos7-devtoolset4-gcc5-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos7-devtoolset4-gcc5:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos7-devtoolset4-gcc5:latest
 
 .. _devtools-4: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/4/html-single/4.1_release_notes/
 
-dockbuild/centos7:latest
-  |centos7-latest| Centos7 based image including the `devtools-4`_.
+dockbuild/centos7-devtoolset4-gcc5:latest, dockbuild/centos7:latest
+  |centos7-devtoolset4-gcc5-latest| Centos7 based image including the `devtools-4`_.
 
 
-.. |ubuntu1004-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1004:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu1004:latest
+.. |ubuntu1004-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1004-gcc4:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu1004-gcc4:latest
 
-dockbuild/ubuntu1004:latest
-  |ubuntu1004-latest| Ubuntu 10.04 based image.
-
-
-.. |ubuntu1604-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1604:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu1604:latest
-
-dockbuild/ubuntu1604:latest
-  |ubuntu1604-latest| Ubuntu 16.04 based image.
+dockbuild/ubuntu1004-gcc4:latest, dockbuild/ubuntu1004:latest
+  |ubuntu1004-gcc4-latest| Ubuntu 10.04 based image.
 
 
-.. |ubuntu1804-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1804:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu1804:latest
+.. |ubuntu1604-gcc5-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1604-gcc5:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu1604-gcc5:latest
 
-dockbuild/ubuntu1804:latest
-  |ubuntu1804-latest| Ubuntu 18.04 based image.
+dockbuild/ubuntu1604-gcc5:latest, dockbuild/ubuntu1604:latest
+  |ubuntu1604-gcc5-latest| Ubuntu 16.04 based image.
+
+
+.. |ubuntu1804-gcc7-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1804-gcc7:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu1804-gcc7:latest
+
+dockbuild/ubuntu1804-gcc7:latest, dockbuild/ubuntu1804:latest
+  |ubuntu1804-gcc7-latest| Ubuntu 18.04 based image.
 
 
 Installation
@@ -99,7 +99,7 @@ redirect the output to a file::
   mv ./dockbuild ~/bin/
 
 Where `IMAGE_NAME` is the name of the compiling environment
-Docker instance, e.g. `dockbuild/centos5`.
+Docker instance, e.g. `dockbuild/centos5-devtoolset2-gcc4`.
 
 Only 64-bit images are provided; a 64-bit host system is required.
 
@@ -107,16 +107,16 @@ Only 64-bit images are provided; a 64-bit host system is required.
 Usage
 -----
 
-For the impatient, here's how to compile a hello world on centos5::
+For the impatient, here's how to compile a hello world on centos5-devtoolset2-gcc4::
 
   cd ~/src/dockbuild
-  docker run --rm dockbuild/centos5 > ./dockbuild-centos5
-  chmod +x ./dockbuild-centos5
-  ./dockbuild-centos5 bash -c '$CC test/C/hello.c -o hello_centos5'
+  docker run --rm dockbuild/centos5-devtoolset2-gcc4 > ./dockbuild-centos5-devtoolset2-gcc4
+  chmod +x ./dockbuild-centos5-devtoolset2-gcc4
+  ./dockbuild-centos5-devtoolset2-gcc4 bash -c '$CC test/C/hello.c -o hello_centos5'
 
 Note how invoking any build command (make, gcc, etc.) is just a matter of prepending the **dockbuild** script on the commandline::
 
-  ./dockbuild-centos5 [command] [args...]
+  ./dockbuild-centos5-devtoolset2-gcc4 [command] [args...]
 
 The dockbuild script will execute the given command-line inside the container,
 along with all arguments passed after the command. Commands that evaluate
