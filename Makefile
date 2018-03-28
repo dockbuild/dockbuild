@@ -50,7 +50,9 @@ $(VERBOSE).SILENT: display_images
 #
 $(ALL_IMAGES): %: %/Dockerfile
 	mkdir -p $@/imagefiles && cp --remove-destination -r imagefiles $@/
+	$(eval OPERATING_SYSTEM := $(firstword $(subst -, ,$@)))
 	$(eval REPO := $@)
+	$(eval REPO_OS := $(OPERATING_SYSTEM))
 	$(eval TAG := latest)
 	$(eval BASEIMAGE := $(shell cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2))
 	$(eval IMAGEID := $(shell $(DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
@@ -60,6 +62,7 @@ $(ALL_IMAGES): %: %/Dockerfile
 	  --build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		$@
+	$(DOCKER) tag $(ORG)/$(REPO):$(TAG) $(ORG)/$(REPO_OS):$(TAG)
 	CURRENT_IMAGEID=$$($(DOCKER) images -q $(ORG)/$(REPO)) && \
 	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(DOCKER) rmi "$(IMAGEID)" || true; fi
 	rm -rf $@/imagefiles
