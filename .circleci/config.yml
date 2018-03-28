@@ -3,216 +3,222 @@ build-settings: &build-settings
   machine: true
 
 jobs:
-  centos5:
+  centos5-devtoolset2-gcc4:
     <<: *build-settings
     steps:
       - restore_cache:
           keys:
-            - centosbuild-5-assets-
+            - centos5-devtoolset2-gcc4-assets-
       - checkout
       - run:
-         name: centos5 build
+         name: centos5-devtoolset2-gcc4 build
          command: |
-           docker load -i ~/docker/centosbuild-5.tar > /dev/null 2>&1 || true
+           docker load -i ~/docker/centos5-devtoolset2-gcc4.tar > /dev/null 2>&1 || true
            docker pull centos:5
-           make centos5
+           make centos5-devtoolset2-gcc4
            mkdir -p ~/docker
-           docker save -o ~/docker/centosbuild-5.tar dockbuild/centos5:latest
+           docker save -o ~/docker/centos5-devtoolset2-gcc4.tar dockbuild/centos5-devtoolset2-gcc4:latest
       - run:
-         name: centos5 test
+         name: centos5-devtoolset2-gcc4 test
          command: |
-           make centos5.test
+           make centos5-devtoolset2-gcc4.test
       - save_cache:
-          key: centosbuild-5-assets-{{ .Revision }}
-          paths: ~/docker/centosbuild-5.tar
-  centos6:
+          key: centos5-devtoolset2-gcc4-assets-{{ .Revision }}
+          paths: ~/docker/centos5-devtoolset2-gcc4.tar
+  centos6-devtoolset2-gcc4:
     <<: *build-settings
     steps:
       - restore_cache:
           keys:
-            - centosbuild-6-assets-
+            - centos6-devtoolset2-gcc4-assets-
       - checkout
       - run:
-         name: centos6 build
+         name: centos6-devtoolset2-gcc4 build
          command: |
-           docker load -i ~/docker/centosbuild-6.tar > /dev/null 2>&1 || true
+           docker load -i ~/docker/centos6-devtoolset2-gcc4.tar > /dev/null 2>&1 || true
            docker pull centos:6
-           make centos6
+           make centos6-devtoolset2-gcc4
            mkdir -p ~/docker
-           docker save -o ~/docker/centosbuild-6.tar dockbuild/centos6:latest
+           docker save -o ~/docker/centos6-devtoolset2-gcc4.tar dockbuild/centos6-devtoolset2-gcc4:latest
       - run:
-         name: centos6 test
+         name: centos6-devtoolset2-gcc4 test
          command: |
-           make centos6.test
+           make centos6-devtoolset2-gcc4.test
       - save_cache:
-          key: centosbuild-6-assets-{{ .Revision }}
-          paths: ~/docker/centosbuild-6.tar
-  centos7:
+          key: centos6-devtoolset2-gcc4-assets-{{ .Revision }}
+          paths: ~/docker/centos6-devtoolset2-gcc4.tar
+  centos7-devtoolset4-gcc5:
     <<: *build-settings
     steps:
       - restore_cache:
           keys:
-            - centosbuild-7-assets-
+            - centos7-devtoolset4-gcc5-assets-
       - checkout
       - run:
-         name: centos7 build
+         name: centos7-devtoolset4-gcc5 build
          command: |
-           docker load -i ~/docker/centosbuild-7.tar > /dev/null 2>&1 || true
+           docker load -i ~/docker/centos7-devtoolset4-gcc5.tar > /dev/null 2>&1 || true
            docker pull centos:7
-           make centos7
+           make centos7-devtoolset4-gcc5
            mkdir -p ~/docker
-           docker save -o ~/docker/centosbuild-7.tar dockbuild/centos7:latest
+           docker save -o ~/docker/centos7-devtoolset4-gcc5.tar dockbuild/centos7-devtoolset4-gcc5:latest
       - run:
-         name: centos7 test
+         name: centos7-devtoolset4-gcc5 test
          command: |
-           make centos7.test
+           make centos7-devtoolset4-gcc5.test
       - save_cache:
-          key: centosbuild-7-assets-{{ .Revision }}
-          paths: ~/docker/centosbuild-7.tar
-  ubuntu1004:
+          key: centos7-devtoolset4-gcc5-assets-{{ .Revision }}
+          paths: ~/docker/centos7-devtoolset4-gcc5.tar
+  ubuntu1004-gcc4:
     <<: *build-settings
     steps:
       - restore_cache:
           keys:
-            - ubuntu1004-assets-
+            - ubuntu1004-gcc4-assets-
       - checkout
       - run:
-         name: ubuntu1004 build
+         name: ubuntu1004-gcc4 build
          command: |
-           docker load -i ~/docker/ubuntu1004.tar > /dev/null 2>&1 || true
+           docker load -i ~/docker/ubuntu1004-gcc4.tar > /dev/null 2>&1 || true
+           docker pull ubuntu:10.04
+           make ubuntu1004-gcc4
+           mkdir -p ~/docker
+           docker save -o ~/docker/ubuntu1004-gcc4.tar dockbuild/ubuntu1004-gcc4:latest
+      - run:
+         name: ubuntu1004-gcc4 test
+         command: |
+           make ubuntu1004-gcc4.test
+      - save_cache:
+          key: ubuntu1004-gcc4-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu1004-gcc4.tar
+  ubuntu1604-gcc5:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - ubuntu1604-gcc5-assets-
+      - checkout
+      - run:
+         name: ubuntu1604-gcc5 build
+         command: |
+           docker load -i ~/docker/ubuntu1604-gcc5.tar > /dev/null 2>&1 || true
            docker pull ubuntu:16.04
-           make ubuntu1004
+           make ubuntu1604-gcc5
            mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1004.tar dockbuild/ubuntu1004:latest
+           docker save -o ~/docker/ubuntu1604-gcc5.tar dockbuild/ubuntu1604-gcc5:latest
       - run:
-         name: ubuntu1004 test
+         name: ubuntu1604-gcc5 test
          command: |
-           make ubuntu1004.test
+           make ubuntu1604-gcc5.test
       - save_cache:
-          key: ubuntu1004-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu1004.tar
-  ubuntu1604:
+          key: ubuntu1604-gcc5-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu1604-gcc5.tar
+  ubuntu1804-gcc7:
     <<: *build-settings
     steps:
       - restore_cache:
           keys:
-            - ubuntu1604-assets-
+            - ubuntu1804-gcc7-assets-
       - checkout
       - run:
-         name: ubuntu1604 build
+         name: ubuntu1804-gcc7 build
          command: |
-           docker load -i ~/docker/ubuntu1604.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:16.04
-           make ubuntu1604
-           mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1604.tar dockbuild/ubuntu1604:latest
-      - run:
-         name: ubuntu1604 test
-         command: |
-           make ubuntu1604.test
-      - save_cache:
-          key: ubuntu1604-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu1604.tar
-  ubuntu1804:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - ubuntu1804-assets-
-      - checkout
-      - run:
-         name: ubuntu1804 build
-         command: |
-           docker load -i ~/docker/ubuntu1804.tar > /dev/null 2>&1 || true
+           docker load -i ~/docker/ubuntu1804-gcc7.tar > /dev/null 2>&1 || true
            docker pull ubuntu:18.04
-           make ubuntu1804
+           make ubuntu1804-gcc7
            mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1804.tar dockbuild/ubuntu1804:latest
+           docker save -o ~/docker/ubuntu1804-gcc7.tar dockbuild/ubuntu1804-gcc7:latest
       - run:
-         name: ubuntu1804 test
+         name: ubuntu1804-gcc7 test
          command: |
-           make ubuntu1804.test
+           make ubuntu1804-gcc7.test
       - save_cache:
-          key: ubuntu1804-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu1804.tar
+          key: ubuntu1804-gcc7-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu1804-gcc7.tar
   deploy:
     <<: *build-settings
     steps:
       - restore_cache:
-          key: centosbuild-5-assets-{{ .Revision }}
+          key: centos5-devtoolset2-gcc4-assets-{{ .Revision }}
       - deploy:
-          name: Deploy centos5
+          name: Deploy centos5-devtoolset2-gcc4
           command: |
-            docker load -i ~/docker/centosbuild-5.tar
+            docker load -i ~/docker/centos5-devtoolset2-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/centos5:latest
+              docker push dockbuild/centos5-devtoolset2-gcc4:latest
             fi
       - restore_cache:
-          key: centosbuild-6-assets-{{ .Revision }}
+          key: centos6-devtoolset2-gcc4-assets-{{ .Revision }}
       - deploy:
-          name: Deploy centos6
+          name: Deploy centos6-devtoolset2-gcc4
           command: |
-            docker load -i ~/docker/centosbuild-6.tar
+            docker load -i ~/docker/centos6-devtoolset2-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/centos6:latest
+              docker push dockbuild/centos6-devtoolset2-gcc4:latest
             fi
       - restore_cache:
-          key: centosbuild-7-assets-{{ .Revision }}
+          key: centos7-devtoolset4-gcc5-assets-{{ .Revision }}
       - deploy:
-          name: Deploy centos7
+          name: Deploy centos7-devtoolset4-gcc5
           command: |
-            docker load -i ~/docker/centosbuild-7.tar
+            docker load -i ~/docker/centos7-devtoolset4-gcc5.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/centos7:latest
+              docker push dockbuild/centos7-devtoolset4-gcc5:latest
             fi
       - restore_cache:
-          key: ubuntu1004-assets-{{ .Revision }}
+          key: ubuntu1004-gcc4-assets-{{ .Revision }}
       - deploy:
-          name: Deploy ubuntu1004
+          name: Deploy ubuntu1004-gcc4
           command: |
-            docker load -i ~/docker/ubuntu1004.tar
+            docker load -i ~/docker/ubuntu1004-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/ubuntu1004:latest
+              docker push dockbuild/ubuntu1004-gcc4:latest
             fi
       - restore_cache:
-          key: ubuntu1604-assets-{{ .Revision }}
+          key: ubuntu1604-gcc5-assets-{{ .Revision }}
       - deploy:
-          name: Deploy ubuntu1604
+          name: Deploy ubuntu1604-gcc5
           command: |
-            docker load -i ~/docker/ubuntu1604.tar
+            docker load -i ~/docker/ubuntu1604-gcc5.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/ubuntu1604:latest
+              docker push dockbuild/ubuntu1604-gcc5:latest
             fi
       - restore_cache:
-          key: ubuntu1804-assets-{{ .Revision }}
+          key: ubuntu1804-gcc7-assets-{{ .Revision }}
       - deploy:
-          name: Deploy ubuntu1804
+          name: Deploy ubuntu1804-gcc7
           command: |
-            docker load -i ~/docker/ubuntu1804.tar
+            docker load -i ~/docker/ubuntu1804-gcc7.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/ubuntu1804:latest
+              docker push dockbuild/ubuntu1804-gcc7:latest
             fi
 workflows:
   version: 2
   build-test-deploy:
     jobs:
-      - centos5
-      - centos6
-      - centos7
-      - ubuntu1004
-      - ubuntu1604
-      - ubuntu1804
+      - centos5-devtoolset2-gcc4
+      - centos6-devtoolset2-gcc4
+      - centos7-devtoolset4-gcc5
+      - ubuntu1004-gcc4
+      - ubuntu1604-gcc5
+      - ubuntu1804-gcc7
       - deploy:
           requires:
-            - centos5
-            - centos6
-            - centos7
-            - ubuntu1004
-            - ubuntu1604
-            - ubuntu1804
+            - centos5-devtoolset2-gcc4
+            - centos6-devtoolset2-gcc4
+            - centos7-devtoolset4-gcc5
+            - ubuntu1004-gcc4
+            - ubuntu1604-gcc5
+            - ubuntu1804-gcc7

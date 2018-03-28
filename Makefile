@@ -11,7 +11,13 @@ ORG = dockbuild
 # Directory where to generate the dockbuild script for each images (e.g bin/dockbuild-centos5)
 BIN = ./bin
 
-IMAGES = centos5 centos6 centos7 ubuntu1004 ubuntu1604 ubuntu1804
+IMAGES = \
+  centos5-devtoolset2-gcc4 \
+  centos6-devtoolset2-gcc4 \
+  centos7-devtoolset4-gcc5 \
+  ubuntu1004-gcc4 \
+  ubuntu1604-gcc5 \
+  ubuntu1804-gcc7
 
 # These images are built using the "build implicit rule"
 ALL_IMAGES = $(IMAGES)
@@ -44,7 +50,9 @@ $(VERBOSE).SILENT: display_images
 #
 $(ALL_IMAGES): %: %/Dockerfile
 	mkdir -p $@/imagefiles && cp --remove-destination -r imagefiles $@/
+	$(eval OPERATING_SYSTEM := $(firstword $(subst -, ,$@)))
 	$(eval REPO := $@)
+	$(eval REPO_OS := $(OPERATING_SYSTEM))
 	$(eval TAG := latest)
 	$(eval BASEIMAGE := $(shell cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2))
 	$(eval IMAGEID := $(shell $(DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
@@ -54,6 +62,7 @@ $(ALL_IMAGES): %: %/Dockerfile
 	  --build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		$@
+	$(DOCKER) tag $(ORG)/$(REPO):$(TAG) $(ORG)/$(REPO_OS):$(TAG)
 	CURRENT_IMAGEID=$$($(DOCKER) images -q $(ORG)/$(REPO)) && \
 	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(DOCKER) rmi "$(IMAGEID)" || true; fi
 	rm -rf $@/imagefiles
@@ -79,19 +88,11 @@ $(addsuffix .run,$(ALL_IMAGES)):
 .SECONDEXPANSION:
 $(addsuffix .test,$(ALL_IMAGES)): $$(basename $$@)
 	$(eval REPO := $(basename $@))
+	mkdir -p $(BIN)
 	$(DOCKER) run $(RM) dockbuild/$(REPO) > $(BIN)/dockbuild-$(REPO) && chmod +x $(BIN)/dockbuild-$(REPO)
 	$(BIN)/dockbuild-$(REPO) python test/run.py $($@_ARGS)
 
 .PHONY: $(addsuffix .test,$(ALL_IMAGES))
-
-
-#
-# test prerequisites implicit rule
-#
-test.prerequisites:
-	mkdir -p $(BIN)
-
-$(addsuffix .test,base $(ALL_IMAGES)): test.prerequisites
 
 #
 # pull implicit rule

@@ -10,10 +10,10 @@ source $MY_DIR/utils.sh
 # copied from https://github.com/pypa/manylinux/tree/master/docker/build_scripts
 #
 
-OPENSSL_ROOT=openssl-1.0.2n
-# Hash from https://www.openssl.org/source/openssl-1.0.2n.tar.gz.sha256
-# Matches hash at https://github.com/Homebrew/homebrew-core/blob/99b8ea3594d1f1f78b0fff1fd8ca7d782aa07e13/Formula/openssl.rb#L11
-OPENSSL_HASH=370babb75f278c39e0c50e8c4e7493bc0f18db6867478341a832a982fd15a8fe
+OPENSSL_ROOT=openssl-1.0.2o
+# Hash from https://www.openssl.org/source/openssl-1.0.2o.tar.gz.sha256
+# Matches hash at https://github.com/Homebrew/homebrew-core/blob/1766321103d9780f6e38d3ac7681b8fa42cdca86/Formula/openssl.rb#L11
+OPENSSL_HASH=ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d
 
 # XXX: the official https server at www.openssl.org cannot be reached
 # with the old versions of openssl and curl in Centos 5.11 hence the fallback
