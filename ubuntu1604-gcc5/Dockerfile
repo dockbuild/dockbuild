@@ -1,6 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:16.04
 
-ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/ubuntu1804 \
+ARG IMAGE
+ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     # http://bugs.python.org/issue19846
     # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
     LANG=C.UTF-8
@@ -64,7 +65,6 @@ ENTRYPOINT ["/dockcross/entrypoint.sh"]
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
-ARG IMAGE
 ARG VCS_REF
 ARG VCS_URL
 LABEL org.label-schema.build-date=$BUILD_DATE \
