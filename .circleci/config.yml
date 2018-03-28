@@ -146,6 +146,7 @@ jobs:
             docker load -i ~/docker/centos5-devtoolset2-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/centos5:latest
               docker push dockbuild/centos5-devtoolset2-gcc4:latest
             fi
       - restore_cache:
@@ -156,6 +157,7 @@ jobs:
             docker load -i ~/docker/centos6-devtoolset2-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/centos6:latest
               docker push dockbuild/centos6-devtoolset2-gcc4:latest
             fi
       - restore_cache:
@@ -166,6 +168,7 @@ jobs:
             docker load -i ~/docker/centos7-devtoolset4-gcc5.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/centos7:latest
               docker push dockbuild/centos7-devtoolset4-gcc5:latest
             fi
       - restore_cache:
@@ -176,6 +179,7 @@ jobs:
             docker load -i ~/docker/ubuntu1004-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/ubuntu1004:latest
               docker push dockbuild/ubuntu1004-gcc4:latest
             fi
       - restore_cache:
@@ -186,6 +190,7 @@ jobs:
             docker load -i ~/docker/ubuntu1604-gcc5.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/ubuntu1604:latest
               docker push dockbuild/ubuntu1604-gcc5:latest
             fi
       - restore_cache:
@@ -196,6 +201,7 @@ jobs:
             docker load -i ~/docker/ubuntu1804-gcc7.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push dockbuild/ubuntu1804:latest
               docker push dockbuild/ubuntu1804-gcc7:latest
             fi
 workflows:
