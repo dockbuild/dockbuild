@@ -97,7 +97,7 @@ $(addsuffix .test,$(ALL_IMAGES)): $$(basename $$@)
 test.prerequisites:
 	mkdir -p $(BIN)
 
-$(addsuffix .test,base $(ALL_IMAGES)): test.prerequisites
+$(addsuffix .test,$(ALL_IMAGES)): test.prerequisites
 
 #
 # pull implicit rule
