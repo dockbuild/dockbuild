@@ -17,7 +17,7 @@ jobs:
            docker pull centos:5
            make centos5-devtoolset2-gcc4
            mkdir -p ~/docker
-           docker save -o ~/docker/centos5-devtoolset2-gcc4.tar dockbuild/centos5-devtoolset2-gcc4:latest
+           docker save -o ~/docker/centos5-devtoolset2-gcc4.tar dockbuild/centos5-devtoolset2-gcc4:latest dockbuild/centos5:latest
       - run:
          name: centos5-devtoolset2-gcc4 test
          command: |
@@ -39,7 +39,7 @@ jobs:
            docker pull centos:6
            make centos6-devtoolset2-gcc4
            mkdir -p ~/docker
-           docker save -o ~/docker/centos6-devtoolset2-gcc4.tar dockbuild/centos6-devtoolset2-gcc4:latest
+           docker save -o ~/docker/centos6-devtoolset2-gcc4.tar dockbuild/centos6-devtoolset2-gcc4:latest dockbuild/centos6:latest
       - run:
          name: centos6-devtoolset2-gcc4 test
          command: |
@@ -61,7 +61,7 @@ jobs:
            docker pull centos:7
            make centos7-devtoolset4-gcc5
            mkdir -p ~/docker
-           docker save -o ~/docker/centos7-devtoolset4-gcc5.tar dockbuild/centos7-devtoolset4-gcc5:latest
+           docker save -o ~/docker/centos7-devtoolset4-gcc5.tar dockbuild/centos7-devtoolset4-gcc5:latest dockbuild/centos7:latest
       - run:
          name: centos7-devtoolset4-gcc5 test
          command: |
@@ -83,7 +83,7 @@ jobs:
            docker pull ubuntu:10.04
            make ubuntu1004-gcc4
            mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1004-gcc4.tar dockbuild/ubuntu1004-gcc4:latest
+           docker save -o ~/docker/ubuntu1004-gcc4.tar dockbuild/ubuntu1004-gcc4:latest dockbuild/ubuntu1004:latest
       - run:
          name: ubuntu1004-gcc4 test
          command: |
@@ -105,7 +105,7 @@ jobs:
            docker pull ubuntu:16.04
            make ubuntu1604-gcc5
            mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1604-gcc5.tar dockbuild/ubuntu1604-gcc5:latest
+           docker save -o ~/docker/ubuntu1604-gcc5.tar dockbuild/ubuntu1604-gcc5:latest dockbuild/ubuntu1604:latest
       - run:
          name: ubuntu1604-gcc5 test
          command: |
@@ -127,7 +127,7 @@ jobs:
            docker pull ubuntu:18.04
            make ubuntu1804-gcc7
            mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1804-gcc7.tar dockbuild/ubuntu1804-gcc7:latest
+           docker save -o ~/docker/ubuntu1804-gcc7.tar dockbuild/ubuntu1804-gcc7:latest dockbuild/ubuntu1804:latest
       - run:
          name: ubuntu1804-gcc7 test
          command: |
