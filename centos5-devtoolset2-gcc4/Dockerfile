@@ -42,6 +42,9 @@ RUN \
   /imagefiles/install-gosu-binary.sh && \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/install-entrypoint.sh && \
+  # Remove sudo provided by "devtoolset-2" since it doesn't work with
+  # our sudo wrapper calling gosu.
+  rm -f /opt/rh/devtoolset-2/root/usr/bin/sudo && \
   rm -rf /imagefiles
 
 ENV SSL_CERT_FILE=/opt/_internal/certs.pem

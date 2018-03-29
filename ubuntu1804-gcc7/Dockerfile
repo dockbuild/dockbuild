@@ -25,7 +25,12 @@ COPY \
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \
+RUN \
+  apt-get update && \
+  \
+  (LANG=C LANGUAGE=C LC_ALL=C apt-get install -y locales) && \
+  locale-gen ${LANG%.*} ${LANG} && \
+  \
   apt-get -y upgrade && \
   apt-get update && \
   apt-get install -y \
