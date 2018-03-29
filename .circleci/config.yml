@@ -143,8 +143,8 @@ jobs:
       - deploy:
           name: Deploy centos5-devtoolset2-gcc4
           command: |
-            docker load -i ~/docker/centos5-devtoolset2-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker load -i ~/docker/centos5-devtoolset2-gcc4.tar
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/centos5:latest
               docker push dockbuild/centos5-devtoolset2-gcc4:latest
@@ -154,8 +154,8 @@ jobs:
       - deploy:
           name: Deploy centos6-devtoolset2-gcc4
           command: |
-            docker load -i ~/docker/centos6-devtoolset2-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker load -i ~/docker/centos6-devtoolset2-gcc4.tar
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/centos6:latest
               docker push dockbuild/centos6-devtoolset2-gcc4:latest
@@ -165,8 +165,8 @@ jobs:
       - deploy:
           name: Deploy centos7-devtoolset4-gcc5
           command: |
-            docker load -i ~/docker/centos7-devtoolset4-gcc5.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker load -i ~/docker/centos7-devtoolset4-gcc5.tar
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/centos7:latest
               docker push dockbuild/centos7-devtoolset4-gcc5:latest
@@ -176,8 +176,8 @@ jobs:
       - deploy:
           name: Deploy ubuntu1004-gcc4
           command: |
-            docker load -i ~/docker/ubuntu1004-gcc4.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker load -i ~/docker/ubuntu1004-gcc4.tar
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/ubuntu1004:latest
               docker push dockbuild/ubuntu1004-gcc4:latest
@@ -187,8 +187,8 @@ jobs:
       - deploy:
           name: Deploy ubuntu1604-gcc5
           command: |
-            docker load -i ~/docker/ubuntu1604-gcc5.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker load -i ~/docker/ubuntu1604-gcc5.tar
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/ubuntu1604:latest
               docker push dockbuild/ubuntu1604-gcc5:latest
@@ -198,8 +198,8 @@ jobs:
       - deploy:
           name: Deploy ubuntu1804-gcc7
           command: |
-            docker load -i ~/docker/ubuntu1804-gcc7.tar
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker load -i ~/docker/ubuntu1804-gcc7.tar
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push dockbuild/ubuntu1804:latest
               docker push dockbuild/ubuntu1804-gcc7:latest
