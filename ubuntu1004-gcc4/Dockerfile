@@ -1,7 +1,12 @@
 FROM ubuntu:10.04
 
 ARG IMAGE
-ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE}
+ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
+    # http://bugs.python.org/issue19846
+    # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+    # https://sourceware.org/bugzilla/show_bug.cgi?id=17318#c4
+    # > set en_US.UTF-8 instead of C.UTF-8 because the former is not supported on all systems.
+    LANG=en_US.UTF-8
 
 ARG CMAKE_VERSION=3.10.2
 ARG GIT_VERSION=2.16.2
