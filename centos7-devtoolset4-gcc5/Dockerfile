@@ -1,6 +1,7 @@
 FROM centos:7
 
-ENV DEFAULT_DOCKCROSS_IMAGE=dockbuild/centos7 \
+ARG IMAGE
+ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     CC=/opt/rh/devtoolset-4/root/usr/bin/gcc \
     CXX=/opt/rh/devtoolset-4/root/usr/bin/g++ \
     FC=/opt/rh/devtoolset-4/root/usr/bin/gfortran \
@@ -81,7 +82,6 @@ ENTRYPOINT ["/dockcross/entrypoint.sh"]
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
-ARG IMAGE
 ARG VCS_REF
 ARG VCS_URL
 LABEL org.label-schema.build-date=$BUILD_DATE \
