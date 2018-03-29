@@ -33,6 +33,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN \
   sed -i "s/archive.ubuntu.com/old-releases.ubuntu.com/" /etc/apt/sources.list && \
   apt-get update && \
+  \
+  (LANG=C LANGUAGE=C LC_ALL=C apt-get install -y locales) && \
+  locale-gen ${LANG%.*} ${LANG} && \
+  \
   apt-get -y upgrade && \
   apt-get update && \
   apt-get install -y \
