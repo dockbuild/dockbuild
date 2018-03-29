@@ -17,8 +17,10 @@ mkdir -p /dockcross
 
 cd /dockcross
 
+DOCKCROSS_GIT_SHA=9966e1aed7c6dba168a1ee90efb430de730914b3
+
 for helper_script in dockcross sudo.sh entrypoint.sh; do
-  url="https://raw.githubusercontent.com/dockcross/dockcross/master/imagefiles/$helper_script"
+  url="https://raw.githubusercontent.com/dockcross/dockcross/${DOCKCROSS_GIT_SHA}/imagefiles/$helper_script"
   echo "Downloading $url"
   curl -# -LO $url
 done
