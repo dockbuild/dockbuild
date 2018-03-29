@@ -7,7 +7,12 @@ ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     FC=/opt/rh/devtoolset-2/root/usr/bin/gfortran \
     PATH=/opt/rh/devtoolset-2/root/usr/bin${PATH:+:${PATH}} \
     LD_LIBRARY_PATH=/opt/rh/devtoolset-2/root/usr/lib64:/opt/rh/devtoolset-2/root/usr/lib:/usr/local/lib64:/usr/local/lib \
-    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
+    # http://bugs.python.org/issue19846
+    # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+    # https://sourceware.org/bugzilla/show_bug.cgi?id=17318#c4
+    # > set en_US.UTF-8 instead of C.UTF-8 because the former is not supported on all systems.
+    LANG=en_US.UTF-8
 
 ARG CMAKE_VERSION=3.10.2
 ARG NINJA_VERSION=1.8.2
