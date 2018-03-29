@@ -49,6 +49,22 @@ RUN \
     zlib1g-dev \
   && \
   #
+  # Add ppa allowing to install newer gcc
+  # See https://launchpad.net/~ubuntu-toolchain-r/+archive/ubuntu/test?field.series_filter=lucid
+  #
+  echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu lucid main" >> /etc/apt/sources.list && \
+  echo "deb-src http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu lucid main" >> /etc/apt/sources.list && \
+  gpg --ignore-time-conflict --no-options --no-default-keyring \
+    --secret-keyring /etc/apt/secring.gpg \
+    --trustdb-name /etc/apt/trustdb.gpg \
+    --keyring /etc/apt/trusted.gpg \
+    --keyserver keyserver.ubuntu.com \
+    --recv 60C317803A41BA51845E371A1E9377A2BA9EF27F \
+  && \
+  apt-get update && \
+  apt-get install -y gcc-4.6 && \
+  apt-get install -y g++-4.6 && \
+  #
   # Custom install
   #
   /imagefiles/build-and-install-openssl.sh && \
@@ -69,9 +85,9 @@ RUN \
 
 ENV AR=/usr/bin/ar \
     AS=/usr/bin/as \
-    CC=/usr/bin/gcc \
-    CPP=/usr/bin/cpp \
-    CXX=/usr/bin/g++
+    CC=/usr/bin/gcc-4.6 \
+    CPP=/usr/bin/cpp-4.6 \
+    CXX=/usr/bin/g++-4.6
 
 WORKDIR /work
 
