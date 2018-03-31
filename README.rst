@@ -19,11 +19,11 @@ Features
 
 In addition to the devtools, all images include:
 
-* cmake 3.10.2
+* cmake 3.11.0
 * curl with TLS 1.2 support
 * git 2.16.2 (with ``git config --global advice.detachedHead false``)
 * python 3.6.4
-* ninja 1.8.2
+* ninja 1.8.2 with `GNU make jobserver client support <https://github.com/dockbuild/ninja-jobserver>`_
 
 
 What is the difference between `dockcross` and `dockbuild` ?
