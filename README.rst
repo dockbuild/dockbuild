@@ -23,7 +23,7 @@ In addition to the devtools, all images include:
 * curl with TLS 1.2 support
 * git 2.16.2 (with ``git config --global advice.detachedHead false``)
 * python 3.6.4
-* ninja 1.8.2 with `GNU make jobserver client support <https://github.com/dockbuild/ninja-jobserver>`_
+* ninja 1.8.2 with `GNU make jobserver client and Fortran support <https://github.com/kitware/ninja>`_
 
 
 What is the difference between `dockcross` and `dockbuild` ?

@@ -20,15 +20,15 @@ fi
 cd /usr/src
 
 #url="https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-linux.zip"
-url="https://github.com/dockbuild/ninja-jobserver/releases/download/v${NINJA_VERSION}-jobserver/ninja-jobserver-linux.zip"
+url="https://github.com/Kitware/ninja/releases/download/v${NINJA_VERSION}/ninja-${NINJA_VERSION}_x86_64-linux-gnu.tar.gz"
 
 echo "Downloading $url"
 curl -# -LO $url
 
 #unzip ninja-linux.zip
 #rm -f ninja-linux.zip
-unzip ninja-jobserver-linux.zip
-rm -f ninja-jobserver-linux.zip
+tar --strip-components 1 -xzvf ninja-${NINJA_VERSION}_x86_64-linux-gnu.tar.gz
+rm -f ninja-${NINJA_VERSION}_x86_64-linux-gnu.tar.gz
 
 mv ninja /usr/local/bin/
 
