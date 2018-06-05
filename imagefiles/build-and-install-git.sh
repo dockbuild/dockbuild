@@ -31,7 +31,7 @@ tar xvzf git-${GIT_VERSION}.tar.gz
 rm -f git-${GIT_VERSION}.tar.gz
 
 pushd git-${GIT_VERSION}
-./configure --prefix=/usr/local
+./configure --prefix=/usr/local --with-curl
 make
 make install
 popd
