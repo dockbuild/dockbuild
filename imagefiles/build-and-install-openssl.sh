@@ -1,6 +1,43 @@
 #!/bin/bash
+#
+# Configure, build and install OpenSSL
+#
+# Usage:
+#
+#  build-and-install-openssl.sh [-32]
+#
+# Options:
+#
+#  -32              Build OpenSSL as a 32-bit library
+#
+# Notes:
+#
+#  * build directory is /usr/src/openssl-$OPENSSL_VERSION
+#
+#  * install directory is /usr
+#
+#  * after installation, build directory and archive are removed
+#
 
 set -ex
+set -o pipefail
+
+WRAPPER=""
+CONFIG_FLAG=""
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -32)
+      WRAPPER="linux32"
+      CONFIG_FLAG="-m32"
+      ;;
+    *)
+      echo "Usage: Usage: ${0##*/} [-32]"
+      exit 1
+      ;;
+  esac
+  shift
+done
 
 MY_DIR=$(dirname "${BASH_SOURCE[0]}")
 source $MY_DIR/utils.sh
@@ -21,9 +58,9 @@ OPENSSL_HASH=ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d
 OPENSSL_DOWNLOAD_URL=ftp://ftp.openssl.org/source
 
 function do_openssl_build {
-    ./config no-ssl2 no-shared -fPIC --prefix=/usr/local/ssl > /dev/null
-    make > /dev/null
-    make install_sw > /dev/null
+    ${WRAPPER} ./config no-ssl2 no-shared -fPIC $CONFIG_FLAG --prefix=/usr/local/ssl > /dev/null
+    ${WRAPPER} make > /dev/null
+    ${WRAPPER} make install_sw > /dev/null
 }
 
 function build_openssl {
@@ -38,6 +75,8 @@ function build_openssl {
     tar -xzf ${openssl_fname}.tar.gz
     (cd ${openssl_fname} && do_openssl_build)
     rm -rf ${openssl_fname} ${openssl_fname}.tar.gz
+    # Cleanup install tree
+    rm -rf /usr/ssl/man
 }
 
 cd /usr/src

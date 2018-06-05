@@ -20,20 +20,18 @@ fi
 cd /usr/src
 
 CMAKE_VERSION_XY=$(echo ${CMAKE_VERSION} | sed -r 's/\.[0-9]+(\-rc[0-9])?$//')
+CMAKE_ROOT=cmake-${CMAKE_VERSION}-Linux-x86_64
 
-url=https://cmake.org/files/v${CMAKE_VERSION_XY}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+url=https://cmake.org/files/v${CMAKE_VERSION_XY}/${CMAKE_ROOT}.tar.gz
 echo "Downloading $url"
 curl -# -LO $url
 
-tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
-rm -f cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+tar -xzvf ${CMAKE_ROOT}.tar.gz
+rm -f ${CMAKE_ROOT}.tar.gz
 
-cd cmake-${CMAKE_VERSION}-Linux-x86_64
+cd ${CMAKE_ROOT}
 
 rm -rf doc man
 rm -rf bin/cmake-gui
 
-ln -s $(pwd)/bin/cmake /usr/local/bin/cmake
-ln -s $(pwd)/bin/ctest /usr/local/bin/ctest
-ln -s $(pwd)/bin/cpack /usr/local/bin/cpack
-ln -s $(pwd)/bin/ccmake /usr/local/bin/ccmake
+find . -type f -exec install -D "{}" "/usr/{}" \;
