@@ -111,10 +111,12 @@ yum install -y \
    devtoolset-2-gcc \
    devtoolset-2-gcc-c++ \
    devtoolset-2-gcc-gfortran \
+   setarch \
    ${PYTHON_COMPILE_DEPS}
 
 # [centosbuild]
 # We excluded the following packages from the command above: diffutils, cmake28
+# We added the following packages: setarch (it provided linux32 binary)
 # [/centosbuild]
 
 # Build an OpenSSL for both curl and the Pythons. We'll delete this at the end.

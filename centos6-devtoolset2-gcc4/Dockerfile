@@ -44,6 +44,7 @@ RUN yum update -y && \
    patch \
    perl \
    perl-devel \
+   setarch \
    unzip \
    wget \
    which \
