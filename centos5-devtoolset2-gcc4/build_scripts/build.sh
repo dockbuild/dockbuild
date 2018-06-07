@@ -93,6 +93,14 @@ mv devtools-2.repo /etc/yum.repos.d/devtools-2.repo
 rpm -Uvh --replacepkgs epel-release-5*.rpm
 rm -f epel-release-5*.rpm
 
+# [centosbuild]
+DOCKBUILD_DEPS="\
+setarch \
+glibc-devel.i386 \
+libgcc.i386
+"
+# [/centosbuild]
+
 # Development tools and libraries
 yum install -y \
    bzip2 \
@@ -111,10 +119,12 @@ yum install -y \
    devtoolset-2-gcc \
    devtoolset-2-gcc-c++ \
    devtoolset-2-gcc-gfortran \
-   ${PYTHON_COMPILE_DEPS}
+   ${PYTHON_COMPILE_DEPS} \
+   ${DOCKBUILD_DEPS}
 
 # [centosbuild]
 # We excluded the following packages from the command above: diffutils, cmake28
+# Added DOCKBUILD_DEPS
 # [/centosbuild]
 
 # Build an OpenSSL for both curl and the Pythons. We'll delete this at the end.
