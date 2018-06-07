@@ -38,6 +38,8 @@ RUN yum update -y && \
    coreutils \
    file \
    gettext \
+   glibc-devel.i386 \
+   libgcc.i386
    make \
    openssh-clients \
    openssl-devel \
