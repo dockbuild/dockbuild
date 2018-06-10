@@ -189,7 +189,6 @@ export SSL_CERT_FILE=/opt/_internal/certs.pem
 
 # [centosbuild]
 /imagefiles/build-and-install-openssh.sh
-/imagefiles/build-and-install-cmake.sh
 # [/centosbuild]
 
 # Now we can delete our built OpenSSL headers/static libs since we've linked everything we need

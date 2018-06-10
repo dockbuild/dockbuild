@@ -1,6 +1,22 @@
 #!/bin/bash
 
 set -ex
+set -o pipefail
+
+ARCH="x86_64"
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -32)
+      ARCH="x86"
+      ;;
+    *)
+      echo "Usage: Usage: ${0##*/} [-32]"
+      exit 1
+      ;;
+  esac
+  shift
+done
 
 if ! command -v curl &> /dev/null; then
 	echo >&2 'error: "curl" not found!'
@@ -19,10 +35,8 @@ fi
 
 cd /usr/src
 
-CMAKE_VERSION_XY=$(echo ${CMAKE_VERSION} | sed -r 's/\.[0-9]+(\-rc[0-9])?$//')
-CMAKE_ROOT=cmake-${CMAKE_VERSION}-Linux-x86_64
-
-url=https://cmake.org/files/v${CMAKE_VERSION_XY}/${CMAKE_ROOT}.tar.gz
+CMAKE_ROOT=cmake-${CMAKE_VERSION}-Centos5-${ARCH}
+url=https://github.com/dockbuild/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_ROOT}.tar.gz
 echo "Downloading $url"
 curl -# -LO $url
 

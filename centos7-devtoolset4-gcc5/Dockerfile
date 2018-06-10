@@ -19,13 +19,13 @@ ARG GIT_VERSION=2.16.2
 ARG NINJA_VERSION=1.8.2.g3bbbe.kitware.dyndep-1.jobserver-1
 ARG PYTHON_VERSION=3.6.4
 
+# Image build scripts
 COPY \
+  imagefiles/build-and-install-git.sh \
+  imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-gosu-binary.sh \
   imagefiles/install-ninja-binary.sh \
-  imagefiles/build-and-install-git.sh \
-  imagefiles/build-and-install-python.sh \
-  imagefiles/install-entrypoint.sh \
   /imagefiles/
 
 RUN yum update -y && \
@@ -68,7 +68,6 @@ RUN yum update -y && \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
-  /imagefiles/install-entrypoint.sh && \
   rm -rf /imagefiles && \
   #
   # cleanup
@@ -79,6 +78,9 @@ RUN yum update -y && \
 WORKDIR /work
 
 ENTRYPOINT ["/dockcross/entrypoint.sh"]
+
+# Runtime scripts
+COPY imagefiles/entrypoint.sh imagefiles/dockcross /dockcross/
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE

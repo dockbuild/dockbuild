@@ -23,14 +23,14 @@ ADD etc/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 ADD etc/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo
 ADD etc/libselinux.repo /etc/yum.repos.d/libselinux.repo
 
+# Image build scripts
 COPY build_scripts /build_scripts
-
 COPY \
-  imagefiles/build-and-install-cmake.sh \
   imagefiles/build-and-install-openssh.sh \
+  imagefiles/install-cmake-binary.sh \
   imagefiles/install-gosu-binary.sh \
   imagefiles/install-ninja-binary.sh \
-  imagefiles/install-entrypoint.sh \
+  imagefiles/entrypoint.sh \
   /imagefiles/
 
 RUN \
@@ -39,9 +39,9 @@ RUN \
   #
   # Custom install
   #
+  /imagefiles/install-cmake-binary.sh && \
   /imagefiles/install-gosu-binary.sh && \
   /imagefiles/install-ninja-binary.sh && \
-  /imagefiles/install-entrypoint.sh && \
   # Remove sudo provided by "devtoolset-2" since it doesn't work with
   # our sudo wrapper calling gosu.
   rm -f /opt/rh/devtoolset-2/root/usr/bin/sudo && \
@@ -52,6 +52,9 @@ ENV SSL_CERT_FILE=/opt/_internal/certs.pem
 WORKDIR /work
 
 ENTRYPOINT ["/dockcross/entrypoint.sh"]
+
+# Runtime scripts
+COPY imagefiles/entrypoint.sh imagefiles/dockcross /dockcross/
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE

@@ -15,12 +15,12 @@ ARG GIT_VERSION=2.16.2
 ARG NINJA_VERSION=1.8.2.g3bbbe.kitware.dyndep-1.jobserver-1
 ARG PYTHON_VERSION=3.6.4
 
+# Image build scripts
 COPY \
-  imagefiles/install-cmake-binary.sh \
-  imagefiles/install-ninja-binary.sh \
   imagefiles/build-and-install-git.sh \
   imagefiles/build-and-install-python.sh \
-  imagefiles/install-entrypoint.sh \
+  imagefiles/install-cmake-binary.sh \
+  imagefiles/install-ninja-binary.sh \
   /imagefiles/
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -55,7 +55,6 @@ RUN \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
-  /imagefiles/install-entrypoint.sh && \
   rm -rf /imagefiles && \
   #
   # cleanup
@@ -71,6 +70,9 @@ ENV AR=/usr/bin/ar \
 WORKDIR /work
 
 ENTRYPOINT ["/dockcross/entrypoint.sh"]
+
+# Runtime scripts
+COPY imagefiles/entrypoint.sh imagefiles/dockcross /dockcross/
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
