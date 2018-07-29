@@ -68,6 +68,9 @@ RUN yum update -y && \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
+  # Remove sudo provided by "devtoolset-4" since it doesn't work with
+  # our sudo wrapper calling gosu.
+  rm -f /opt/rh/devtoolset-4/root/usr/bin/sudo && \
   rm -rf /imagefiles && \
   #
   # cleanup
