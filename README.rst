@@ -184,6 +184,56 @@ How to extend Dockbuild images
 
 *TBD*
 
+maintainers
+-----------
+
+Updating CMake version
+^^^^^^^^^^^^^^^^^^^^^^
+
+1. Set CMake version ``X.Y.Z`` corresponding to an `existing tag <https://github.com/Kitware/CMake/releases>`_.
+   For example:
+
+::
+
+    CMAKE_VERSION=3.11.3
+
+2. Create a `new release of CMake for Centos <https://github.com/dockbuild/CMake#maintainers-making-a-cmake-centos5-release>`_
+
+3. Update CMake version, and create a Pull Request
+
+::
+
+    # Get current version
+    git clone git@github.com:dockbuilb/dockbuild && \
+    cd $_ && \
+    PREVIOUS_CMAKE_VERSION=$(cat README.rst | grep "^\* cmake" | cut -d" " -f3) && \
+    echo "PREVIOUS_CMAKE_VERSION [${PREVIOUS_CMAKE_VERSION}]"
+
+    # Update version
+    git checkout -b update-cmake-from-v${PREVIOUS_CMAKE_VERSION}-to-v${CMAKE_VERSION} && \
+    \
+    for file in $(find . -name Dockerfile) README.rst; do
+      sed -i "s/${PREVIOUS_CMAKE_VERSION}/${CMAKE_VERSION}/g" $file
+    done && \
+    \
+    git add $(find . -name Dockerfile) README.rst && \
+    \
+    git commit -m "Update CMake from v${PREVIOUS_CMAKE_VERSION} to v${CMAKE_VERSION}"
+
+    # Inspect changes
+    git diff HEAD^
+
+    # Publish branch
+    git push origin update-cmake-from-v${PREVIOUS_CMAKE_VERSION}-to-v${CMAKE_VERSION}
+    git pull-request
+
+4. Check `CircleCI <https://circleci.com/gh/dockbuild/dockbuild>`_ and merge `Pull Request <https://github.com/dockbuild/dockbuild/pull>`_ if tests pass.
+
+.. note::
+
+  * Command ``sed -i`` may not be available on all unix systems.
+
+  * Command ``git pull-request`` is available after install `hub <https://hub.github.com>`_
 
 Articles
 --------
