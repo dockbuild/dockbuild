@@ -19,7 +19,7 @@ Features
 
 In addition to the devtools, all images include:
 
-* cmake 3.11.3
+* cmake 3.12.1
 * curl with TLS 1.2 support
 * git 2.16.2 (with ``git config --global advice.detachedHead false``)
 * python 3.6.4
@@ -195,7 +195,7 @@ Updating CMake version
 
 ::
 
-    CMAKE_VERSION=3.11.3
+    CMAKE_VERSION=3.12.1
 
 2. Create a `new release of CMake for Centos <https://github.com/dockbuild/CMake#maintainers-making-a-cmake-centos5-release>`_
 
