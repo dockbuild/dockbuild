@@ -29,6 +29,7 @@ COPY \
   imagefiles/build-and-install-openssh.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-gosu-binary.sh \
+  imagefiles/install-gosu-binary-wrapper.sh \
   imagefiles/install-ninja-binary.sh \
   imagefiles/entrypoint.sh \
   /imagefiles/
@@ -41,6 +42,7 @@ RUN \
   #
   /imagefiles/install-cmake-binary.sh && \
   /imagefiles/install-gosu-binary.sh && \
+  /imagefiles/install-gosu-binary-wrapper.sh && \
   /imagefiles/install-ninja-binary.sh && \
   # Remove sudo provided by "devtoolset-2" since it doesn't work with
   # our sudo wrapper calling gosu.
