@@ -39,6 +39,7 @@ RUN \
     curl \
     gosu \
     openssh-client \
+    pkg-config \
     unzip \
   && \
   # Needed to build Git from source

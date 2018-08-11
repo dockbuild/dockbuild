@@ -44,6 +44,7 @@ RUN \
     autoconf \
     build-essential \
     curl \
+    pkg-config \
     unzip \
     subversion \
   && \
