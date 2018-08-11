@@ -24,6 +24,7 @@ COPY \
   imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-gosu-binary.sh \
+  imagefiles/install-gosu-binary-wrapper.sh \
   imagefiles/install-ninja-binary.sh \
   imagefiles/utils.sh \
   /imagefiles/
@@ -80,6 +81,7 @@ RUN \
   /imagefiles/build-and-install-python.sh && \
   /imagefiles/install-cmake-binary.sh && \
   /imagefiles/install-gosu-binary.sh && \
+  /imagefiles/install-gosu-binary-wrapper.sh && \
   /imagefiles/install-ninja-binary.sh && \
   rm -rf /imagefiles && \
   #

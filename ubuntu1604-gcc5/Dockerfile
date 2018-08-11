@@ -20,6 +20,7 @@ COPY \
   imagefiles/build-and-install-git.sh \
   imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
+  imagefiles/install-gosu-binary-wrapper.sh \
   imagefiles/install-ninja-binary.sh \
   /imagefiles/
 
@@ -52,6 +53,7 @@ RUN \
   # Custom install
   #
   /imagefiles/install-cmake-binary.sh && \
+  /imagefiles/install-gosu-binary-wrapper.sh && \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
