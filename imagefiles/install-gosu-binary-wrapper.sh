@@ -11,12 +11,15 @@ fi
 # verify that the binary works
 gosu nobody true
 
+# To ensure that our custom sudo wrapper is not
+# overwritten by a future re-install of sudo, it
+# is created in /usr/loca/bin
 
-cat << EOF >> /usr/bin/sudo
+cat << EOF >> /usr/local/bin/sudo
 #!/bin/sh
 # Emulate the sudo command
 exec gosu root:root "\$@"
 EOF
 
-chmod +x /usr/bin/sudo
+chmod +x /usr/local/bin/sudo
 
