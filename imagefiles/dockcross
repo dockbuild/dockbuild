@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DEFAULT_DOCKCROSS_IMAGE=dockcross/base  # DO NOT MOVE THIS LINE (see entrypoint.sh)
 
@@ -178,18 +178,20 @@ UBUNTU_ON_WINDOWS=$([ -e /proc/version ] && grep -l Microsoft /proc/version || e
 MSYS=$([ -e /proc/version ] && grep -l MINGW /proc/version || echo "")
 
 if [ -z "$UBUNTU_ON_WINDOWS" -a -z "$MSYS" ]; then
-    USER_IDS="-e BUILDER_UID=$( id -u ) -e BUILDER_GID=$( id -g ) -e BUILDER_USER=$( id -un ) -e BUILDER_GROUP=$( id -gn )"
+    USER_IDS=(-e BUILDER_UID="$( id -u )" -e BUILDER_GID="$( id -g )" -e BUILDER_USER="$( id -un )" -e BUILDER_GROUP="$( id -gn )")
 fi
 
 # Change the PWD when working in Docker on Windows
 if [ -n "$UBUNTU_ON_WINDOWS" ]; then
     WSL_ROOT="/mnt/"
     CFG_FILE=/etc/wsl.conf
-    CFG_CONTENT=$(cat $CFG_FILE | sed -r '/[^=]+=[^=]+/!d' | sed -r 's/\s+=\s/=/g')
-    eval "$CFG_CONTENT"
-    if [ -n "$root" ]; then
-        WSL_ROOT=$root
-    fi
+	if [ -f "$CFG_FILE" ]; then
+		CFG_CONTENT=$(cat $CFG_FILE | sed -r '/[^=]+=[^=]+/!d' | sed -r 's/\s+=\s/=/g')
+		eval "$CFG_CONTENT"
+		if [ -n "$root" ]; then
+			WSL_ROOT=$root
+		fi
+	fi
     HOST_PWD=`pwd -P`
     HOST_PWD=${HOST_PWD/$WSL_ROOT//}
 elif [ -n "$MSYS" ]; then
@@ -218,7 +220,7 @@ CONTAINER_NAME=dockcross_$RANDOM
 docker run $TTY_ARGS --name $CONTAINER_NAME \
     -v "$HOST_PWD":/work \
     $HOST_VOLUMES \
-    $USER_IDS \
+    "${USER_IDS[@]}" \
     $FINAL_ARGS \
     $FINAL_IMAGE "$@"
 run_exit_code=$?
