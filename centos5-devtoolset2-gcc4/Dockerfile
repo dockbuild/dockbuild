@@ -16,8 +16,8 @@ ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     LC_ALL=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
-ARG CMAKE_VERSION=3.12.1
-ARG NINJA_VERSION=1.8.2.g3bbbe.kitware.dyndep-1.jobserver-1
+ARG CMAKE_VERSION=3.13.4
+ARG NINJA_VERSION=1.9.0.g5b44b.kitware.dyndep-1.jobserver-1
 
 ADD etc/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 ADD etc/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo
