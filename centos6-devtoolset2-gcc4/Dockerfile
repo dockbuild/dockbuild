@@ -14,9 +14,9 @@ ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     LC_ALL=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
-ARG CMAKE_VERSION=3.12.1
+ARG CMAKE_VERSION=3.13.4
 ARG GIT_VERSION=2.16.2
-ARG NINJA_VERSION=1.8.2.g3bbbe.kitware.dyndep-1.jobserver-1
+ARG NINJA_VERSION=1.9.0.g5b44b.kitware.dyndep-1.jobserver-1
 ARG PYTHON_VERSION=3.6.4
 
 # Image build scripts
