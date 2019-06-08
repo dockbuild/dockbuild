@@ -84,6 +84,13 @@ dockbuild/ubuntu1804-gcc7:latest, dockbuild/ubuntu1804:latest
   |ubuntu1804-gcc7-latest| Ubuntu 18.04 based image.
 
 
+.. |ubuntu1904-gcc8-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1904-gcc8:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu1904-gcc8:latest
+
+dockbuild/ubuntu1904-gcc8:latest, dockbuild/ubuntu1904:latest
+  |ubuntu1904-gcc8-latest| Ubuntu 19.04 based image.
+
+
 Installation
 ------------
 

@@ -142,6 +142,28 @@ jobs:
       - save_cache:
           key: ubuntu1804-gcc7-assets-{{ .Revision }}
           paths: ~/docker/ubuntu1804-gcc7.tar
+  ubuntu1904-gcc8:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - ubuntu1904-gcc8-assets-
+      - checkout
+      - run:
+         name: ubuntu1904-gcc8 build
+         command: |
+           docker load -i ~/docker/ubuntu1904-gcc8.tar > /dev/null 2>&1 || true
+           docker pull ubuntu:19.04
+           make ubuntu1904-gcc8
+           mkdir -p ~/docker
+           docker save -o ~/docker/ubuntu1904-gcc8.tar dockbuild/ubuntu1904-gcc8:latest dockbuild/ubuntu1904:latest
+      - run:
+         name: ubuntu1904-gcc8 test
+         command: |
+           make ubuntu1904-gcc8.test
+      - save_cache:
+          key: ubuntu1904-gcc8-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu1904-gcc8.tar
   deploy-master:
     <<: *build-settings
     steps:
@@ -199,6 +221,15 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push dockbuild/ubuntu1804:latest
             docker push dockbuild/ubuntu1804-gcc7:latest
+      - restore_cache:
+          key: ubuntu1904-gcc8-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy ubuntu1904-gcc8
+          command: |
+            docker load -i ~/docker/ubuntu1904-gcc8.tar
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push dockbuild/ubuntu1904:latest
+            docker push dockbuild/ubuntu1904-gcc8:latest
 
 workflows:
   version: 2
@@ -216,6 +247,8 @@ workflows:
           <<: *no_filters
       - ubuntu1804-gcc7:
           <<: *no_filters
+      - ubuntu1904-gcc8:
+          <<: *no_filters
       - deploy-master:
           requires:
             - centos5-devtoolset2-gcc4
@@ -224,6 +257,7 @@ workflows:
             - ubuntu1004-gcc4
             - ubuntu1604-gcc5
             - ubuntu1804-gcc7
+            - ubuntu1904-gcc8
           filters:
             branches:
               only: master
