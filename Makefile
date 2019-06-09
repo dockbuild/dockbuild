@@ -17,7 +17,8 @@ IMAGES = \
   centos7-devtoolset4-gcc5 \
   ubuntu1004-gcc4 \
   ubuntu1604-gcc5 \
-  ubuntu1804-gcc7
+  ubuntu1804-gcc7 \
+  ubuntu1904-gcc8
 
 # These images are built using the "build implicit rule"
 ALL_IMAGES = $(IMAGES)
