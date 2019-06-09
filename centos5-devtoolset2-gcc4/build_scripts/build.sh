@@ -9,9 +9,9 @@ CPYTHON_VERSIONS="3.6.4"
 
 # openssl version to build, with expected sha256 hash of .tar.gz
 # archive
-OPENSSL_ROOT=openssl-1.0.2r
+OPENSSL_ROOT=openssl-1.0.2s
 # Get OPENSSL_HASH from https://www.openssl.org/source/
-OPENSSL_HASH=ae51d08bba8a83958e894946f15303ff894d75c2b8bbd44a852b64e3fe11d0d6
+OPENSSL_HASH=cabd5c9492825ce5bd23f3c3aeed6a97f8142f606d893df216411f07d1abab96
 EPEL_RPM_HASH=0dcc89f9bf67a2a515bad64569b7a9615edc5e018f676a578d5fd0f17d3c81d4
 DEVTOOLS_HASH=a8ebeb4bed624700f727179e6ef771dafe47651131a00a78b342251415646acc
 # Update to slightly newer, verified Git commit:
