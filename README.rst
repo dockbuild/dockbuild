@@ -91,6 +91,13 @@ dockbuild/ubuntu1904-gcc8:latest, dockbuild/ubuntu1904:latest
   |ubuntu1904-gcc8-latest| Ubuntu 19.04 based image.
 
 
+.. |ubuntu2004-gcc9-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu2004-gcc9:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu2004-gcc9:latest
+
+dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
+  |ubuntu2004-gcc9-latest| Ubuntu 20.04 based image.
+
+
 Installation
 ------------
 
