@@ -55,6 +55,16 @@ RUN yum update -y && \
   # Install devtoolset (See http://linuxpitstop.com/install-and-use-red-hat-developer-toolset-4-1-on-centos-7/)
   #
   yum install -y centos-release-scl && \
+  sed \
+    -e "s/^mirrorlist/#mirrorlist/" -e "s/^#\s*baseurl/baseurl/" \
+    -e "s/mirror.centos.org\/centos\/7/vault.centos.org\/7.6.1810/" \
+    -i /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo && \
+  sed \
+    -e "s/^mirrorlist/#mirrorlist/" -e "s/^#\s*baseurl/baseurl/" \
+    -e "s/mirror.centos.org\/centos\/7/vault.centos.org\/7.6.1810/" \
+    -i /etc/yum.repos.d/CentOS-SCLo-scl.repo && \
+  yum clean all && \
+  yum update && \
   yum install -y \
    devtoolset-4-gcc \
    devtoolset-4-binutils \
