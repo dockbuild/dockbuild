@@ -5,7 +5,7 @@ PYTHON_DOWNLOAD_URL=https://www.python.org/ftp/python
 # XXX: the official https server at www.openssl.org cannot be reached
 # with the old versions of openssl and curl in Centos 5.11 hence the fallback
 # to the ftp mirror:
-OPENSSL_DOWNLOAD_URL=ftp://ftp.openssl.org/source
+OPENSSL_DOWNLOAD_URL=ftp://ftp.openssl.org/source/old/1.0.2/
 # We had to switch to a debian mirror because we can't use TLS until we
 # bootstrap it with this curl + openssl
 CURL_DOWNLOAD_URL=http://deb.debian.org/debian/pool/main/c/curl
