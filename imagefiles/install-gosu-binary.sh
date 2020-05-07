@@ -44,4 +44,3 @@ fi
 rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc
 
 chmod +x /usr/local/bin/gosu
-

@@ -14,7 +14,7 @@ ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     LC_ALL=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
-ARG CMAKE_VERSION=3.13.4
+ARG CMAKE_VERSION=3.17.1
 ARG GIT_VERSION=2.16.2
 ARG NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1
 ARG PYTHON_VERSION=3.6.4
@@ -55,6 +55,16 @@ RUN yum update -y && \
   # Install devtoolset (See http://linuxpitstop.com/install-and-use-red-hat-developer-toolset-4-1-on-centos-7/)
   #
   yum install -y centos-release-scl && \
+  sed \
+    -e "s/^mirrorlist/#mirrorlist/" -e "s/^#\s*baseurl/baseurl/" \
+    -e "s/mirror.centos.org\/centos\/7/vault.centos.org\/7.6.1810/" \
+    -i /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo && \
+  sed \
+    -e "s/^mirrorlist/#mirrorlist/" -e "s/^#\s*baseurl/baseurl/" \
+    -e "s/mirror.centos.org\/centos\/7/vault.centos.org\/7.6.1810/" \
+    -i /etc/yum.repos.d/CentOS-SCLo-scl.repo && \
+  yum clean all && \
+  yum update && \
   yum install -y \
    devtoolset-4-gcc \
    devtoolset-4-binutils \

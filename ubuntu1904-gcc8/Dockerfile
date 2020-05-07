@@ -10,7 +10,7 @@ ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     LC_ALL=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
-ARG CMAKE_VERSION=3.13.4
+ARG CMAKE_VERSION=3.17.1
 ARG GIT_VERSION=2.16.2
 ARG NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1
 ARG PYTHON_VERSION=3.6.4
@@ -27,6 +27,7 @@ COPY \
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN \
+  sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
   apt-get update && \
   \
   (LANG=C LANGUAGE=C LC_ALL=C apt-get install -y locales) && \
