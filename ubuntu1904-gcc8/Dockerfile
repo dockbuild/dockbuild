@@ -27,6 +27,7 @@ COPY \
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN \
+  sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
   apt-get update && \
   \
   (LANG=C LANGUAGE=C LC_ALL=C apt-get install -y locales) && \
