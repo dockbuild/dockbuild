@@ -164,6 +164,28 @@ jobs:
       - save_cache:
           key: ubuntu1904-gcc8-assets-{{ .Revision }}
           paths: ~/docker/ubuntu1904-gcc8.tar
+  ubuntu2004-gcc9:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - ubuntu2004-gcc9-assets-
+      - checkout
+      - run:
+         name: ubuntu2004-gcc9 build
+         command: |
+           docker load -i ~/docker/ubuntu2004-gcc9.tar > /dev/null 2>&1 || true
+           docker pull ubuntu:19.04
+           make ubuntu2004-gcc9
+           mkdir -p ~/docker
+           docker save -o ~/docker/ubuntu2004-gcc9.tar dockbuild/ubuntu2004-gcc9:latest dockbuild/ubuntu2004:latest
+      - run:
+         name: ubuntu2004-gcc9 test
+         command: |
+           make ubuntu2004-gcc9.test
+      - save_cache:
+          key: ubuntu2004-gcc9-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu2004-gcc9.tar
   deploy-master:
     <<: *build-settings
     steps:
@@ -230,6 +252,15 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push dockbuild/ubuntu1904:latest
             docker push dockbuild/ubuntu1904-gcc8:latest
+      - restore_cache:
+          key: ubuntu2004-gcc9-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy ubuntu2004-gcc9
+          command: |
+            docker load -i ~/docker/ubuntu2004-gcc9.tar
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push dockbuild/ubuntu2004:latest
+            docker push dockbuild/ubuntu2004-gcc9:latest
 
 workflows:
   version: 2
@@ -249,6 +280,8 @@ workflows:
           <<: *no_filters
       - ubuntu1904-gcc8:
           <<: *no_filters
+      - ubuntu2004-gcc9:
+          <<: *no_filters
       - deploy-master:
           requires:
             - centos5-devtoolset2-gcc4
@@ -258,6 +291,7 @@ workflows:
             - ubuntu1604-gcc5
             - ubuntu1804-gcc7
             - ubuntu1904-gcc8
+            - ubuntu2004-gcc9
           filters:
             branches:
               only: master
