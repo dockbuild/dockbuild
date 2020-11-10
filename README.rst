@@ -62,6 +62,14 @@ dockbuild/centos6-devtoolset2-gcc4:latest, dockbuild/centos6:latest
 dockbuild/centos7-devtoolset4-gcc5:latest, dockbuild/centos7:latest
   |centos7-devtoolset4-gcc5-latest| Centos7 based image including the `devtools-4`_.
 
+.. |centos7-devtoolset7-gcc7-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos7-devtoolset7-gcc7:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos7-devtoolset7-gcc7:latest
+
+.. _devtools-7: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/7/html-single/7.1_release_notes/
+
+dockbuild/centos7-devtoolset7-gcc7:latest
+  |centos7-devtoolset7-gcc7-latest| Centos7 based image including the `devtools-7`_.
+
 
 .. |ubuntu1004-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1004-gcc4:latest.svg
   :target: https://microbadger.com/images/dockbuild/ubuntu1004-gcc4:latest
