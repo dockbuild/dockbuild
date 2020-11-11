@@ -98,28 +98,6 @@ jobs:
       - save_cache:
           key: centos7-devtoolset7-gcc7-assets-{{ .Revision }}
           paths: ~/docker/centos7-devtoolset7-gcc7.tar
-  ubuntu1004-gcc4:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - ubuntu1004-gcc4-assets-
-      - checkout
-      - run:
-         name: ubuntu1004-gcc4 build
-         command: |
-           docker load -i ~/docker/ubuntu1004-gcc4.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:10.04
-           make ubuntu1004-gcc4
-           mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1004-gcc4.tar dockbuild/ubuntu1004-gcc4:latest dockbuild/ubuntu1004:latest
-      - run:
-         name: ubuntu1004-gcc4 test
-         command: |
-           make ubuntu1004-gcc4.test
-      - save_cache:
-          key: ubuntu1004-gcc4-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu1004-gcc4.tar
   ubuntu1604-gcc5:
     <<: *build-settings
     steps:
@@ -247,15 +225,6 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push dockbuild/centos7-devtoolset7-gcc7:latest
       - restore_cache:
-          key: ubuntu1004-gcc4-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy ubuntu1004-gcc4
-          command: |
-            docker load -i ~/docker/ubuntu1004-gcc4.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/ubuntu1004:latest
-            docker push dockbuild/ubuntu1004-gcc4:latest
-      - restore_cache:
           key: ubuntu1604-gcc5-assets-{{ .Revision }}
       - deploy:
           name: Deploy ubuntu1604-gcc5
@@ -304,8 +273,6 @@ workflows:
           <<: *no_filters
       - centos7-devtoolset7-gcc7:
           <<: *no_filters
-      - ubuntu1004-gcc4:
-          <<: *no_filters
       - ubuntu1604-gcc5:
           <<: *no_filters
       - ubuntu1804-gcc7:
@@ -320,7 +287,6 @@ workflows:
             - centos6-devtoolset2-gcc4
             - centos7-devtoolset4-gcc5
             - centos7-devtoolset7-gcc7
-            - ubuntu1004-gcc4
             - ubuntu1604-gcc5
             - ubuntu1804-gcc7
             - ubuntu1904-gcc8
