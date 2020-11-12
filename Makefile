@@ -22,8 +22,11 @@ IMAGES = \
   ubuntu1904-gcc8 \
   ubuntu2004-gcc9
 
+DEPRECATED_IMAGES = \
+  ubuntu1004-gcc4
+
 # These images are built using the "build implicit rule"
-ALL_IMAGES = $(IMAGES)
+ALL_IMAGES = $(IMAGES) $(DEPRECATED_IMAGES)
 
 # On CircleCI, do not attempt to delete container
 # See https://circleci.com/docs/docker-btrfs-error/

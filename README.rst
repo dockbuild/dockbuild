@@ -62,6 +62,7 @@ dockbuild/centos6-devtoolset2-gcc4:latest, dockbuild/centos6:latest
 dockbuild/centos7-devtoolset4-gcc5:latest, dockbuild/centos7:latest
   |centos7-devtoolset4-gcc5-latest| Centos7 based image including the `devtools-4`_.
 
+
 .. |centos7-devtoolset7-gcc7-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos7-devtoolset7-gcc7:latest.svg
   :target: https://microbadger.com/images/dockbuild/centos7-devtoolset7-gcc7:latest
 
@@ -69,13 +70,6 @@ dockbuild/centos7-devtoolset4-gcc5:latest, dockbuild/centos7:latest
 
 dockbuild/centos7-devtoolset7-gcc7:latest
   |centos7-devtoolset7-gcc7-latest| Centos7 based image including the `devtools-7`_.
-
-
-.. |ubuntu1004-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1004-gcc4:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu1004-gcc4:latest
-
-dockbuild/ubuntu1004-gcc4:latest, dockbuild/ubuntu1004:latest
-  |ubuntu1004-gcc4-latest| Ubuntu 10.04 based image.
 
 
 .. |ubuntu1604-gcc5-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1604-gcc5:latest.svg
@@ -104,6 +98,18 @@ dockbuild/ubuntu1904-gcc8:latest, dockbuild/ubuntu1904:latest
 
 dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
   |ubuntu2004-gcc9-latest| Ubuntu 20.04 based image.
+
+
+Deprecated build environments
+-----------------------------
+
+*Deprecated build environments are not built/tested/deployed using continuous integration*
+
+.. |ubuntu1004-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1004-gcc4:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu1004-gcc4:latest
+
+dockbuild/ubuntu1004-gcc4:latest, dockbuild/ubuntu1004:latest
+  |ubuntu1004-gcc4-latest| Ubuntu 10.04 based image.
 
 
 Installation
