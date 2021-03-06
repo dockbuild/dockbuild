@@ -20,7 +20,8 @@ IMAGES = \
   ubuntu1604-gcc5 \
   ubuntu1804-gcc7 \
   ubuntu1904-gcc8 \
-  ubuntu2004-gcc9
+  ubuntu2004-gcc9 \
+  ubuntu2010-gcc10
 
 DEPRECATED_IMAGES = \
   ubuntu1004-gcc4
