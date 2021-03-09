@@ -142,6 +142,28 @@ jobs:
       - save_cache:
           key: ubuntu2004-gcc9-assets-{{ .Revision }}
           paths: ~/docker/ubuntu2004-gcc9.tar
+  ubuntu2010-gcc10:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - ubuntu2010-gcc10-assets-
+      - checkout
+      - run:
+         name: ubuntu2010-gcc10 build
+         command: |
+           docker load -i ~/docker/ubuntu2010-gcc10.tar > /dev/null 2>&1 || true
+           docker pull ubuntu:19.04
+           make ubuntu2010-gcc10
+           mkdir -p ~/docker
+           docker save -o ~/docker/ubuntu2010-gcc10.tar dockbuild/ubuntu2010-gcc10:latest dockbuild/ubuntu2010:latest
+      - run:
+         name: ubuntu2010-gcc10 test
+         command: |
+           make ubuntu2010-gcc10.test
+      - save_cache:
+          key: ubuntu2010-gcc10-assets-{{ .Revision }}
+          paths: ~/docker/ubuntu2010-gcc10.tar
   deploy-master:
     <<: *build-settings
     steps:
@@ -198,6 +220,15 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push dockbuild/ubuntu2004:latest
             docker push dockbuild/ubuntu2004-gcc9:latest
+      - restore_cache:
+          key: ubuntu2010-gcc10-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy ubuntu2010-gcc10
+          command: |
+            docker load -i ~/docker/ubuntu2010-gcc10.tar
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push dockbuild/ubuntu2010:latest
+            docker push dockbuild/ubuntu2010-gcc10:latest
 
 workflows:
   version: 2
@@ -215,6 +246,8 @@ workflows:
           <<: *no_filters
       - ubuntu2004-gcc9:
           <<: *no_filters
+      - ubuntu2010-gcc10:
+          <<: *no_filters
       - deploy-master:
           requires:
             - centos7-devtoolset4-gcc5
@@ -223,6 +256,7 @@ workflows:
             - ubuntu1804-gcc7
             - ubuntu1904-gcc8
             - ubuntu2004-gcc9
+            - ubuntu2010-gcc10
           filters:
             branches:
               only: master
