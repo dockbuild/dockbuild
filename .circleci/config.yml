@@ -146,24 +146,6 @@ jobs:
     <<: *build-settings
     steps:
       - restore_cache:
-          key: centos5-devtoolset2-gcc4-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy centos5-devtoolset2-gcc4
-          command: |
-            docker load -i ~/docker/centos5-devtoolset2-gcc4.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/centos5:latest
-            docker push dockbuild/centos5-devtoolset2-gcc4:latest
-      - restore_cache:
-          key: centos6-devtoolset2-gcc4-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy centos6-devtoolset2-gcc4
-          command: |
-            docker load -i ~/docker/centos6-devtoolset2-gcc4.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/centos6:latest
-            docker push dockbuild/centos6-devtoolset2-gcc4:latest
-      - restore_cache:
           key: centos7-devtoolset4-gcc5-assets-{{ .Revision }}
       - deploy:
           name: Deploy centos7-devtoolset4-gcc5
