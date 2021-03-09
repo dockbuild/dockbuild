@@ -10,50 +10,6 @@ references:
         only: /.*/
 
 jobs:
-  centos5-devtoolset2-gcc4:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - centos5-devtoolset2-gcc4-assets-
-      - checkout
-      - run:
-         name: centos5-devtoolset2-gcc4 build
-         command: |
-           docker load -i ~/docker/centos5-devtoolset2-gcc4.tar > /dev/null 2>&1 || true
-           docker pull centos:5
-           make centos5-devtoolset2-gcc4
-           mkdir -p ~/docker
-           docker save -o ~/docker/centos5-devtoolset2-gcc4.tar dockbuild/centos5-devtoolset2-gcc4:latest dockbuild/centos5:latest
-      - run:
-         name: centos5-devtoolset2-gcc4 test
-         command: |
-           make centos5-devtoolset2-gcc4.test
-      - save_cache:
-          key: centos5-devtoolset2-gcc4-assets-{{ .Revision }}
-          paths: ~/docker/centos5-devtoolset2-gcc4.tar
-  centos6-devtoolset2-gcc4:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - centos6-devtoolset2-gcc4-assets-
-      - checkout
-      - run:
-         name: centos6-devtoolset2-gcc4 build
-         command: |
-           docker load -i ~/docker/centos6-devtoolset2-gcc4.tar > /dev/null 2>&1 || true
-           docker pull centos:6
-           make centos6-devtoolset2-gcc4
-           mkdir -p ~/docker
-           docker save -o ~/docker/centos6-devtoolset2-gcc4.tar dockbuild/centos6-devtoolset2-gcc4:latest dockbuild/centos6:latest
-      - run:
-         name: centos6-devtoolset2-gcc4 test
-         command: |
-           make centos6-devtoolset2-gcc4.test
-      - save_cache:
-          key: centos6-devtoolset2-gcc4-assets-{{ .Revision }}
-          paths: ~/docker/centos6-devtoolset2-gcc4.tar
   centos7-devtoolset4-gcc5:
     <<: *build-settings
     steps:
@@ -265,10 +221,6 @@ workflows:
   version: 2
   build-test-deploy:
     jobs:
-      - centos5-devtoolset2-gcc4:
-          <<: *no_filters
-      - centos6-devtoolset2-gcc4:
-          <<: *no_filters
       - centos7-devtoolset4-gcc5:
           <<: *no_filters
       - centos7-devtoolset7-gcc7:
@@ -283,8 +235,6 @@ workflows:
           <<: *no_filters
       - deploy-master:
           requires:
-            - centos5-devtoolset2-gcc4
-            - centos6-devtoolset2-gcc4
             - centos7-devtoolset4-gcc5
             - centos7-devtoolset7-gcc7
             - ubuntu1604-gcc5
