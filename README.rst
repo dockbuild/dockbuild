@@ -38,22 +38,6 @@ a toolchain file.
 Compiling environments
 ----------------------
 
-.. |centos5-devtoolset2-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos5-devtoolset2-gcc4:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos5-devtoolset2-gcc4:latest
-
-dockbuild/centos5-devtoolset2-gcc4:latest, dockbuild/centos5:latest
-  |centos5-devtoolset2-gcc4-latest| Centos5 based image including the `devtools-2`_.
-
-
-.. |centos6-devtoolset2-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos6-devtoolset2-gcc4:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos6-devtoolset2-gcc4:latest
-
-.. _devtools-2: https://people.centos.org/tru/devtools-2/
-
-dockbuild/centos6-devtoolset2-gcc4:latest, dockbuild/centos6:latest
-  |centos6-devtoolset2-gcc4-latest| Centos6 based image including the `devtools-2`_.
-
-
 .. |centos7-devtoolset4-gcc5-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos7-devtoolset4-gcc5:latest.svg
   :target: https://microbadger.com/images/dockbuild/centos7-devtoolset4-gcc5:latest
 
@@ -104,6 +88,21 @@ Deprecated build environments
 -----------------------------
 
 *Deprecated build environments are not built/tested/deployed using continuous integration*
+
+.. |centos5-devtoolset2-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos5-devtoolset2-gcc4:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos5-devtoolset2-gcc4:latest
+
+dockbuild/centos5-devtoolset2-gcc4:latest, dockbuild/centos5:latest
+  |centos5-devtoolset2-gcc4-latest| Centos5 based image including the `devtools-2`_.
+
+
+.. |centos6-devtoolset2-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos6-devtoolset2-gcc4:latest.svg
+  :target: https://microbadger.com/images/dockbuild/centos6-devtoolset2-gcc4:latest
+
+.. _devtools-2: https://people.centos.org/tru/devtools-2/
+
+dockbuild/centos6-devtoolset2-gcc4:latest, dockbuild/centos6:latest
+  |centos6-devtoolset2-gcc4-latest| Centos6 based image including the `devtools-2`_.
 
 .. |ubuntu1004-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1004-gcc4:latest.svg
   :target: https://microbadger.com/images/dockbuild/ubuntu1004-gcc4:latest
