@@ -84,6 +84,13 @@ dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
   |ubuntu2004-gcc9-latest| Ubuntu 20.04 based image.
 
 
+.. |ubuntu2010-gcc10-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu2010-gcc10:latest.svg
+  :target: https://microbadger.com/images/dockbuild/ubuntu2010-gcc10:latest
+
+dockbuild/ubuntu2010-gcc10:latest, dockbuild/ubuntu2010:latest
+  |ubuntu2010-gcc10-latest| Ubuntu 20.10 based image.
+
+
 Deprecated build environments
 -----------------------------
 
