@@ -2,8 +2,6 @@ FROM ubuntu:20.10
 
 ARG IMAGE
 ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
-    # http://bugs.python.org/issue19846
-    # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
     # https://sourceware.org/bugzilla/show_bug.cgi?id=17318#c4
     # > set en_US.UTF-8 instead of C.UTF-8 because the former is not supported on all systems.
     LANG=en_US.UTF-8 \
@@ -13,12 +11,10 @@ ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
 ARG CMAKE_VERSION=3.17.1
 ARG GIT_VERSION=2.22.0
 ARG NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1
-ARG PYTHON_VERSION=3.8.6
 
 # Image build scripts
 COPY \
   imagefiles/build-and-install-git.sh \
-  imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-gosu-binary-wrapper.sh \
   imagefiles/install-ninja-binary.sh \
@@ -40,6 +36,7 @@ RUN \
     gosu \
     openssh-client \
     pkg-config \
+    python3\
     unzip \
   && \
   # Needed to build Git from source
@@ -51,13 +48,16 @@ RUN \
     zlib1g-dev \
   && \
   #
+  #  Python symlinking. Testing procedure expects /usr/bin/python
+  #
+  update-alternatives --install /usr/bin/python python /usr/bin/python3 10 && \
+  #
   # Custom install
   #
   /imagefiles/install-cmake-binary.sh && \
   /imagefiles/install-gosu-binary-wrapper.sh && \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/build-and-install-git.sh && \
-  /imagefiles/build-and-install-python.sh && \
   rm -rf /imagefiles && \
   #
   # cleanup
