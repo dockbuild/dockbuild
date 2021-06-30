@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:21.04
 
 ARG IMAGE
 ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
@@ -36,6 +36,7 @@ RUN \
   apt-get update && \
   apt-get install -y \
     build-essential \
+    g++-11 \
     curl \
     gosu \
     openssh-client \
@@ -49,6 +50,8 @@ RUN \
     libcurl4-gnutls-dev \
     libexpat1-dev \
     zlib1g-dev \
+  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 \
+  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 11 \
   && \
   #
   # Custom install
@@ -68,7 +71,9 @@ ENV AR=/usr/bin/ar \
     AS=/usr/bin/as \
     CC=/usr/bin/gcc \
     CPP=/usr/bin/cpp \
-    CXX=/usr/bin/g++
+    CXX=/usr/bin/g++ \
+    # Ninja will be installed in /usr/local/bin. This makes it available.
+    PATH=/usr/local/bin:${PATH}
 
 WORKDIR /work
 
@@ -86,4 +91,4 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url=$VCS_URL \
       org.label-schema.schema-version="1.0" \
-      maintainer="Jean-Christophe Fillion-Robin <jchris.fillionr@kitware.com>"
+      maintainer="Rafael Palomar <rafael.palomar@rr-research.no>"
