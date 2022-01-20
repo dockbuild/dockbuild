@@ -232,7 +232,7 @@ Updating CMake version
 
     CMAKE_VERSION=3.17.1
 
-2. Create a `new release of CMake for Centos <https://github.com/dockbuild/CMake#maintainers-making-a-cmake-centos5-release>`_
+2. **Obslete** Create a `new release of CMake for Centos 5 <https://github.com/dockbuild/CMake#maintainers-making-a-cmake-centos5-release>`_
 
 3. Update CMake version, and create a Pull Request
 
