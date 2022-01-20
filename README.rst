@@ -56,39 +56,16 @@ dockbuild/centos7-devtoolset7-gcc7:latest
   |centos7-devtoolset7-gcc7-latest| Centos7 based image including the `devtools-7`_.
 
 
-.. |ubuntu1604-gcc5-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1604-gcc5/latest
-  :target: https://hub.docker.com/r/dockbuild/ubuntu1604-gcc5/tags?page=1&name=latest
-
-dockbuild/ubuntu1604-gcc5:latest, dockbuild/ubuntu1604:latest
-  |ubuntu1604-gcc5-latest| Ubuntu 16.04 based image.
-
-
 .. |ubuntu1804-gcc7-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1804-gcc7/latest
   :target: https://hub.docker.com/r/dockbuild/ubuntu1804-gcc7/tags?page=1&name=latest
 
 dockbuild/ubuntu1804-gcc7:latest, dockbuild/ubuntu1804:latest
   |ubuntu1804-gcc7-latest| Ubuntu 18.04 based image.
-
-
-.. |ubuntu1904-gcc8-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1904-gcc8/latest
-  :target: https://hub.docker.com/r/dockbuild/ubuntu1904-gcc8/tags?page=1&name=latest
-
-dockbuild/ubuntu1904-gcc8:latest, dockbuild/ubuntu1904:latest
-  |ubuntu1904-gcc8-latest| Ubuntu 19.04 based image.
-
-
 .. |ubuntu2004-gcc9-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu2004-gcc9/latest
   :target: https://hub.docker.com/r/dockbuild/ubuntu2004-gcc9/tags?page=1&name=latest
 
 dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
   |ubuntu2004-gcc9-latest| Ubuntu 20.04 based image.
-
-
-.. |ubuntu2010-gcc10-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu2010-gcc10/latest
-  :target: https://hub.docker.com/r/dockbuild/ubuntu2010-gcc10/tags?page=1&name=latest
-
-dockbuild/ubuntu2010-gcc10:latest, dockbuild/ubuntu2010:latest
-  |ubuntu2010-gcc10-latest| Ubuntu 20.10 based image.
 
 
 Deprecated build environments
@@ -117,6 +94,27 @@ dockbuild/centos6-devtoolset2-gcc4:latest, dockbuild/centos6:latest
 
 dockbuild/ubuntu1004-gcc4:latest, dockbuild/ubuntu1004:latest
   |ubuntu1004-gcc4-latest| Ubuntu 10.04 based image.
+
+
+.. |ubuntu1604-gcc5-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1604-gcc5/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu1604-gcc5/tags?page=1&name=latest
+
+dockbuild/ubuntu1604-gcc5:latest, dockbuild/ubuntu1604:latest
+  |ubuntu1604-gcc5-latest| Ubuntu 16.04 based image.
+
+
+.. |ubuntu1904-gcc8-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1904-gcc8/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu1904-gcc8/tags?page=1&name=latest
+
+dockbuild/ubuntu1904-gcc8:latest, dockbuild/ubuntu1904:latest
+  |ubuntu1904-gcc8-latest| Ubuntu 19.04 based image.
+
+
+.. |ubuntu2010-gcc10-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu2010-gcc10/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu2010-gcc10/tags?page=1&name=latest
+
+dockbuild/ubuntu2010-gcc10:latest, dockbuild/ubuntu2010:latest
+  |ubuntu2010-gcc10-latest| Ubuntu 20.10 based image.
 
 
 Installation
