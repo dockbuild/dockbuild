@@ -12,11 +12,8 @@ ORG = dockbuild
 BIN = ./bin
 
 IMAGES = \
-  centos5-devtoolset2-gcc4 \
-  centos6-devtoolset2-gcc4 \
   centos7-devtoolset4-gcc5 \
   centos7-devtoolset7-gcc7 \
-  ubuntu1004-gcc4 \
   ubuntu1604-gcc5 \
   ubuntu1804-gcc7 \
   ubuntu1904-gcc8 \
@@ -25,6 +22,8 @@ IMAGES = \
   ubuntu2104-gcc11
 
 DEPRECATED_IMAGES = \
+  centos5-devtoolset2-gcc4 \
+  centos6-devtoolset2-gcc4 \
   ubuntu1004-gcc4
 
 # These images are built using the "build implicit rule"
