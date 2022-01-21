@@ -109,10 +109,10 @@ jobs:
          name: ubuntu2104-gcc11 build
          command: |
            docker load -i ~/docker/ubuntu2104-gcc11.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:19.04
+           docker pull ubuntu:21.04
            make ubuntu2104-gcc11
            mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu2104-gcc11.tar dockbuild/ubuntu2104-gcc11:latest dockbuild/ubuntu2004:latest
+           docker save -o ~/docker/ubuntu2104-gcc11.tar dockbuild/ubuntu2104-gcc11:latest dockbuild/ubuntu2104:latest
       - run:
          name: ubuntu2104-gcc11 test
          command: |
@@ -165,7 +165,7 @@ jobs:
           command: |
             docker load -i ~/docker/ubuntu2104-gcc11.tar
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/ubuntu2004:latest
+            docker push dockbuild/ubuntu2104:latest
             docker push dockbuild/ubuntu2104-gcc11:latest
 
 workflows:
