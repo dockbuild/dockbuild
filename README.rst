@@ -15,6 +15,7 @@ Features
 * `Conan.io <https://www.conan.io>`_ can be used as a package manager.
 * Current directory is mounted as the container's workdir, ``/work``.
 * Works with the `Docker for Mac <https://docs.docker.com/docker-for-mac/>`_ and `Docker for Windows <https://docs.docker.com/docker-for-windows/>`_.
+* Support using alternative container executor by setting **OCI_EXE** environment variable. By default, it searches for `docker <https://www.docker.com>`_ and `podman <https://podman.io>`_ executable.
 
 
 In addition to the devtools, all images include:
