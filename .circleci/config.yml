@@ -54,28 +54,6 @@ jobs:
       - save_cache:
           key: centos7-devtoolset7-gcc7-assets-{{ .Revision }}
           paths: ~/docker/centos7-devtoolset7-gcc7.tar
-  ubuntu1604-gcc5:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - ubuntu1604-gcc5-assets-
-      - checkout
-      - run:
-         name: ubuntu1604-gcc5 build
-         command: |
-           docker load -i ~/docker/ubuntu1604-gcc5.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:16.04
-           make ubuntu1604-gcc5
-           mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1604-gcc5.tar dockbuild/ubuntu1604-gcc5:latest dockbuild/ubuntu1604:latest
-      - run:
-         name: ubuntu1604-gcc5 test
-         command: |
-           make ubuntu1604-gcc5.test
-      - save_cache:
-          key: ubuntu1604-gcc5-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu1604-gcc5.tar
   ubuntu1804-gcc7:
     <<: *build-settings
     steps:
@@ -98,28 +76,6 @@ jobs:
       - save_cache:
           key: ubuntu1804-gcc7-assets-{{ .Revision }}
           paths: ~/docker/ubuntu1804-gcc7.tar
-  ubuntu1904-gcc8:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - ubuntu1904-gcc8-assets-
-      - checkout
-      - run:
-         name: ubuntu1904-gcc8 build
-         command: |
-           docker load -i ~/docker/ubuntu1904-gcc8.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:19.04
-           make ubuntu1904-gcc8
-           mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu1904-gcc8.tar dockbuild/ubuntu1904-gcc8:latest dockbuild/ubuntu1904:latest
-      - run:
-         name: ubuntu1904-gcc8 test
-         command: |
-           make ubuntu1904-gcc8.test
-      - save_cache:
-          key: ubuntu1904-gcc8-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu1904-gcc8.tar
   ubuntu2004-gcc9:
     <<: *build-settings
     steps:
@@ -153,10 +109,10 @@ jobs:
          name: ubuntu2104-gcc11 build
          command: |
            docker load -i ~/docker/ubuntu2104-gcc11.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:19.04
+           docker pull ubuntu:21.04
            make ubuntu2104-gcc11
            mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu2104-gcc11.tar dockbuild/ubuntu2104-gcc11:latest dockbuild/ubuntu2004:latest
+           docker save -o ~/docker/ubuntu2104-gcc11.tar dockbuild/ubuntu2104-gcc11:latest dockbuild/ubuntu2104:latest
       - run:
          name: ubuntu2104-gcc11 test
          command: |
@@ -164,28 +120,6 @@ jobs:
       - save_cache:
           key: ubuntu2104-gcc11-assets-{{ .Revision }}
           paths: ~/docker/ubuntu2104-gcc11.tar
-  ubuntu2010-gcc10:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - ubuntu2010-gcc10-assets-
-      - checkout
-      - run:
-         name: ubuntu2010-gcc10 build
-         command: |
-           docker load -i ~/docker/ubuntu2010-gcc10.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:19.04
-           make ubuntu2010-gcc10
-           mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu2010-gcc10.tar dockbuild/ubuntu2010-gcc10:latest dockbuild/ubuntu2010:latest
-      - run:
-         name: ubuntu2010-gcc10 test
-         command: |
-           make ubuntu2010-gcc10.test
-      - save_cache:
-          key: ubuntu2010-gcc10-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu2010-gcc10.tar
   deploy-master:
     <<: *build-settings
     steps:
@@ -207,15 +141,6 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push dockbuild/centos7-devtoolset7-gcc7:latest
       - restore_cache:
-          key: ubuntu1604-gcc5-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy ubuntu1604-gcc5
-          command: |
-            docker load -i ~/docker/ubuntu1604-gcc5.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/ubuntu1604:latest
-            docker push dockbuild/ubuntu1604-gcc5:latest
-      - restore_cache:
           key: ubuntu1804-gcc7-assets-{{ .Revision }}
       - deploy:
           name: Deploy ubuntu1804-gcc7
@@ -224,15 +149,6 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push dockbuild/ubuntu1804:latest
             docker push dockbuild/ubuntu1804-gcc7:latest
-      - restore_cache:
-          key: ubuntu1904-gcc8-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy ubuntu1904-gcc8
-          command: |
-            docker load -i ~/docker/ubuntu1904-gcc8.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/ubuntu1904:latest
-            docker push dockbuild/ubuntu1904-gcc8:latest
       - restore_cache:
           key: ubuntu2004-gcc9-assets-{{ .Revision }}
       - deploy:
@@ -249,17 +165,8 @@ jobs:
           command: |
             docker load -i ~/docker/ubuntu2104-gcc11.tar
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/ubuntu2004:latest
+            docker push dockbuild/ubuntu2104:latest
             docker push dockbuild/ubuntu2104-gcc11:latest
-      - restore_cache:
-          key: ubuntu2010-gcc10-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy ubuntu2010-gcc10
-          command: |
-            docker load -i ~/docker/ubuntu2010-gcc10.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/ubuntu2010:latest
-            docker push dockbuild/ubuntu2010-gcc10:latest
 
 workflows:
   version: 2
@@ -269,15 +176,9 @@ workflows:
           <<: *no_filters
       - centos7-devtoolset7-gcc7:
           <<: *no_filters
-      - ubuntu1604-gcc5:
-          <<: *no_filters
       - ubuntu1804-gcc7:
           <<: *no_filters
-      - ubuntu1904-gcc8:
-          <<: *no_filters
       - ubuntu2004-gcc9:
-          <<: *no_filters
-      - ubuntu2010-gcc10:
           <<: *no_filters
       - ubuntu2104-gcc11:
           <<: *no_filters
@@ -285,11 +186,8 @@ workflows:
           requires:
             - centos7-devtoolset4-gcc5
             - centos7-devtoolset7-gcc7
-            - ubuntu1604-gcc5
             - ubuntu1804-gcc7
-            - ubuntu1904-gcc8
             - ubuntu2004-gcc9
-            - ubuntu2010-gcc10
             - ubuntu2104-gcc11
           filters:
             branches:

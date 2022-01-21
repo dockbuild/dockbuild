@@ -14,10 +14,10 @@ ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     LC_ALL=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
-ARG CMAKE_VERSION=3.17.1
-ARG GIT_VERSION=2.32.0
+ARG CMAKE_VERSION=3.22.1
+ARG GIT_VERSION=2.34.1
 ARG NINJA_VERSION=1.10.0.gfb670.kitware.jobserver-1
-ARG PYTHON_VERSION=3.9.4
+ARG PYTHON_VERSION=3.9.10
 
 # Image build scripts
 COPY \
@@ -95,7 +95,7 @@ WORKDIR /work
 ENTRYPOINT ["/dockcross/entrypoint.sh"]
 
 # Runtime scripts
-COPY imagefiles/entrypoint.sh imagefiles/dockcross /dockcross/
+COPY imagefiles/entrypoint.sh imagefiles/dockcross.sh /dockcross/
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE

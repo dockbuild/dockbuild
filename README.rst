@@ -19,7 +19,7 @@ Features
 
 In addition to the devtools, all images include:
 
-* cmake 3.17.1
+* cmake 3.22.1
 * curl with TLS 1.2 support
 * git 2.16.2 (with ``git config --global advice.detachedHead false``)
 * python 3.6.4
@@ -38,8 +38,8 @@ a toolchain file.
 Compiling environments
 ----------------------
 
-.. |centos7-devtoolset4-gcc5-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos7-devtoolset4-gcc5:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos7-devtoolset4-gcc5:latest
+.. |centos7-devtoolset4-gcc5-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos7-devtoolset4-gcc5/latest
+  :target: https://hub.docker.com/r/dockbuild/centos7-devtoolset4-gcc5/tags?page=1&name=latest
 
 .. _devtools-4: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/4/html-single/4.1_release_notes/
 
@@ -47,8 +47,8 @@ dockbuild/centos7-devtoolset4-gcc5:latest, dockbuild/centos7:latest
   |centos7-devtoolset4-gcc5-latest| Centos7 based image including the `devtools-4`_.
 
 
-.. |centos7-devtoolset7-gcc7-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos7-devtoolset7-gcc7:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos7-devtoolset7-gcc7:latest
+.. |centos7-devtoolset7-gcc7-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos7-devtoolset7-gcc7/latest
+  :target: https://hub.docker.com/r/dockbuild/centos7-devtoolset7-gcc7/tags?page=1&name=latest
 
 .. _devtools-7: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/7/html-single/7.1_release_notes/
 
@@ -56,39 +56,16 @@ dockbuild/centos7-devtoolset7-gcc7:latest
   |centos7-devtoolset7-gcc7-latest| Centos7 based image including the `devtools-7`_.
 
 
-.. |ubuntu1604-gcc5-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1604-gcc5:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu1604-gcc5:latest
-
-dockbuild/ubuntu1604-gcc5:latest, dockbuild/ubuntu1604:latest
-  |ubuntu1604-gcc5-latest| Ubuntu 16.04 based image.
-
-
-.. |ubuntu1804-gcc7-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1804-gcc7:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu1804-gcc7:latest
+.. |ubuntu1804-gcc7-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1804-gcc7/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu1804-gcc7/tags?page=1&name=latest
 
 dockbuild/ubuntu1804-gcc7:latest, dockbuild/ubuntu1804:latest
   |ubuntu1804-gcc7-latest| Ubuntu 18.04 based image.
-
-
-.. |ubuntu1904-gcc8-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1904-gcc8:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu1904-gcc8:latest
-
-dockbuild/ubuntu1904-gcc8:latest, dockbuild/ubuntu1904:latest
-  |ubuntu1904-gcc8-latest| Ubuntu 19.04 based image.
-
-
-.. |ubuntu2004-gcc9-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu2004-gcc9:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu2004-gcc9:latest
+.. |ubuntu2004-gcc9-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu2004-gcc9/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu2004-gcc9/tags?page=1&name=latest
 
 dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
   |ubuntu2004-gcc9-latest| Ubuntu 20.04 based image.
-
-
-.. |ubuntu2010-gcc10-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu2010-gcc10:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu2010-gcc10:latest
-
-dockbuild/ubuntu2010-gcc10:latest, dockbuild/ubuntu2010:latest
-  |ubuntu2010-gcc10-latest| Ubuntu 20.10 based image.
 
 
 Deprecated build environments
@@ -96,26 +73,48 @@ Deprecated build environments
 
 *Deprecated build environments are not built/tested/deployed using continuous integration*
 
-.. |centos5-devtoolset2-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos5-devtoolset2-gcc4:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos5-devtoolset2-gcc4:latest
+.. |centos5-devtoolset2-gcc4-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos5-devtoolset2-gcc4/latest
+  :target: https://hub.docker.com/r/dockbuild/centos5-devtoolset2-gcc4/tags?page=1&name=latest
 
 dockbuild/centos5-devtoolset2-gcc4:latest, dockbuild/centos5:latest
   |centos5-devtoolset2-gcc4-latest| Centos5 based image including the `devtools-2`_.
 
 
-.. |centos6-devtoolset2-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/centos6-devtoolset2-gcc4:latest.svg
-  :target: https://microbadger.com/images/dockbuild/centos6-devtoolset2-gcc4:latest
+.. |centos6-devtoolset2-gcc4-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos6-devtoolset2-gcc4/latest
+  :target: https://hub.docker.com/r/dockbuild/centos6-devtoolset2-gcc4/tags?page=1&name=latest
 
 .. _devtools-2: https://people.centos.org/tru/devtools-2/
 
 dockbuild/centos6-devtoolset2-gcc4:latest, dockbuild/centos6:latest
   |centos6-devtoolset2-gcc4-latest| Centos6 based image including the `devtools-2`_.
 
-.. |ubuntu1004-gcc4-latest| image:: https://images.microbadger.com/badges/image/dockbuild/ubuntu1004-gcc4:latest.svg
-  :target: https://microbadger.com/images/dockbuild/ubuntu1004-gcc4:latest
+
+.. |ubuntu1004-gcc4-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1004-gcc4/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu1004-gcc4/tags?page=1&name=latest
 
 dockbuild/ubuntu1004-gcc4:latest, dockbuild/ubuntu1004:latest
   |ubuntu1004-gcc4-latest| Ubuntu 10.04 based image.
+
+
+.. |ubuntu1604-gcc5-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1604-gcc5/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu1604-gcc5/tags?page=1&name=latest
+
+dockbuild/ubuntu1604-gcc5:latest, dockbuild/ubuntu1604:latest
+  |ubuntu1604-gcc5-latest| Ubuntu 16.04 based image.
+
+
+.. |ubuntu1904-gcc8-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1904-gcc8/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu1904-gcc8/tags?page=1&name=latest
+
+dockbuild/ubuntu1904-gcc8:latest, dockbuild/ubuntu1904:latest
+  |ubuntu1904-gcc8-latest| Ubuntu 19.04 based image.
+
+
+.. |ubuntu2010-gcc10-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu2010-gcc10/latest
+  :target: https://hub.docker.com/r/dockbuild/ubuntu2010-gcc10/tags?page=1&name=latest
+
+dockbuild/ubuntu2010-gcc10:latest, dockbuild/ubuntu2010:latest
+  |ubuntu2010-gcc10-latest| Ubuntu 20.10 based image.
 
 
 Installation
@@ -229,11 +228,9 @@ Updating CMake version
 
 ::
 
-    CMAKE_VERSION=3.17.1
+    CMAKE_VERSION=3.22.1
 
-2. Create a `new release of CMake for Centos <https://github.com/dockbuild/CMake#maintainers-making-a-cmake-centos5-release>`_
-
-3. Update CMake version, and create a Pull Request
+2. Update CMake version, and create a Pull Request
 
 ::
 
@@ -261,7 +258,7 @@ Updating CMake version
     git push origin update-cmake-from-v${PREVIOUS_CMAKE_VERSION}-to-v${CMAKE_VERSION}
     git pull-request
 
-4. Check `CircleCI <https://circleci.com/gh/dockbuild/dockbuild>`_ and merge `Pull Request <https://github.com/dockbuild/dockbuild/pull>`_ if tests pass.
+3. Check `CircleCI <https://circleci.com/gh/dockbuild/dockbuild>`_ and merge `Pull Request <https://github.com/dockbuild/dockbuild/pull>`_ if tests pass.
 
 .. note::
 

@@ -28,22 +28,27 @@ if ! command -v tar &> /dev/null; then
 	exit 1
 fi
 
-if [[ "${CMAKE_VERSION}" == "" ]]; then
+if [[ -z "${CMAKE_VERSION}" ]]; then
   echo >&2 'error: CMAKE_VERSION env. variable must be set to a non-empty value'
   exit 1
 fi
 
 cd /usr/src
 
-CMAKE_ROOT=cmake-${CMAKE_VERSION}-Centos5-${ARCH}
-url=https://github.com/dockbuild/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_ROOT}.tar.gz
+CMAKE_ROOT=cmake-${CMAKE_VERSION}-linux-${ARCH}
+url=https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_ROOT}.tar.gz
 echo "Downloading $url"
-curl -# -LO $url
+curl --connect-timeout 30 \
+    --max-time 10 \
+    --retry 5 \
+    --retry-delay 10 \
+    --retry-max-time 30 \
+    -# -LO $url
 
-tar -xzvf ${CMAKE_ROOT}.tar.gz
-rm -f ${CMAKE_ROOT}.tar.gz
+tar -xzvf "${CMAKE_ROOT}.tar.gz"
+rm -f "${CMAKE_ROOT}.tar.gz"
 
-cd ${CMAKE_ROOT}
+cd "${CMAKE_ROOT}"
 
 rm -rf doc man
 rm -rf bin/cmake-gui
