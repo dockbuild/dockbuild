@@ -230,9 +230,7 @@ Updating CMake version
 
     CMAKE_VERSION=3.17.1
 
-2. Create a `new release of CMake for Centos <https://github.com/dockbuild/CMake#maintainers-making-a-cmake-centos5-release>`_
-
-3. Update CMake version, and create a Pull Request
+2. Update CMake version, and create a Pull Request
 
 ::
 
@@ -260,7 +258,7 @@ Updating CMake version
     git push origin update-cmake-from-v${PREVIOUS_CMAKE_VERSION}-to-v${CMAKE_VERSION}
     git pull-request
 
-4. Check `CircleCI <https://circleci.com/gh/dockbuild/dockbuild>`_ and merge `Pull Request <https://github.com/dockbuild/dockbuild/pull>`_ if tests pass.
+3. Check `CircleCI <https://circleci.com/gh/dockbuild/dockbuild>`_ and merge `Pull Request <https://github.com/dockbuild/dockbuild/pull>`_ if tests pass.
 
 .. note::
 

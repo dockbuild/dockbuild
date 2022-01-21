@@ -35,8 +35,8 @@ fi
 
 cd /usr/src
 
-CMAKE_ROOT=cmake-${CMAKE_VERSION}-Centos5-${ARCH}
-url=https://github.com/dockbuild/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_ROOT}.tar.gz
+CMAKE_ROOT=cmake-${CMAKE_VERSION}-linux-${ARCH}
+url=https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_ROOT}.tar.gz
 echo "Downloading $url"
 curl --connect-timeout 30 \
     --max-time 10 \
