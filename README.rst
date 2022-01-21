@@ -72,7 +72,7 @@ dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
 Deprecated build environments
 -----------------------------
 
-*Deprecated build environments are not built/tested/deployed using continuous integration*
+*Deprecated build environments are not built/tested/deployed using continuous integration and corresponding Dockerfile have been removed.*
 
 .. |centos5-devtoolset2-gcc4-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos5-devtoolset2-gcc4/latest
   :target: https://hub.docker.com/r/dockbuild/centos5-devtoolset2-gcc4/tags?page=1&name=latest
