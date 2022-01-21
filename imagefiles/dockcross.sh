@@ -6,11 +6,11 @@ DEFAULT_DOCKCROSS_IMAGE=dockcross/base  # DO NOT MOVE THIS LINE (see entrypoint.
 # Helpers
 #
 err() {
-    echo -e >&2 ERROR: $@\\n
+    echo -e >&2 "ERROR: $*\n"
 }
 
 die() {
-    err $@
+    err "$*"
     exit 1
 }
 
@@ -22,28 +22,39 @@ has() {
     type -t $kind:$name | grep -q function
 }
 
+# If OCI_EXE is not already set, search for a container executor (OCI stands for "Open Container Initiative")
+if [ -z "$OCI_EXE" ]; then
+    if which docker >/dev/null 2>/dev/null; then
+        OCI_EXE=docker
+    elif which podman >/dev/null 2>/dev/null; then
+        OCI_EXE=podman
+    else
+        die "Cannot find a container executor. Search for docker and podman."
+    fi
+fi
+
 #------------------------------------------------------------------------------
 # Command handlers
 #
 command:update-image() {
-    docker pull $FINAL_IMAGE
+    $OCI_EXE pull $FINAL_IMAGE
 }
 
 help:update-image() {
-    echo Pull the latest $FINAL_IMAGE .
+    echo "Pull the latest $FINAL_IMAGE ."
 }
 
 command:update-script() {
-    if cmp -s <( docker run --rm $FINAL_IMAGE ) $0; then
-        echo $0 is up to date
+    if cmp -s <( $OCI_EXE run --rm $FINAL_IMAGE ) $0; then
+        echo "$0 is up to date"
     else
-        echo -n Updating $0 '... '
-        docker run --rm $FINAL_IMAGE > $0 && echo ok
+        echo -n "Updating $0 ... "
+        $OCI_EXE run --rm $FINAL_IMAGE > $0 && echo ok
     fi
 }
 
 help:update-image() {
-    echo Update $0 from $FINAL_IMAGE .
+    echo "Update $0 from $FINAL_IMAGE ."
 }
 
 command:update() {
@@ -52,7 +63,7 @@ command:update() {
 }
 
 help:update() {
-    echo Pull the latest $FINAL_IMAGE, and then update $0 from that.
+    echo "Pull the latest $FINAL_IMAGE, and then update $0 from that."
 }
 
 command:help() {
@@ -176,6 +187,8 @@ FINAL_ARGS=${ARG_ARGS-${DOCKCROSS_ARGS}}
 UBUNTU_ON_WINDOWS=$([ -e /proc/version ] && grep -l Microsoft /proc/version || echo "")
 # MSYS, Git Bash, etc.
 MSYS=$([ -e /proc/version ] && grep -l MINGW /proc/version || echo "")
+# CYGWIN
+CYGWIN=$([ -e /proc/version ] && grep -l CYGWIN /proc/version || echo "")
 
 if [ -z "$UBUNTU_ON_WINDOWS" -a -z "$MSYS" ]; then
     USER_IDS=(-e BUILDER_UID="$( id -u )" -e BUILDER_GID="$( id -g )" -e BUILDER_USER="$( id -un )" -e BUILDER_GROUP="$( id -gn )")
@@ -198,8 +211,14 @@ elif [ -n "$MSYS" ]; then
     HOST_PWD=$PWD
     HOST_PWD=${HOST_PWD/\//}
     HOST_PWD=${HOST_PWD/\//:\/}
+elif [ -n "$CYGWIN" ]; then
+    for f in pwd readlink cygpath ; do
+        test -n "$(type "${f}" )" || { echo >&2 "Missing functionality (${f}) (in cygwin)." ; exit 1 ; } ;
+    done ;
+    HOST_PWD="$( cygpath -w "$( readlink -f "$( pwd ;)" ; )" ; )" ;
 else
     HOST_PWD=$PWD
+    [ -L $HOST_PWD ] && HOST_PWD=$(readlink $HOST_PWD)
 fi
 
 # Mount Additional Volumes
@@ -209,7 +228,11 @@ fi
 
 HOST_VOLUMES=
 if [ -e "$SSH_DIR" -a -z "$MSYS" ]; then
-    HOST_VOLUMES+="-v $SSH_DIR:/home/$(id -un)/.ssh"
+    if test -n "${CYGWIN}" ; then
+      HOST_VOLUMES+="-v $(cygpath -w ${SSH_DIR} ; ):/home/$(id -un)/.ssh" ;
+    else
+      HOST_VOLUMES+="-v $SSH_DIR:/home/$(id -un)/.ssh" ;
+    fi ;
 fi
 
 #------------------------------------------------------------------------------
@@ -218,7 +241,7 @@ fi
 TTY_ARGS=
 tty -s && [ -z "$MSYS" ] && TTY_ARGS=-ti
 CONTAINER_NAME=dockcross_$RANDOM
-docker run $TTY_ARGS --name $CONTAINER_NAME \
+$OCI_EXE run $TTY_ARGS --name $CONTAINER_NAME \
     -v "$HOST_PWD":/work \
     $HOST_VOLUMES \
     "${USER_IDS[@]}" \
@@ -227,7 +250,7 @@ docker run $TTY_ARGS --name $CONTAINER_NAME \
 run_exit_code=$?
 
 # Attempt to delete container
-rm_output=$(docker rm -f $CONTAINER_NAME 2>&1)
+rm_output=$($OCI_EXE rm -f $CONTAINER_NAME 2>&1)
 rm_exit_code=$?
 if [[ $rm_exit_code != 0 ]]; then
   if [[ "$CIRCLECI" == "true" ]] && [[ $rm_output == *"Driver btrfs failed to remove"* ]]; then
