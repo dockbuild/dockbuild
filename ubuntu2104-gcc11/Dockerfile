@@ -80,7 +80,7 @@ WORKDIR /work
 ENTRYPOINT ["/dockcross/entrypoint.sh"]
 
 # Runtime scripts
-COPY imagefiles/entrypoint.sh imagefiles/dockcross /dockcross/
+COPY imagefiles/entrypoint.sh imagefiles/dockcross.sh /dockcross/
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
