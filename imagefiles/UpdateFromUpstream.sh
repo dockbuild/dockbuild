@@ -16,7 +16,7 @@ snapshot_paths='
   imagefiles/build-and-install-git.sh
   imagefiles/build-and-install-openssh.sh
   imagefiles/build-and-install-openssl.sh
-  imagefiles/dockcross
+  imagefiles/dockcross.sh
   imagefiles/entrypoint.sh
   imagefiles/install-cmake-binary.sh
   imagefiles/install-gosu-binary.sh
