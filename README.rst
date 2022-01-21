@@ -21,9 +21,9 @@ In addition to the devtools, all images include:
 
 * cmake 3.22.1
 * curl with TLS 1.2 support
-* git 2.16.2 (with ``git config --global advice.detachedHead false``)
-* python 3.6.4
-* ninja 1.9.0 with `GNU make jobserver client and Fortran support <https://github.com/kitware/ninja>`_
+* git 2.34.1 (with ``git config --global advice.detachedHead false``)
+* python 3.9.10
+* ninja 1.1.10 with `GNU make jobserver client and Fortran support <https://github.com/kitware/ninja>`_
 
 
 What is the difference between `dockcross` and `dockbuild` ?
