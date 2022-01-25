@@ -50,9 +50,9 @@ RUN \
     libcurl4-gnutls-dev \
     libexpat1-dev \
     zlib1g-dev \
-  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 \
-  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 11 \
   && \
+  update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 && \
+  update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 11 && \
   #
   # Custom install
   #
