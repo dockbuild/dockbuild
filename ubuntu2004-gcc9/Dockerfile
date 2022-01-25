@@ -50,6 +50,14 @@ RUN \
     libexpat1-dev \
     zlib1g-dev \
   && \
+  # Needed to build Python from source
+  apt-get install -y \
+    libbz2-dev \
+    libffi-dev \
+    liblzma-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+  && \
   #
   # Custom install
   #

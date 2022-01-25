@@ -33,7 +33,6 @@ RUN yum update -y && \
   yum install -y \
    automake \
    bison \
-   bzip2-devel \
    curl \
    curl-devel \
    coreutils \
@@ -50,6 +49,14 @@ RUN yum update -y && \
    which \
    yasm \
    zlib-devel \
+  && \
+  # Needed to build Python from source
+  yum install -y \
+   bzip2-devel \
+   libffi-devel \
+   readline-devel \
+   sqlite-devel \
+   xz-devel \
   && \
   #
   # Install devtoolset (See http://linuxpitstop.com/install-and-use-red-hat-developer-toolset-4-1-on-centos-7/)
