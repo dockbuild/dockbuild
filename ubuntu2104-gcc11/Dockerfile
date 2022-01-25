@@ -50,9 +50,17 @@ RUN \
     libcurl4-gnutls-dev \
     libexpat1-dev \
     zlib1g-dev \
-  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 \
-  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 11 \
   && \
+  # Needed to build Python from source
+  apt-get install -y \
+    libbz2-dev \
+    libffi-dev \
+    liblzma-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+  && \
+  update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 && \
+  update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 11 && \
   #
   # Custom install
   #

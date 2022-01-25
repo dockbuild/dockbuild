@@ -90,6 +90,7 @@ $(addsuffix .test,$(ALL_IMAGES)): $$(basename $$@)
 	mkdir -p $(BIN)
 	$(DOCKER) run $(RM) dockbuild/$(REPO) > $(BIN)/dockbuild-$(REPO) && chmod +x $(BIN)/dockbuild-$(REPO)
 	$(BIN)/dockbuild-$(REPO) python test/run.py $($@_ARGS)
+	$(BIN)/dockbuild-$(REPO) python -c "import bz2; import ctypes; import lzma; import readline; import sqlite3"
 
 .PHONY: $(addsuffix .test,$(ALL_IMAGES))
 
