@@ -39,24 +39,6 @@ a toolchain file.
 Compiling environments
 ----------------------
 
-.. |centos7-devtoolset4-gcc5-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos7-devtoolset4-gcc5/latest
-  :target: https://hub.docker.com/r/dockbuild/centos7-devtoolset4-gcc5/tags?page=1&name=latest
-
-.. _devtools-4: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/4/html-single/4.1_release_notes/
-
-dockbuild/centos7-devtoolset4-gcc5:latest, dockbuild/centos7:latest
-  |centos7-devtoolset4-gcc5-latest| Centos7 based image including the `devtools-4`_.
-
-
-.. |centos7-devtoolset7-gcc7-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos7-devtoolset7-gcc7/latest
-  :target: https://hub.docker.com/r/dockbuild/centos7-devtoolset7-gcc7/tags?page=1&name=latest
-
-.. _devtools-7: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/7/html-single/7.1_release_notes/
-
-dockbuild/centos7-devtoolset7-gcc7:latest
-  |centos7-devtoolset7-gcc7-latest| Centos7 based image including the `devtools-7`_.
-
-
 .. |ubuntu1804-gcc7-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu1804-gcc7/latest
   :target: https://hub.docker.com/r/dockbuild/ubuntu1804-gcc7/tags?page=1&name=latest
 
@@ -82,6 +64,23 @@ Deprecated build environments
 -----------------------------
 
 *Deprecated build environments are not built/tested/deployed using continuous integration and corresponding Dockerfile have been removed.*
+
+.. |centos7-devtoolset4-gcc5-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos7-devtoolset4-gcc5/latest
+  :target: https://hub.docker.com/r/dockbuild/centos7-devtoolset4-gcc5/tags?page=1&name=latest
+
+.. _devtools-4: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/4/html-single/4.1_release_notes/
+
+dockbuild/centos7-devtoolset4-gcc5:latest, dockbuild/centos7:latest
+  |centos7-devtoolset4-gcc5-latest| Centos7 based image including the `devtools-4`_.
+
+
+.. |centos7-devtoolset7-gcc7-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos7-devtoolset7-gcc7/latest
+  :target: https://hub.docker.com/r/dockbuild/centos7-devtoolset7-gcc7/tags?page=1&name=latest
+
+.. _devtools-7: https://access.redhat.com/documentation/en-us/red_hat_developer_toolset/7/html-single/7.1_release_notes/
+
+dockbuild/centos7-devtoolset7-gcc7:latest
+  |centos7-devtoolset7-gcc7-latest| Centos7 based image including the `devtools-7`_.
 
 .. |centos5-devtoolset2-gcc4-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos5-devtoolset2-gcc4/latest
   :target: https://hub.docker.com/r/dockbuild/centos5-devtoolset2-gcc4/tags?page=1&name=latest
