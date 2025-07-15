@@ -12,11 +12,8 @@ ORG = dockbuild
 BIN = ./bin
 
 IMAGES = \
-  centos7-devtoolset4-gcc5 \
-  centos7-devtoolset7-gcc7 \
   ubuntu1804-gcc7 \
-  ubuntu2004-gcc9 \
-  ubuntu2104-gcc11
+  ubuntu2004-gcc9
 
 # These images are built using the "build implicit rule"
 ALL_IMAGES = $(IMAGES)

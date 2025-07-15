@@ -10,50 +10,6 @@ references:
         only: /.*/
 
 jobs:
-  centos7-devtoolset4-gcc5:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - centos7-devtoolset4-gcc5-assets-
-      - checkout
-      - run:
-         name: centos7-devtoolset4-gcc5 build
-         command: |
-           docker load -i ~/docker/centos7-devtoolset4-gcc5.tar > /dev/null 2>&1 || true
-           docker pull centos:7
-           make centos7-devtoolset4-gcc5
-           mkdir -p ~/docker
-           docker save -o ~/docker/centos7-devtoolset4-gcc5.tar dockbuild/centos7-devtoolset4-gcc5:latest dockbuild/centos7:latest
-      - run:
-         name: centos7-devtoolset4-gcc5 test
-         command: |
-           make centos7-devtoolset4-gcc5.test
-      - save_cache:
-          key: centos7-devtoolset4-gcc5-assets-{{ .Revision }}
-          paths: ~/docker/centos7-devtoolset4-gcc5.tar
-  centos7-devtoolset7-gcc7:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - centos7-devtoolset7-gcc7-assets-
-      - checkout
-      - run:
-          name: centos7-devtoolset7-gcc7 build
-          command: |
-            docker load -i ~/docker/centos7-devtoolset7-gcc7.tar > /dev/null 2>&1 || true
-            docker pull centos:7
-            make centos7-devtoolset7-gcc7
-            mkdir -p ~/docker
-            docker save -o ~/docker/centos7-devtoolset7-gcc7.tar dockbuild/centos7-devtoolset7-gcc7:latest
-      - run:
-          name: centos7-devtoolset7-gcc7 test
-          command: |
-            make centos7-devtoolset7-gcc7.test
-      - save_cache:
-          key: centos7-devtoolset7-gcc7-assets-{{ .Revision }}
-          paths: ~/docker/centos7-devtoolset7-gcc7.tar
   ubuntu1804-gcc7:
     <<: *build-settings
     steps:
@@ -98,48 +54,9 @@ jobs:
       - save_cache:
           key: ubuntu2004-gcc9-assets-{{ .Revision }}
           paths: ~/docker/ubuntu2004-gcc9.tar
-  ubuntu2104-gcc11:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - ubuntu2104-gcc11-assets-
-      - checkout
-      - run:
-         name: ubuntu2104-gcc11 build
-         command: |
-           docker load -i ~/docker/ubuntu2104-gcc11.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:21.04
-           make ubuntu2104-gcc11
-           mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu2104-gcc11.tar dockbuild/ubuntu2104-gcc11:latest dockbuild/ubuntu2104:latest
-      - run:
-         name: ubuntu2104-gcc11 test
-         command: |
-           make ubuntu2104-gcc11.test
-      - save_cache:
-          key: ubuntu2104-gcc11-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu2104-gcc11.tar
   deploy-master:
     <<: *build-settings
     steps:
-      - restore_cache:
-          key: centos7-devtoolset4-gcc5-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy centos7-devtoolset4-gcc5
-          command: |
-            docker load -i ~/docker/centos7-devtoolset4-gcc5.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/centos7:latest
-            docker push dockbuild/centos7-devtoolset4-gcc5:latest
-      - restore_cache:
-          key: centos7-devtoolset7-gcc7-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy centos7-devtoolset7-gcc7
-          command: |
-            docker load -i ~/docker/centos7-devtoolset7-gcc7.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/centos7-devtoolset7-gcc7:latest
       - restore_cache:
           key: ubuntu1804-gcc7-assets-{{ .Revision }}
       - deploy:
@@ -158,37 +75,19 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push dockbuild/ubuntu2004:latest
             docker push dockbuild/ubuntu2004-gcc9:latest
-      - restore_cache:
-          key: ubuntu2104-gcc11-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy ubuntu2104-gcc11
-          command: |
-            docker load -i ~/docker/ubuntu2104-gcc11.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/ubuntu2104:latest
-            docker push dockbuild/ubuntu2104-gcc11:latest
 
 workflows:
   version: 2
   build-test-deploy:
     jobs:
-      - centos7-devtoolset4-gcc5:
-          <<: *no_filters
-      - centos7-devtoolset7-gcc7:
-          <<: *no_filters
       - ubuntu1804-gcc7:
           <<: *no_filters
       - ubuntu2004-gcc9:
           <<: *no_filters
-      - ubuntu2104-gcc11:
-          <<: *no_filters
       - deploy-master:
           requires:
-            - centos7-devtoolset4-gcc5
-            - centos7-devtoolset7-gcc7
             - ubuntu1804-gcc7
             - ubuntu2004-gcc9
-            - ubuntu2104-gcc11
           filters:
             branches:
               only: master
