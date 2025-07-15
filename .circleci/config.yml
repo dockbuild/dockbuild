@@ -54,28 +54,6 @@ jobs:
       - save_cache:
           key: ubuntu2004-gcc9-assets-{{ .Revision }}
           paths: ~/docker/ubuntu2004-gcc9.tar
-  ubuntu2104-gcc11:
-    <<: *build-settings
-    steps:
-      - restore_cache:
-          keys:
-            - ubuntu2104-gcc11-assets-
-      - checkout
-      - run:
-         name: ubuntu2104-gcc11 build
-         command: |
-           docker load -i ~/docker/ubuntu2104-gcc11.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:21.04
-           make ubuntu2104-gcc11
-           mkdir -p ~/docker
-           docker save -o ~/docker/ubuntu2104-gcc11.tar dockbuild/ubuntu2104-gcc11:latest dockbuild/ubuntu2104:latest
-      - run:
-         name: ubuntu2104-gcc11 test
-         command: |
-           make ubuntu2104-gcc11.test
-      - save_cache:
-          key: ubuntu2104-gcc11-assets-{{ .Revision }}
-          paths: ~/docker/ubuntu2104-gcc11.tar
   deploy-master:
     <<: *build-settings
     steps:
@@ -97,15 +75,6 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push dockbuild/ubuntu2004:latest
             docker push dockbuild/ubuntu2004-gcc9:latest
-      - restore_cache:
-          key: ubuntu2104-gcc11-assets-{{ .Revision }}
-      - deploy:
-          name: Deploy ubuntu2104-gcc11
-          command: |
-            docker load -i ~/docker/ubuntu2104-gcc11.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push dockbuild/ubuntu2104:latest
-            docker push dockbuild/ubuntu2104-gcc11:latest
 
 workflows:
   version: 2
@@ -115,13 +84,10 @@ workflows:
           <<: *no_filters
       - ubuntu2004-gcc9:
           <<: *no_filters
-      - ubuntu2104-gcc11:
-          <<: *no_filters
       - deploy-master:
           requires:
             - ubuntu1804-gcc7
             - ubuntu2004-gcc9
-            - ubuntu2104-gcc11
           filters:
             branches:
               only: master

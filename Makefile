@@ -13,8 +13,7 @@ BIN = ./bin
 
 IMAGES = \
   ubuntu1804-gcc7 \
-  ubuntu2004-gcc9 \
-  ubuntu2104-gcc11
+  ubuntu2004-gcc9
 
 # These images are built using the "build implicit rule"
 ALL_IMAGES = $(IMAGES)

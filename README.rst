@@ -53,17 +53,17 @@ dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
   |ubuntu2004-gcc9-latest| Ubuntu 20.04 based image.
 
 
+Deprecated build environments
+-----------------------------
+
+*Deprecated build environments are not built/tested/deployed using continuous integration and corresponding Dockerfile have been removed.*
+
 .. |ubuntu2104-gcc11-latest| image:: https://img.shields.io/docker/image-size/dockbuild/ubuntu2104-gcc11/latest
   :target: https://hub.docker.com/r/dockbuild/ubuntu2104-gcc11/tags?page=1&name=latest
 
 dockbuild/ubuntu2104-gcc11:latest, dockbuild/ubuntu2104:latest
   |ubuntu2104-gcc11-latest| Ubuntu 21.04 based image.
 
-
-Deprecated build environments
------------------------------
-
-*Deprecated build environments are not built/tested/deployed using continuous integration and corresponding Dockerfile have been removed.*
 
 .. |centos7-devtoolset4-gcc5-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos7-devtoolset4-gcc5/latest
   :target: https://hub.docker.com/r/dockbuild/centos7-devtoolset4-gcc5/tags?page=1&name=latest
@@ -81,6 +81,7 @@ dockbuild/centos7-devtoolset4-gcc5:latest, dockbuild/centos7:latest
 
 dockbuild/centos7-devtoolset7-gcc7:latest
   |centos7-devtoolset7-gcc7-latest| Centos7 based image including the `devtools-7`_.
+
 
 .. |centos5-devtoolset2-gcc4-latest| image:: https://img.shields.io/docker/image-size/dockbuild/centos5-devtoolset2-gcc4/latest
   :target: https://hub.docker.com/r/dockbuild/centos5-devtoolset2-gcc4/tags?page=1&name=latest
