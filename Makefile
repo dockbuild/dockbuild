@@ -35,6 +35,12 @@ GEN_IMAGES := $(IMAGES)
 
 GEN_IMAGE_DOCKERFILES = $(addsuffix /Dockerfile,$(GEN_IMAGES))
 
+# Docker composite files
+DOCKER_COMPOSITE_SOURCES = \
+	common.label-and-env
+DOCKER_COMPOSITE_FOLDER_PATH = common/
+DOCKER_COMPOSITE_PATH = $(addprefix $(DOCKER_COMPOSITE_FOLDER_PATH),$(DOCKER_COMPOSITE_SOURCES))
+
 # On CircleCI, do not attempt to delete container
 # See https://circleci.com/docs/docker-btrfs-error/
 RM = --rm
@@ -57,8 +63,10 @@ display_images:
 $(VERBOSE).SILENT: display_images
 .PHONY: display_images
 
-$(GEN_IMAGE_DOCKERFILES): %Dockerfile: %Dockerfile.in
-	cp $< $@
+$(GEN_IMAGE_DOCKERFILES): %Dockerfile: %Dockerfile.in $(DOCKER_COMPOSITE_PATH)
+	sed \
+		-e '/common.label-and-env/ r $(DOCKER_COMPOSITE_FOLDER_PATH)common.label-and-env' \
+		$< > $@
 
 #
 # build implicit rule
