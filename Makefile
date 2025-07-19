@@ -22,12 +22,18 @@ ORG = dockbuild
 # Directory where to generate the dockbuild script for each images (e.g bin/dockbuild-centos5)
 BIN = ./bin
 
+# This list all available images
 IMAGES = \
   ubuntu1804-gcc7 \
   ubuntu2004-gcc9
 
 # These images are built using the "build implicit rule"
 ALL_IMAGES = $(IMAGES)
+
+# Generated Dockerfiles.
+GEN_IMAGES := $(IMAGES)
+
+GEN_IMAGE_DOCKERFILES = $(addsuffix /Dockerfile,$(GEN_IMAGES))
 
 # On CircleCI, do not attempt to delete container
 # See https://circleci.com/docs/docker-btrfs-error/
@@ -51,6 +57,8 @@ display_images:
 $(VERBOSE).SILENT: display_images
 .PHONY: display_images
 
+$(GEN_IMAGE_DOCKERFILES): %Dockerfile: %Dockerfile.in
+	cp $< $@
 
 #
 # build implicit rule
@@ -90,6 +98,7 @@ $(addsuffix .run,$(ALL_IMAGES)):
 
 clean:
 	for d in $(ALL_IMAGES) ; do rm -rf $$d/imagefiles ; done
+	for d in $(GEN_IMAGE_DOCKERFILES) ; do rm -f $$d ; done
 
 
 #
