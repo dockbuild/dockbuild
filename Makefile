@@ -72,7 +72,6 @@ $(ALL_IMAGES): %: %/Dockerfile
 	$(BUILD_DOCKER) tag $(ORG)/$(REPO):$(TAG) $(ORG)/$(REPO_OS):$(TAG)
 	CURRENT_IMAGEID=$$($(BUILD_DOCKER) images -q $(ORG)/$(REPO)) && \
 	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(BUILD_DOCKER) rmi "$(IMAGEID)" || true; fi
-	rm -rf $@/imagefiles
 
 .PHONY: $(ALL_IMAGES)
 
@@ -87,6 +86,10 @@ $(addsuffix .run,$(ALL_IMAGES)):
 	$(BUILD_DOCKER) run -ti --rm $(ORG)/$(REPO):$(TAG) bash
 
 .PHONY: $(addsuffix .run,$(ALL_IMAGES))
+
+
+clean:
+	for d in $(ALL_IMAGES) ; do rm -rf $$d/imagefiles ; done
 
 
 #
