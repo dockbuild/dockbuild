@@ -63,7 +63,7 @@ jobs:
           name: Deploy ubuntu1804-gcc7
           command: |
             docker load -i ~/docker/ubuntu1804-gcc7.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
             docker push dockbuild/ubuntu1804:latest
             docker push dockbuild/ubuntu1804-gcc7:latest
       - restore_cache:
@@ -72,7 +72,7 @@ jobs:
           name: Deploy ubuntu2004-gcc9
           command: |
             docker load -i ~/docker/ubuntu2004-gcc9.tar
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
             docker push dockbuild/ubuntu2004:latest
             docker push dockbuild/ubuntu2004-gcc9:latest
 
