@@ -9,6 +9,13 @@
 DOCKER := $(or $(OCI_EXE), docker)
 BUILD_DOCKER := $(or $(BUILD_DOCKER), $(DOCKER))
 
+# The build sub-command. Use:
+#
+#   export "BUILD_CMD=buildx build --platform linux/amd64,linux/arm64"
+#
+# to generate multi-platform images.
+BUILD_CMD := $(or $(BUILD_CMD), build)
+
 # DockerHub organization to pull/push the images from/to
 ORG = dockbuild
 
@@ -56,7 +63,7 @@ $(ALL_IMAGES): %: %/Dockerfile
 	$(eval TAG := latest)
 	$(eval BASEIMAGE := $(shell cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2))
 	$(eval IMAGEID := $(shell $(BUILD_DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
-	$(BUILD_DOCKER) build --cache-from=$(BASEIMAGE),$(ORG)/$(REPO):$(TAG) -t $(ORG)/$(REPO):$(TAG) \
+	$(BUILD_DOCKER) $(BUILD_CMD) --cache-from=$(BASEIMAGE),$(ORG)/$(REPO):$(TAG) -t $(ORG)/$(REPO):$(TAG) \
 		--build-arg IMAGE=$(ORG)/$(REPO):$(TAG) \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 	  --build-arg VCS_URL=`git config --get remote.origin.url` \
