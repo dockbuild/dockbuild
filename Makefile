@@ -1,9 +1,13 @@
+
 #
 # Parameters
 #
 
-# Name of the docker executable
-DOCKER = imagefiles/docker.sh
+# Name of the docker-equivalent executable for building images.
+# OCI: open container interface.
+# Common values: docker, podman
+DOCKER := $(or $(OCI_EXE), docker)
+BUILD_DOCKER := $(or $(BUILD_DOCKER), $(DOCKER))
 
 # DockerHub organization to pull/push the images from/to
 ORG = dockbuild
@@ -51,16 +55,16 @@ $(ALL_IMAGES): %: %/Dockerfile
 	$(eval REPO_OS := $(OPERATING_SYSTEM))
 	$(eval TAG := latest)
 	$(eval BASEIMAGE := $(shell cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2))
-	$(eval IMAGEID := $(shell $(DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
-	$(DOCKER) build --cache-from=$(BASEIMAGE),$(ORG)/$(REPO):$(TAG) -t $(ORG)/$(REPO):$(TAG) \
+	$(eval IMAGEID := $(shell $(BUILD_DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
+	$(BUILD_DOCKER) build --cache-from=$(BASEIMAGE),$(ORG)/$(REPO):$(TAG) -t $(ORG)/$(REPO):$(TAG) \
 		--build-arg IMAGE=$(ORG)/$(REPO):$(TAG) \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 	  --build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		$@
-	$(DOCKER) tag $(ORG)/$(REPO):$(TAG) $(ORG)/$(REPO_OS):$(TAG)
-	CURRENT_IMAGEID=$$($(DOCKER) images -q $(ORG)/$(REPO)) && \
-	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(DOCKER) rmi "$(IMAGEID)" || true; fi
+	$(BUILD_DOCKER) tag $(ORG)/$(REPO):$(TAG) $(ORG)/$(REPO_OS):$(TAG)
+	CURRENT_IMAGEID=$$($(BUILD_DOCKER) images -q $(ORG)/$(REPO)) && \
+	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(BUILD_DOCKER) rmi "$(IMAGEID)" || true; fi
 	rm -rf $@/imagefiles
 
 .PHONY: $(ALL_IMAGES)
@@ -73,7 +77,7 @@ $(ALL_IMAGES): %: %/Dockerfile
 $(addsuffix .run,$(ALL_IMAGES)):
 	$(eval REPO := $(basename $@))
 	$(eval TAG := latest)
-	$(DOCKER) run -ti --rm $(ORG)/$(REPO):$(TAG) bash
+	$(BUILD_DOCKER) run -ti --rm $(ORG)/$(REPO):$(TAG) bash
 
 .PHONY: $(addsuffix .run,$(ALL_IMAGES))
 
@@ -85,7 +89,7 @@ $(addsuffix .run,$(ALL_IMAGES)):
 $(addsuffix .test,$(ALL_IMAGES)): $$(basename $$@)
 	$(eval REPO := $(basename $@))
 	mkdir -p $(BIN)
-	$(DOCKER) run $(RM) dockbuild/$(REPO) > $(BIN)/dockbuild-$(REPO) && chmod +x $(BIN)/dockbuild-$(REPO)
+	$(BUILD_DOCKER) run $(RM) dockbuild/$(REPO) > $(BIN)/dockbuild-$(REPO) && chmod +x $(BIN)/dockbuild-$(REPO)
 	$(BIN)/dockbuild-$(REPO) python test/run.py $($@_ARGS)
 	$(BIN)/dockbuild-$(REPO) python -c "import bz2; import ctypes; import lzma; import readline; import sqlite3"
 
@@ -98,7 +102,7 @@ $(addsuffix .test,$(ALL_IMAGES)): $$(basename $$@)
 $(addsuffix .pull,$(ALL_IMAGES)):
 	$(eval REPO := $(basename $@))
 	$(eval TAG := latest)
-	$(DOCKER) pull $(ORG)/$(REPO):$(TAG)
+	$(BUILD_DOCKER) pull $(ORG)/$(REPO):$(TAG)
 
 pull: $(addsuffix .pull,$(ALL_IMAGES))
 
