@@ -78,20 +78,6 @@ ENV AR=/usr/bin/ar \
     CPP=/usr/bin/cpp \
     CXX=/usr/bin/g++
 
-WORKDIR /work
+#include "common.dockbuild"
 
-ENTRYPOINT ["/dockcross/entrypoint.sh"]
-
-# Runtime scripts
-COPY imagefiles/entrypoint.sh imagefiles/dockcross.sh /dockcross/
-
-# Build-time metadata as defined at http://label-schema.org
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VCS_URL
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name=$IMAGE \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url=$VCS_URL \
-      org.label-schema.schema-version="1.0" \
-      maintainer="Jean-Christophe Fillion-Robin <jchris.fillionr@kitware.com>"
+#include "common.label-and-env"
