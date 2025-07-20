@@ -37,6 +37,7 @@ GEN_IMAGE_DOCKERFILES = $(addsuffix /Dockerfile,$(GEN_IMAGES))
 
 # Docker composite files
 DOCKER_COMPOSITE_SOURCES = \
+	common.dockbuild \
 	common.label-and-env
 DOCKER_COMPOSITE_FOLDER_PATH = common/
 DOCKER_COMPOSITE_PATH = $(addprefix $(DOCKER_COMPOSITE_FOLDER_PATH),$(DOCKER_COMPOSITE_SOURCES))
@@ -65,6 +66,7 @@ $(VERBOSE).SILENT: display_images
 
 $(GEN_IMAGE_DOCKERFILES): %Dockerfile: %Dockerfile.in $(DOCKER_COMPOSITE_PATH)
 	sed \
+		-e '/common.dockbuild/ r $(DOCKER_COMPOSITE_FOLDER_PATH)common.dockbuild' \
 		-e '/common.label-and-env/ r $(DOCKER_COMPOSITE_FOLDER_PATH)common.label-and-env' \
 		$< > $@
 

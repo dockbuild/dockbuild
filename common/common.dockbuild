@@ -1,0 +1,6 @@
+WORKDIR /work
+
+ENTRYPOINT ["/dockcross/entrypoint.sh"]
+
+# Runtime scripts
+COPY imagefiles/entrypoint.sh imagefiles/dockcross.sh /dockcross/

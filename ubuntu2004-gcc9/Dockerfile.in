@@ -78,11 +78,6 @@ ENV AR=/usr/bin/ar \
     CPP=/usr/bin/cpp \
     CXX=/usr/bin/g++
 
-WORKDIR /work
-
-ENTRYPOINT ["/dockcross/entrypoint.sh"]
-
-# Runtime scripts
-COPY imagefiles/entrypoint.sh imagefiles/dockcross.sh /dockcross/
+#include "common.dockbuild"
 
 #include "common.label-and-env"
