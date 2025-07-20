@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+LABEL maintainer="Jean-Christophe Fillion-Robin <jchris.fillionr@kitware.com>"
+
 ARG IMAGE
 ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE} \
     # http://bugs.python.org/issue19846
