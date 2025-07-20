@@ -82,7 +82,8 @@ $(ALL_IMAGES): %: %/Dockerfile
 	$(eval BASEIMAGE := $(shell cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2))
 	$(eval IMAGEID := $(shell $(BUILD_DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
 	$(BUILD_DOCKER) $(BUILD_CMD) --cache-from=$(BASEIMAGE),$(ORG)/$(REPO):$(TAG) -t $(ORG)/$(REPO):$(TAG) \
-		--build-arg IMAGE=$(ORG)/$(REPO):$(TAG) \
+		--build-arg IMAGE=$(ORG)/$(REPO) \
+		--build-arg VERSION=$(TAG) \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
