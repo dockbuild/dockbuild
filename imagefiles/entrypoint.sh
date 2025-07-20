@@ -26,8 +26,15 @@ if [[ -n $BUILDER_UID ]] && [[ -n $BUILDER_GID ]]; then
 
     groupadd -o -g "$BUILDER_GID" "$BUILDER_GROUP" 2> /dev/null
     useradd -o -m -g "$BUILDER_GID" -u "$BUILDER_UID" "$BUILDER_USER" 2> /dev/null
+
+    # Change ownership of /dev/pts/0 to new user
+    chown "$BUILDER_UID" /dev/pts/0 2> /dev/null
+
     export HOME=/home/${BUILDER_USER}
     shopt -s dotglob
+    # Move rustup/cargo directories as they are large, and not needed as root
+    mv -t $HOME/ /root/.rustup /root/.cargo
+    # Copy the rest
     cp -r /root/* $HOME/
     chown -R $BUILDER_UID:$BUILDER_GID $HOME
 
@@ -38,7 +45,7 @@ if [[ -n $BUILDER_UID ]] && [[ -n $BUILDER_GID ]]; then
 
     # Enable passwordless sudo capabilities for the user
     chown root:$BUILDER_GID "$(which gosu)"
-    chmod +s "$(which gosu)"; sync
+    chmod +s "$(which gosu)"
 
     # Execute project specific pre execution hook
     if [[ -e /work/.dockcross ]]; then
