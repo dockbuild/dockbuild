@@ -18,14 +18,23 @@ ENV \
     LANGUAGE=en_US.UTF-8
 
 ARG CMAKE_VERSION=3.31.8
-# Git provided is 2.43.5
+ARG GIT_VERSION=2.50.1
 ARG NINJA_VERSION=1.11.1.g95dee.kitware.jobserver-1
-# Python provided is 3.11.13
+ARG PYTHON_VERSION=3.12.11
 
-# OpenSSL provided is 1.1.1k
+ARG OPENSSL_VERSION=openssl-1.1.1w
+ARG OPENSSL_HASH=cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8
+
+ARG CURL_VERSION=curl-7.76.0
+ARG CURL_HASH=3b4378156ba09e224008e81dcce854b7ce4d182b1f9cfb97fe5ed9e9c18c6bd3
+
+ARG PERL_VERSION=perl-5.40.1
+ARG PERL_HASH=02f8c45bb379ed0c3de7514fad48c714fd46be8f0b536bfd5320050165a1ee26
 
 # Image build scripts
 COPY \
+  imagefiles/build-and-install-git.sh \
+  imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-gosu-binary.sh \
   imagefiles/install-gosu-binary-wrapper.sh \
@@ -55,6 +64,22 @@ RUN \
   localedef -i en_US -f UTF-8 en_US.UTF-8 && \
   localedef --list-archive | grep -v -i ^en_US.utf8 | xargs localedef --delete-from-archive \
   && \
+  # Needed to build Git from source
+  dnf install -y \
+    gettext \
+    openssl-devel \
+    libcurl-devel \
+    expat-devel \
+    zlib-devel \
+  && \
+  # Needed to build Python from source
+  dnf install -y \
+    bzip2-devel \
+    libffi-devel \
+    xz-devel \
+    readline-devel \
+    sqlite-devel \
+  && \
   #
   # Custom install
   #
@@ -62,12 +87,9 @@ RUN \
   /imagefiles/install-gosu-binary.sh && \
   /imagefiles/install-gosu-binary-wrapper.sh && \
   /imagefiles/install-ninja-binary.sh && \
+  /imagefiles/build-and-install-git.sh && \
+  /imagefiles/build-and-install-python.sh && \
   rm -rf /imagefiles && \
-  #
-  # Install & configure git: Turn the detached message off
-  #
-  dnf install -y git && \
-  git config --global advice.detachedHead false && \
   #
   # cleanup
   #

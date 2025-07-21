@@ -65,10 +65,10 @@ jobs:
          name: almalinux8-devtoolset14-gcc14 build
          command: |
            docker load -i ~/docker/almalinux8-devtoolset14-gcc14.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:19.04
+           docker pull amd64/almalinux:8
            make almalinux8-devtoolset14-gcc14
            mkdir -p ~/docker
-           docker save -o ~/docker/almalinux8-devtoolset14-gcc14.tar dockbuild/almalinux8-devtoolset14-gcc14:latest dockbuild/ubuntu2004:latest
+           docker save -o ~/docker/almalinux8-devtoolset14-gcc14.tar dockbuild/almalinux8-devtoolset14-gcc14:latest
       - run:
          name: almalinux8-devtoolset14-gcc14 test
          command: |
