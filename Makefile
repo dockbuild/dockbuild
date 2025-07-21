@@ -23,9 +23,12 @@ ORG = dockbuild
 BIN = ./bin
 
 # This list all available images
-IMAGES = \
+LEGACY_IMAGES = \
   ubuntu1804-gcc7 \
   ubuntu2004-gcc9
+IMAGES = \
+  almalinux8-devtoolset14-gcc14 \
+  $(LEGACY_IMAGES)
 
 # These images are built using the "build implicit rule"
 ALL_IMAGES = $(IMAGES)
@@ -88,7 +91,7 @@ $(ALL_IMAGES): %: %/Dockerfile
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		$@
-	$(BUILD_DOCKER) tag $(ORG)/$(REPO):$(TAG) $(ORG)/$(REPO_OS):$(TAG)
+	if echo "$(LEGACY_IMAGES)" | grep -qw "$@"; then $(BUILD_DOCKER) tag $(ORG)/$(REPO):$(TAG) $(ORG)/$(REPO_OS):$(TAG); fi
 	CURRENT_IMAGEID=$$($(BUILD_DOCKER) images -q $(ORG)/$(REPO)) && \
 	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(BUILD_DOCKER) rmi "$(IMAGEID)" || true; fi
 

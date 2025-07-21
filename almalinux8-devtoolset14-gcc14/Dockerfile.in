@@ -1,0 +1,79 @@
+FROM amd64/almalinux:8
+
+LABEL maintainer="Jean-Christophe Fillion-Robin <jchris.fillionr@kitware.com>"
+
+ENV \
+    AR=/opt/rh/gcc-toolset-14/root/usr/bin/ar \
+    AS=/opt/rh/gcc-toolset-14/root/usr/bin/as \
+    CC=/opt/rh/gcc-toolset-14/root/usr/bin/gcc \
+    CXX=/opt/rh/gcc-toolset-14/root/usr/bin/g++ \
+    FC=/opt/rh/gcc-toolset-14/root/usr/bin/gfortran \
+    PATH=/opt/rh/gcc-toolset-14/root/usr/bin${PATH:+:${PATH}} \
+    # http://bugs.python.org/issue19846
+    # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+    # https://sourceware.org/bugzilla/show_bug.cgi?id=17318#c4
+    # > set en_US.UTF-8 instead of C.UTF-8 because the former is not supported on all systems.
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8
+
+ARG CMAKE_VERSION=3.31.8
+# Git provided is 2.43.5
+ARG NINJA_VERSION=1.11.1.g95dee.kitware.jobserver-1
+# Python provided is 3.11.13
+
+# OpenSSL provided is 1.1.1k
+
+# Image build scripts
+COPY \
+  imagefiles/install-cmake-binary.sh \
+  imagefiles/install-gosu-binary.sh \
+  imagefiles/install-gosu-binary-wrapper.sh \
+  imagefiles/install-ninja-binary.sh \
+  /imagefiles/
+
+RUN \
+  #
+  # Command below adapted from ManyLinux install scripts
+  # - https://github.com/pypa/manylinux/blob/main/docker/build_scripts/install-runtime-packages.sh
+  # - https://github.com/pypa/manylinux/blob/main/docker/build_scripts/update-system-packages.sh
+  #
+  echo "tsflags=nodocs" >> /etc/dnf/dnf.conf && \
+  dnf -y upgrade  && \
+  dnf -y install dnf-plugins-core epel-release && \
+  dnf config-manager --set-enabled powertools && \
+  MANYLINUX_DEPS=(glibc-devel libstdc++-devel glib2-devel libX11-devel libXext-devel libXrender-devel mesa-libGL-devel libICE-devel libSM-devel zlib-devel expat-devel) && \
+  RUNTIME_DEPS=() && \
+  TOOLCHAIN_DEPS=(gcc-toolset-14-binutils gcc-toolset-14-gcc gcc-toolset-14-gcc-c++ gcc-toolset-14-gcc-gfortran gcc-toolset-14-libatomic-devel) && \
+  TOOLCHAIN_DEPS+=(yasm) && \
+  BASE_TOOLS=(autoconf automake bison bzip2 ca-certificates curl diffutils file make patch unzip) && \
+  BASE_TOOLS+=(glibc-locale-source glibc-langpack-en gzip hardlink hostname libcurl libnsl libxcrypt which) && \
+  dnf -y install --allowerasing \
+    "${BASE_TOOLS[@]}" "${TOOLCHAIN_DEPS[@]}" "${MANYLINUX_DEPS[@]}" "${RUNTIME_DEPS[@]}" && \
+  # Since upgrading glibc-common can end with removal on en_US.UTF-8 locale, update again
+  LOCALE_ARCHIVE=/usr/lib/locale/locale-archive && \
+  localedef -i en_US -f UTF-8 en_US.UTF-8 && \
+  localedef --list-archive | grep -v -i ^en_US.utf8 | xargs localedef --delete-from-archive \
+  && \
+  #
+  # Custom install
+  #
+  /imagefiles/install-cmake-binary.sh && \
+  /imagefiles/install-gosu-binary.sh && \
+  /imagefiles/install-gosu-binary-wrapper.sh && \
+  /imagefiles/install-ninja-binary.sh && \
+  rm -rf /imagefiles && \
+  #
+  # Install & configure git: Turn the detached message off
+  #
+  dnf install -y git && \
+  git config --global advice.detachedHead false && \
+  #
+  # cleanup
+  #
+  dnf clean all && \
+  rm -rf /var/cache/dnf
+
+#include "common.dockbuild"
+
+#include "common.label-and-env"

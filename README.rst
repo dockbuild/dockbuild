@@ -22,8 +22,8 @@ In addition to the devtools, all images include:
 
 * cmake 3.31.8
 * curl with TLS 1.2 support
-* git 2.50.1 (with ``git config --global advice.detachedHead false``)
-* python 3.12.11
+* git >= 2.43 (with ``git config --global advice.detachedHead false``)
+* python >= 3.11
 * ninja 1.1.11 with `GNU make jobserver client and Fortran support <https://github.com/kitware/ninja>`_
 
 
@@ -52,6 +52,12 @@ dockbuild/ubuntu1804-gcc7:latest, dockbuild/ubuntu1804:latest
 dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
   |ubuntu2004-gcc9-latest| Ubuntu 20.04 based image.
 
+
+.. |almalinux8-devtoolset14-gcc14-latest| image:: https://img.shields.io/docker/image-size/dockbuild/almalinux8-devtoolset14-gcc14/latest
+  :target: https://hub.docker.com/r/dockbuild/almalinux8-devtoolset14-gcc14/tags?page=1&name=latest
+
+dockbuild/almalinux8-devtoolset14-gcc14:latest
+  |almalinux8-devtoolset14-gcc14-latest| AlmaLinux 8 based image.
 
 Deprecated build environments
 -----------------------------

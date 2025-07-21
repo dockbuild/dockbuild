@@ -54,6 +54,28 @@ jobs:
       - save_cache:
           key: ubuntu2004-gcc9-assets-{{ .Revision }}
           paths: ~/docker/ubuntu2004-gcc9.tar
+  almalinux8-devtoolset14-gcc14:
+    <<: *build-settings
+    steps:
+      - restore_cache:
+          keys:
+            - almalinux8-devtoolset14-gcc14-assets-
+      - checkout
+      - run:
+         name: almalinux8-devtoolset14-gcc14 build
+         command: |
+           docker load -i ~/docker/almalinux8-devtoolset14-gcc14.tar > /dev/null 2>&1 || true
+           docker pull ubuntu:19.04
+           make almalinux8-devtoolset14-gcc14
+           mkdir -p ~/docker
+           docker save -o ~/docker/almalinux8-devtoolset14-gcc14.tar dockbuild/almalinux8-devtoolset14-gcc14:latest dockbuild/ubuntu2004:latest
+      - run:
+         name: almalinux8-devtoolset14-gcc14 test
+         command: |
+           make almalinux8-devtoolset14-gcc14.test
+      - save_cache:
+          key: almalinux8-devtoolset14-gcc14-assets-{{ .Revision }}
+          paths: ~/docker/almalinux8-devtoolset14-gcc14.tar
   deploy-master:
     <<: *build-settings
     steps:
@@ -75,7 +97,14 @@ jobs:
             echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
             docker push dockbuild/ubuntu2004:latest
             docker push dockbuild/ubuntu2004-gcc9:latest
-
+      - restore_cache:
+          key: almalinux8-devtoolset14-gcc14-assets-{{ .Revision }}
+      - deploy:
+          name: Deploy almalinux8-devtoolset14-gcc14
+          command: |
+            docker load -i ~/docker/almalinux8-devtoolset14-gcc14.tar
+            echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+            docker push dockbuild/almalinux8-devtoolset14-gcc14:latest
 workflows:
   version: 2
   build-test-deploy:
@@ -84,10 +113,13 @@ workflows:
           <<: *no_filters
       - ubuntu2004-gcc9:
           <<: *no_filters
+      - almalinux8-devtoolset14-gcc14:
+          <<: *no_filters
       - deploy-master:
           requires:
             - ubuntu1804-gcc7
             - ubuntu2004-gcc9
+            - almalinux8-devtoolset14-gcc14
           filters:
             branches:
               only: master
