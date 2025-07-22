@@ -1,0 +1,101 @@
+FROM amd64/almalinux:8
+
+LABEL maintainer="Jean-Christophe Fillion-Robin <jchris.fillionr@kitware.com>"
+
+ENV \
+    AR=/opt/rh/gcc-toolset-14/root/usr/bin/ar \
+    AS=/opt/rh/gcc-toolset-14/root/usr/bin/as \
+    CC=/opt/rh/gcc-toolset-14/root/usr/bin/gcc \
+    CXX=/opt/rh/gcc-toolset-14/root/usr/bin/g++ \
+    FC=/opt/rh/gcc-toolset-14/root/usr/bin/gfortran \
+    PATH=/opt/rh/gcc-toolset-14/root/usr/bin${PATH:+:${PATH}} \
+    # http://bugs.python.org/issue19846
+    # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+    # https://sourceware.org/bugzilla/show_bug.cgi?id=17318#c4
+    # > set en_US.UTF-8 instead of C.UTF-8 because the former is not supported on all systems.
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8
+
+ARG CMAKE_VERSION=3.31.8
+ARG GIT_VERSION=2.50.1
+ARG NINJA_VERSION=1.11.1.g95dee.kitware.jobserver-1
+ARG PYTHON_VERSION=3.12.11
+
+ARG OPENSSL_VERSION=openssl-1.1.1w
+ARG OPENSSL_HASH=cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8
+
+ARG CURL_VERSION=curl-7.76.0
+ARG CURL_HASH=3b4378156ba09e224008e81dcce854b7ce4d182b1f9cfb97fe5ed9e9c18c6bd3
+
+ARG PERL_VERSION=perl-5.40.1
+ARG PERL_HASH=02f8c45bb379ed0c3de7514fad48c714fd46be8f0b536bfd5320050165a1ee26
+
+# Image build scripts
+COPY \
+  imagefiles/build-and-install-git.sh \
+  imagefiles/build-and-install-python.sh \
+  imagefiles/install-cmake-binary.sh \
+  imagefiles/install-gosu-binary.sh \
+  imagefiles/install-gosu-binary-wrapper.sh \
+  imagefiles/install-ninja-binary.sh \
+  /imagefiles/
+
+RUN \
+  #
+  # Command below adapted from ManyLinux install scripts
+  # - https://github.com/pypa/manylinux/blob/main/docker/build_scripts/install-runtime-packages.sh
+  # - https://github.com/pypa/manylinux/blob/main/docker/build_scripts/update-system-packages.sh
+  #
+  echo "tsflags=nodocs" >> /etc/dnf/dnf.conf && \
+  dnf -y upgrade  && \
+  dnf -y install dnf-plugins-core epel-release && \
+  dnf config-manager --set-enabled powertools && \
+  MANYLINUX_DEPS=(glibc-devel libstdc++-devel glib2-devel libX11-devel libXext-devel libXrender-devel mesa-libGL-devel libICE-devel libSM-devel zlib-devel expat-devel) && \
+  RUNTIME_DEPS=() && \
+  TOOLCHAIN_DEPS=(gcc-toolset-14-binutils gcc-toolset-14-gcc gcc-toolset-14-gcc-c++ gcc-toolset-14-gcc-gfortran gcc-toolset-14-libatomic-devel) && \
+  TOOLCHAIN_DEPS+=(yasm) && \
+  BASE_TOOLS=(autoconf automake bison bzip2 ca-certificates curl diffutils file make patch unzip) && \
+  BASE_TOOLS+=(glibc-locale-source glibc-langpack-en gzip hardlink hostname libcurl libnsl libxcrypt which) && \
+  dnf -y install --allowerasing \
+    "${BASE_TOOLS[@]}" "${TOOLCHAIN_DEPS[@]}" "${MANYLINUX_DEPS[@]}" "${RUNTIME_DEPS[@]}" && \
+  # Since upgrading glibc-common can end with removal on en_US.UTF-8 locale, update again
+  LOCALE_ARCHIVE=/usr/lib/locale/locale-archive && \
+  localedef -i en_US -f UTF-8 en_US.UTF-8 && \
+  localedef --list-archive | grep -v -i ^en_US.utf8 | xargs localedef --delete-from-archive \
+  && \
+  # Needed to build Git from source
+  dnf install -y \
+    gettext \
+    openssl-devel \
+    libcurl-devel \
+    expat-devel \
+    zlib-devel \
+  && \
+  # Needed to build Python from source
+  dnf install -y \
+    bzip2-devel \
+    libffi-devel \
+    xz-devel \
+    readline-devel \
+    sqlite-devel \
+  && \
+  #
+  # Custom install
+  #
+  /imagefiles/install-cmake-binary.sh && \
+  /imagefiles/install-gosu-binary.sh && \
+  /imagefiles/install-gosu-binary-wrapper.sh && \
+  /imagefiles/install-ninja-binary.sh && \
+  /imagefiles/build-and-install-git.sh && \
+  /imagefiles/build-and-install-python.sh && \
+  rm -rf /imagefiles && \
+  #
+  # cleanup
+  #
+  dnf clean all && \
+  rm -rf /var/cache/dnf
+
+#include "common.dockbuild"
+
+#include "common.label-and-env"
