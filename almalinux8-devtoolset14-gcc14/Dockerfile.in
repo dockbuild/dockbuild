@@ -91,6 +91,11 @@ RUN \
   /imagefiles/build-and-install-python.sh && \
   rm -rf /imagefiles && \
   #
+  # Remove sudo provided by "devtoolset-14" since it doesn't work with
+  # our sudo wrapper calling gosu.
+  #
+  rm -f /opt/rh/gcc-toolset-14/root//usr/bin/sudo && \
+  #
   # cleanup
   #
   dnf clean all && \
