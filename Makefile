@@ -67,11 +67,16 @@ display_images:
 $(VERBOSE).SILENT: display_images
 .PHONY: display_images
 
+#
+# Dockerfile configuration implicit rules
+#
 $(GEN_IMAGE_DOCKERFILES): %Dockerfile: %Dockerfile.in $(DOCKER_COMPOSITE_PATH)
 	sed \
 		-e '/common.dockbuild/ r $(DOCKER_COMPOSITE_FOLDER_PATH)common.dockbuild' \
 		-e '/common.label-and-env/ r $(DOCKER_COMPOSITE_FOLDER_PATH)common.label-and-env' \
 		$< > $@
+
+.PHONY: $(GEN_IMAGE_DOCKERFILES)
 
 #
 # build implicit rule
@@ -110,10 +115,14 @@ $(addsuffix .run,$(ALL_IMAGES)):
 .PHONY: $(addsuffix .run,$(ALL_IMAGES))
 
 
+#
+# clean rule
+#
 clean:
 	for d in $(ALL_IMAGES) ; do rm -rf $$d/imagefiles ; done
 	for d in $(GEN_IMAGE_DOCKERFILES) ; do rm -f $$d ; done
 
+.PHONY: clean
 
 #
 # test implicit rule
