@@ -43,7 +43,7 @@ jobs:
          name: ubuntu2004-gcc9 build
          command: |
            docker load -i ~/docker/ubuntu2004-gcc9.tar > /dev/null 2>&1 || true
-           docker pull ubuntu:19.04
+           docker pull ubuntu:20.04
            make ubuntu2004-gcc9
            mkdir -p ~/docker
            docker save -o ~/docker/ubuntu2004-gcc9.tar dockbuild/ubuntu2004-gcc9:latest dockbuild/ubuntu2004:latest
