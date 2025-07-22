@@ -83,6 +83,7 @@ $(ALL_IMAGES): %: %/Dockerfile
 	$(eval REPO_OS := $(OPERATING_SYSTEM))
 	$(eval TAG := latest)
 	$(eval BASEIMAGE := $(shell cat $@/Dockerfile | grep "^FROM" | head -n1 | cut -d" " -f2))
+	$(eval IMAGEID := $(shell $(BUILD_DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
 	$(BUILD_DOCKER) $(BUILD_CMD) --cache-from=$(BASEIMAGE),$(ORG)/$(REPO):$(TAG) -t $(ORG)/$(REPO):$(TAG) \
 		--build-arg IMAGE=$(ORG)/$(REPO) \
 		--build-arg VERSION=$(TAG) \
@@ -91,12 +92,8 @@ $(ALL_IMAGES): %: %/Dockerfile
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		$@
 	if echo "$(LEGACY_IMAGES)" | grep -qw "$@"; then $(BUILD_DOCKER) tag $(ORG)/$(REPO):$(TAG) $(ORG)/$(REPO_OS):$(TAG); fi
-	CURRENT_IMAGEID=$$($(BUILD_DOCKER) images -q $(ORG)/$(REPO):$(TAG)); \
-	PREVIOUS_IMAGEID=$$($(BUILD_DOCKER) images -q $(ORG)/$(REPO):$(TAG) --filter "before=$$CURRENT_IMAGEID"); \
-	if [ -n "$$PREVIOUS_IMAGEID" ] && [ "$$PREVIOUS_IMAGEID" != "$$CURRENT_IMAGEID" ]; then \
-	  echo "Removing previous image $$PREVIOUS_IMAGEID"; \
-	  $(BUILD_DOCKER) rmi "$$PREVIOUS_IMAGEID" || true; \
-	fi
+	CURRENT_IMAGEID=$$($(BUILD_DOCKER) images -q $(ORG)/$(REPO)) && \
+	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(BUILD_DOCKER) rmi "$(IMAGEID)" || true; fi
 
 .PHONY: $(ALL_IMAGES)
 
