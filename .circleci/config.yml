@@ -2,7 +2,8 @@
 references:
 
   build-settings: &build-settings
-    machine: true
+    machine:
+      image: ubuntu-2404:current
 
   no_filters: &no_filters
     filters:
