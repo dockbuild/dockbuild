@@ -2,7 +2,7 @@
 
 thirdparty_module_name='imagefiles'
 
-upstream_git_url='git://github.com/dockcross/dockcross'
+upstream_git_url='https://github.com/dockcross/dockcross'
 upstream_git_branch='master'
 github_compare=true
 
