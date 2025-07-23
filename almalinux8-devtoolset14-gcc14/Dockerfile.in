@@ -22,6 +22,10 @@ ARG GIT_VERSION=2.50.1
 ARG NINJA_VERSION=1.11.1.g95dee.kitware.jobserver-1
 ARG PYTHON_VERSION=3.12.11
 
+ARG LIBTOOL_ROOT=libtool-2.5.3
+ARG LIBTOOL_HASH=9322bd8f6bc848fda3e385899dd1934957169652acef716d19d19d24053abb95
+ARG LIBTOOL_DOWNLOAD_URL=http://ftp.gnu.org/gnu/libtool
+
 ARG OPENSSL_VERSION=openssl-1.1.1w
 ARG OPENSSL_HASH=cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8
 
@@ -33,6 +37,8 @@ ARG PERL_HASH=02f8c45bb379ed0c3de7514fad48c714fd46be8f0b536bfd5320050165a1ee26
 
 # Image build scripts
 COPY \
+  imagefiles/utils.sh \
+  imagefiles/build-and-install-libtool.sh \
   imagefiles/build-and-install-git.sh \
   imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
@@ -87,6 +93,7 @@ RUN \
   /imagefiles/install-gosu-binary.sh && \
   /imagefiles/install-gosu-binary-wrapper.sh && \
   /imagefiles/install-ninja-binary.sh && \
+  /imagefiles/build-and-install-libtool.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
   rm -rf /imagefiles && \
