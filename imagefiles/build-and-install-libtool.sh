@@ -43,7 +43,7 @@ function fetch_source {
         --retry 5 \
         --retry-delay 10 \
         --retry-max-time 30 \
-        -fsSLO ${LIBTOOL_DOWNLOAD_URL}/${LIBTOOL_ROOT}.tar.gz
+        -fsSLO ${url}/${file}
 }
 
 # copied from https://github.com/pypa/manylinux/blob/70130bb463225012f71e13b7c5f8a6c69b223e56/docker/build_scripts/install-libtool.sh
@@ -52,6 +52,7 @@ function fetch_source {
 check_var "${LIBTOOL_ROOT}"
 check_var "${LIBTOOL_HASH}"
 check_var "${LIBTOOL_DOWNLOAD_URL}"
+
 fetch_source "${LIBTOOL_ROOT}.tar.gz" "${LIBTOOL_DOWNLOAD_URL}"
 check_sha256sum ${LIBTOOL_ROOT}.tar.gz ${LIBTOOL_HASH}
 tar -xzf ${LIBTOOL_ROOT}.tar.gz
