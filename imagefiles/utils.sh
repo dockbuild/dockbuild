@@ -22,3 +22,20 @@ function check_sha256sum {
     rm -f ${fname}.sha256
 }
 
+function fetch_source {
+    if ! command -v curl &> /dev/null; then
+      echo >&2 'error: "curl" not found!'
+      exit 1
+    fi
+    local file=$1
+    check_var "${file}"
+    local url=$2
+    check_var "${url}"
+    curl --fail \
+         --location \
+         --silent \
+         --show-error \
+         --connect-timeout 30 --max-time 10 \
+         --retry 5 --retry-delay 10 --retry-max-time 30 \
+         -o "${file}" ${url}/${file}
+}

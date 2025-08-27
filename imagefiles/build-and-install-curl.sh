@@ -2,8 +2,11 @@
 
 set -ex
 
-MY_DIR=$(dirname "${BASH_SOURCE[0]}")
-source $MY_DIR/utils.sh
+# Get script directory
+SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
+
+# Get build utilities
+source $SCRIPT_DIR/utils.sh
 
 #
 # Function 'do_curl_build' and 'build_curl'
@@ -20,6 +23,7 @@ if [[ -z "${CURL_HASH}" ]]; then
   exit 1
 fi
 
+CURL_ROOT="${CURL_VERSION}"
 CURL_DOWNLOAD_URL=https://curl.haxx.se/download
 
 function do_curl_build {
@@ -30,28 +34,16 @@ function do_curl_build {
     make install > /dev/null
 }
 
-
-function build_curl {
-    local curl_fname=$1
-    check_var ${curl_fname}
-    local curl_sha256=$2
-    check_var ${curl_sha256}
-    check_var ${CURL_DOWNLOAD_URL}
-    curl --connect-timeout 30 \
-        --max-time 10 \
-        --retry 5 \
-        --retry-delay 10 \
-        --retry-max-time 30 \
-        -fsSLO ${CURL_DOWNLOAD_URL}/${curl_fname}.tar.gz
-
-    check_sha256sum ${curl_fname}.tar.gz ${curl_sha256}
-    tar -zxf ${curl_fname}.tar.gz
-    (cd curl-*/ && do_curl_build)
-    rm -rf curl-*
-}
-
 cd /usr/src
-build_curl "${CURL_VERSION}" "${CURL_HASH}"
+
+fetch_source "${CURL_ROOT}.tar.gz" "${CURL_DOWNLOAD_URL}"
+check_sha256sum "${CURL_ROOT}.tar.gz" "${CURL_HASH}"
+
+tar -zxf "${CURL_ROOT}.tar.gz"
+pushd "${CURL_ROOT}"
+do_curl_build
+popd
+rm -rf "${CURL_ROOT}" "${CURL_ROOT}.tar.gz"
 
 (cat /etc/ld.so.conf.d/usr-local.conf 2> /dev/null | grep -q "^/usr/local/lib$") ||
   echo '/usr/local/lib' >> /etc/ld.so.conf.d/usr-local.conf
