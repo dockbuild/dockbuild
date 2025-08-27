@@ -24,7 +24,7 @@ In addition to the devtools, all images include:
 * curl with TLS 1.2 support
 * git 2.50.1 (with ``git config --global advice.detachedHead false``)
 * python 3.12.11
-* ninja 1.1.11 with `GNU make jobserver client and Fortran support <https://github.com/kitware/ninja>`_
+* ninja 1.13.1
 * make 4.4, automake 1.17, libtool 2.5.3
 
 

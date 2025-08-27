@@ -14,6 +14,7 @@ snapshot_relative_path='.'
 snapshot_paths='
   imagefiles/build-and-install-curl.sh
   imagefiles/build-and-install-git.sh
+  imagefiles/build-and-install-ninja.sh
   imagefiles/build-and-install-openssh.sh
   imagefiles/build-and-install-openssl.sh
   imagefiles/dockcross.sh
