@@ -19,7 +19,7 @@ ENV \
 
 ARG CMAKE_VERSION=3.31.8
 ARG GIT_VERSION=2.50.1
-ARG NINJA_VERSION=1.11.1.g95dee.kitware.jobserver-1
+ARG NINJA_VERSION=1.13.1
 ARG PYTHON_VERSION=3.12.11
 
 ARG AUTOMAKE_ROOT=automake-1.17
@@ -52,10 +52,10 @@ COPY \
   imagefiles/build-and-install-make.sh \
   imagefiles/build-and-install-git.sh \
   imagefiles/build-and-install-python.sh \
+  imagefiles/build-and-install-ninja.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-gosu-binary.sh \
   imagefiles/install-gosu-binary-wrapper.sh \
-  imagefiles/install-ninja-binary.sh \
   /imagefiles/
 
 RUN \
@@ -103,12 +103,12 @@ RUN \
   /imagefiles/install-cmake-binary.sh && \
   /imagefiles/install-gosu-binary.sh && \
   /imagefiles/install-gosu-binary-wrapper.sh && \
-  /imagefiles/install-ninja-binary.sh && \
   /imagefiles/build-and-install-automake.sh && \
   /imagefiles/build-and-install-libtool.sh && \
   /imagefiles/build-and-install-make.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
+  /imagefiles/build-and-install-ninja.sh -python /usr/local/bin/python && \
   rm -rf /imagefiles && \
   #
   # Remove sudo provided by "devtoolset-14" since it doesn't work with

@@ -13,8 +13,12 @@ ENV \
 
 ARG CMAKE_VERSION=3.31.8
 ARG GIT_VERSION=2.50.1
-ARG NINJA_VERSION=1.11.1.g95dee.kitware.jobserver-1
+ARG NINJA_VERSION=1.13.1
 ARG PYTHON_VERSION=3.12.11
+
+ARG MAKE_ROOT=make-4.4
+ARG MAKE_HASH=581f4d4e872da74b3941c874215898a7d35802f03732bdccee1d4a7979105d18
+ARG MAKE_DOWNLOAD_URL=http://gnu.mirror.constant.com/make
 
 ARG OPENSSL_VERSION=openssl-1.1.1w
 ARG OPENSSL_HASH=cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8
@@ -28,11 +32,13 @@ ARG PERL_HASH=02f8c45bb379ed0c3de7514fad48c714fd46be8f0b536bfd5320050165a1ee26
 # Image build scripts
 COPY \
   imagefiles/utils.sh \
+  imagefiles/dockbuild-utils.sh \
+  imagefiles/build-and-install-make.sh \
   imagefiles/build-and-install-git.sh \
   imagefiles/build-and-install-python.sh \
+  imagefiles/build-and-install-ninja.sh \
   imagefiles/install-cmake-binary.sh \
   imagefiles/install-gosu-binary-wrapper.sh \
-  imagefiles/install-ninja-binary.sh \
   /imagefiles/
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -74,9 +80,10 @@ RUN \
   #
   /imagefiles/install-cmake-binary.sh && \
   /imagefiles/install-gosu-binary-wrapper.sh && \
-  /imagefiles/install-ninja-binary.sh && \
+  /imagefiles/build-and-install-make.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
+  /imagefiles/build-and-install-ninja.sh -python /usr/local/bin/python && \
   rm -rf /imagefiles && \
   #
   # cleanup
