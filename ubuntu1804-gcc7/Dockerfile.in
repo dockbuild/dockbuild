@@ -27,6 +27,7 @@ ARG PERL_HASH=02f8c45bb379ed0c3de7514fad48c714fd46be8f0b536bfd5320050165a1ee26
 
 # Image build scripts
 COPY \
+  imagefiles/utils.sh \
   imagefiles/build-and-install-git.sh \
   imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \

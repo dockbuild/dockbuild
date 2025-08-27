@@ -39,8 +39,11 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-MY_DIR=$(dirname "${BASH_SOURCE[0]}")
-source $MY_DIR/utils.sh
+# Get script directory
+SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
+
+# Get build utilities
+source $SCRIPT_DIR/utils.sh
 
 #
 # Function 'do_openssl_build' and 'build_openssl'
@@ -84,13 +87,8 @@ function build_perl {
     local perl_sha256=$2
     check_var ${perl_sha256}
     check_var ${PERL_DOWNLOAD_URL}
-    curl --connect-timeout 30 \
-        --max-time 10 \
-        --retry 5 \
-        --retry-delay 10 \
-        --retry-max-time 30 \
-        -fsSLO ${PERL_DOWNLOAD_URL}/${perl_fname}.tar.gz
 
+    fetch_source "${perl_fname}.tar.gz" "${PERL_DOWNLOAD_URL}"
     check_sha256sum ${perl_fname}.tar.gz ${perl_sha256}
     tar -xzf ${perl_fname}.tar.gz --no-same-owner
     (cd ${perl_fname} && do_perl_build)
@@ -109,13 +107,8 @@ function build_openssl {
     local openssl_sha256=$2
     check_var ${openssl_sha256}
     check_var ${OPENSSL_DOWNLOAD_URL}
-    curl --connect-timeout 30 \
-        --max-time 10 \
-        --retry 5 \
-        --retry-delay 10 \
-        --retry-max-time 30 \
-        -fsSLO ${OPENSSL_DOWNLOAD_URL}/${openssl_fname}.tar.gz
 
+    fetch_source "${openssl_fname}.tar.gz" "${OPENSSL_DOWNLOAD_URL}"
     check_sha256sum ${openssl_fname}.tar.gz ${openssl_sha256}
     tar -xzf ${openssl_fname}.tar.gz
     (cd ${openssl_fname} && PATH=/opt/perl/bin:${PATH} do_openssl_build)

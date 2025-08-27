@@ -33,19 +33,6 @@ function do_standard_install {
     make install > /dev/null
 }
 
-function fetch_source {
-    local file=$1
-    check_var "${file}"
-    local url=$2
-    check_var "${url}"
-    curl --connect-timeout 30 \
-        --max-time 10 \
-        --retry 5 \
-        --retry-delay 10 \
-        --retry-max-time 30 \
-        -fsSLO ${url}/${file}
-}
-
 # copied from https://github.com/pypa/manylinux/blob/70130bb463225012f71e13b7c5f8a6c69b223e56/docker/build_scripts/install-libtool.sh
 
 # Install newest libtool
@@ -54,12 +41,12 @@ check_var "${LIBTOOL_HASH}"
 check_var "${LIBTOOL_DOWNLOAD_URL}"
 
 fetch_source "${LIBTOOL_ROOT}.tar.gz" "${LIBTOOL_DOWNLOAD_URL}"
-check_sha256sum ${LIBTOOL_ROOT}.tar.gz ${LIBTOOL_HASH}
-tar -xzf ${LIBTOOL_ROOT}.tar.gz
-pushd ${LIBTOOL_ROOT}
+check_sha256sum "${LIBTOOL_ROOT}.tar.gz" "${LIBTOOL_HASH}"
+tar -xzf "${LIBTOOL_ROOT}.tar.gz"
+pushd "${LIBTOOL_ROOT}"
 DESTDIR=/manylinux-rootfs do_standard_install
 popd
-rm -rf ${LIBTOOL_ROOT} ${LIBTOOL_ROOT}.tar.gz
+rm -rf "${LIBTOOL_ROOT}" "${LIBTOOL_ROOT}.tar.gz"
 
 # Strip what we can
 strip_ /manylinux-rootfs

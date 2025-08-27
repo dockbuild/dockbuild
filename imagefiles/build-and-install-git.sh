@@ -2,10 +2,12 @@
 
 set -ex
 
-if ! command -v curl &> /dev/null; then
-	echo >&2 'error: "curl" not found!'
-	exit 1
-fi
+# Get script directory
+SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
+
+# Get build utilities
+source $SCRIPT_DIR/utils.sh
+
 
 if ! command -v tar &> /dev/null; then
 	echo >&2 'error: "tar" not found!'
@@ -23,27 +25,20 @@ ldconfig
 
 cd /usr/src
 
-url="https://mirrors.edge.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz"
-echo "Downloading $url"
-curl --connect-timeout 20 \
-    --max-time 10 \
-    --retry 5 \
-    --retry-delay 10 \
-    --retry-max-time 40 \
-    -# -LO $url
+GIT_ROOT="git-${GIT_VERSION}"
+GIT_DOWNLOAD_URL="https://mirrors.edge.kernel.org/pub/software/scm/git"
 
-tar xvzf "git-${GIT_VERSION}.tar.gz" --no-same-owner
-rm -f "git-${GIT_VERSION}.tar.gz"
+fetch_source "${GIT_ROOT}.tar.gz" "${GIT_DOWNLOAD_URL}"
+tar xvzf "${GIT_ROOT}.tar.gz" --no-same-owner
 
-pushd "git-${GIT_VERSION}"
+pushd "${GIT_ROOT}"
 ./configure --prefix=/usr/local --with-curl
 make -j"$(nproc)"
 make install
 popd
+rm -rf "${GIT_ROOT}" "${GIT_ROOT}.tar.gz"
 
 ldconfig
-
-rm -rf "git-${GIT_VERSION}"
 
 # turn the detached message off
 git config --global advice.detachedHead false
