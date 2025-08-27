@@ -18,6 +18,11 @@ check_var "${AUTOMAKE_ROOT}"
 check_var "${AUTOMAKE_HASH}"
 check_var "${AUTOMAKE_DOWNLOAD_URL}"
 
+if ! command -v aclocal &> /dev/null; then
+  echo >&2 'error: "aclocal" not found!'
+  exit 1
+fi
+
 SYSTEM_ACLOCAL="$(which aclocal)"
 
 fetch_source "${AUTOMAKE_ROOT}.tar.gz" "${AUTOMAKE_DOWNLOAD_URL}"
