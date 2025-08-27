@@ -30,6 +30,10 @@ ARG LIBTOOL_ROOT=libtool-2.5.3
 ARG LIBTOOL_HASH=9322bd8f6bc848fda3e385899dd1934957169652acef716d19d19d24053abb95
 ARG LIBTOOL_DOWNLOAD_URL=http://gnu.mirror.constant.com/libtool
 
+ARG MAKE_ROOT=make-4.4
+ARG MAKE_HASH=581f4d4e872da74b3941c874215898a7d35802f03732bdccee1d4a7979105d18
+ARG MAKE_DOWNLOAD_URL=http://gnu.mirror.constant.com/make
+
 ARG OPENSSL_VERSION=openssl-1.1.1w
 ARG OPENSSL_HASH=cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8
 
@@ -45,6 +49,7 @@ COPY \
   imagefiles/dockbuild-utils.sh \
   imagefiles/build-and-install-automake.sh \
   imagefiles/build-and-install-libtool.sh \
+  imagefiles/build-and-install-make.sh \
   imagefiles/build-and-install-git.sh \
   imagefiles/build-and-install-python.sh \
   imagefiles/install-cmake-binary.sh \
@@ -101,6 +106,7 @@ RUN \
   /imagefiles/install-ninja-binary.sh && \
   /imagefiles/build-and-install-automake.sh && \
   /imagefiles/build-and-install-libtool.sh && \
+  /imagefiles/build-and-install-make.sh && \
   /imagefiles/build-and-install-git.sh && \
   /imagefiles/build-and-install-python.sh && \
   rm -rf /imagefiles && \

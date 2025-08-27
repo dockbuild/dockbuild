@@ -25,6 +25,7 @@ In addition to the devtools, all images include:
 * git 2.50.1 (with ``git config --global advice.detachedHead false``)
 * python 3.12.11
 * ninja 1.1.11 with `GNU make jobserver client and Fortran support <https://github.com/kitware/ninja>`_
+* make 4.4, automake 1.17, libtool 2.5.3
 
 
 What is the difference between `dockcross` and `dockbuild` ?
