@@ -28,6 +28,7 @@ LEGACY_IMAGES = \
   ubuntu2004-gcc9
 IMAGES = \
   almalinux8-devtoolset14-gcc14 \
+  almalinux9-devtoolset14-gcc14 \
   $(LEGACY_IMAGES)
 
 # These images are built using the "build implicit rule"
