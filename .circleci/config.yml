@@ -1,18 +1,13 @@
+version: 2.1
 
-references:
-
-  build-settings: &build-settings
+executors:
+  docker-builder:
     machine:
       image: ubuntu-2404:current
 
-  no_filters: &no_filters
-    filters:
-      tags:
-        only: /.*/
-
 jobs:
   ubuntu1804-gcc7:
-    <<: *build-settings
+    executor: docker-builder
     steps:
       - restore_cache:
           keys:
@@ -34,7 +29,7 @@ jobs:
           key: ubuntu1804-gcc7-assets-{{ .Revision }}
           paths: ~/docker/ubuntu1804-gcc7.tar
   ubuntu2004-gcc9:
-    <<: *build-settings
+    executor: docker-builder
     steps:
       - restore_cache:
           keys:
@@ -56,7 +51,7 @@ jobs:
           key: ubuntu2004-gcc9-assets-{{ .Revision }}
           paths: ~/docker/ubuntu2004-gcc9.tar
   almalinux8-devtoolset14-gcc14:
-    <<: *build-settings
+    executor: docker-builder
     steps:
       - restore_cache:
           keys:
@@ -78,11 +73,11 @@ jobs:
           key: almalinux8-devtoolset14-gcc14-assets-{{ .Revision }}
           paths: ~/docker/almalinux8-devtoolset14-gcc14.tar
   deploy-master:
-    <<: *build-settings
+    executor: docker-builder
     steps:
       - restore_cache:
           key: ubuntu1804-gcc7-assets-{{ .Revision }}
-      - deploy:
+      - run:
           name: Deploy ubuntu1804-gcc7
           command: |
             docker load -i ~/docker/ubuntu1804-gcc7.tar
@@ -91,7 +86,7 @@ jobs:
             docker push dockbuild/ubuntu1804-gcc7:latest
       - restore_cache:
           key: ubuntu2004-gcc9-assets-{{ .Revision }}
-      - deploy:
+      - run:
           name: Deploy ubuntu2004-gcc9
           command: |
             docker load -i ~/docker/ubuntu2004-gcc9.tar
@@ -100,22 +95,27 @@ jobs:
             docker push dockbuild/ubuntu2004-gcc9:latest
       - restore_cache:
           key: almalinux8-devtoolset14-gcc14-assets-{{ .Revision }}
-      - deploy:
+      - run:
           name: Deploy almalinux8-devtoolset14-gcc14
           command: |
             docker load -i ~/docker/almalinux8-devtoolset14-gcc14.tar
             echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
             docker push dockbuild/almalinux8-devtoolset14-gcc14:latest
 workflows:
-  version: 2
   build-test-deploy:
     jobs:
       - ubuntu1804-gcc7:
-          <<: *no_filters
+          filters:
+            tags:
+              only: /.*/
       - ubuntu2004-gcc9:
-          <<: *no_filters
+          filters:
+            tags:
+              only: /.*/
       - almalinux8-devtoolset14-gcc14:
-          <<: *no_filters
+          filters:
+            tags:
+              only: /.*/
       - deploy-master:
           requires:
             - ubuntu1804-gcc7
