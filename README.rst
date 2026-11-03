@@ -60,6 +60,13 @@ dockbuild/ubuntu2004-gcc9:latest, dockbuild/ubuntu2004:latest
 dockbuild/almalinux8-devtoolset14-gcc14:latest
   |almalinux8-devtoolset14-gcc14-latest| AlmaLinux 8 based image.
 
+
+.. |almalinux9-devtoolset14-gcc14-latest| image:: https://img.shields.io/docker/image-size/dockbuild/almalinux9-devtoolset14-gcc14/latest
+  :target: https://hub.docker.com/r/dockbuild/almalinux9-devtoolset14-gcc14/tags?page=1&name=latest
+
+dockbuild/almalinux9-devtoolset14-gcc14:latest
+  |almalinux9-devtoolset14-gcc14-latest| AlmaLinux 9 based image.
+
 Deprecated build environments
 -----------------------------
 

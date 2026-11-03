@@ -72,6 +72,28 @@ jobs:
       - save_cache:
           key: almalinux8-devtoolset14-gcc14-assets-{{ .Revision }}
           paths: ~/docker/almalinux8-devtoolset14-gcc14.tar
+  almalinux9-devtoolset14-gcc14:
+    executor: docker-builder
+    steps:
+      - restore_cache:
+          keys:
+            - almalinux9-devtoolset14-gcc14-assets-
+      - checkout
+      - run:
+         name: almalinux9-devtoolset14-gcc14 build
+         command: |
+           docker load -i ~/docker/almalinux9-devtoolset14-gcc14.tar > /dev/null 2>&1 || true
+           docker pull amd64/almalinux:9
+           make almalinux9-devtoolset14-gcc14
+           mkdir -p ~/docker
+           docker save -o ~/docker/almalinux9-devtoolset14-gcc14.tar dockbuild/almalinux9-devtoolset14-gcc14:latest
+      - run:
+         name: almalinux9-devtoolset14-gcc14 test
+         command: |
+           make almalinux9-devtoolset14-gcc14.test
+      - save_cache:
+          key: almalinux9-devtoolset14-gcc14-assets-{{ .Revision }}
+          paths: ~/docker/almalinux9-devtoolset14-gcc14.tar
   deploy-master:
     executor: docker-builder
     steps:
@@ -101,6 +123,14 @@ jobs:
             docker load -i ~/docker/almalinux8-devtoolset14-gcc14.tar
             echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
             docker push dockbuild/almalinux8-devtoolset14-gcc14:latest
+      - restore_cache:
+          key: almalinux9-devtoolset14-gcc14-assets-{{ .Revision }}
+      - run:
+          name: Deploy almalinux9-devtoolset14-gcc14
+          command: |
+            docker load -i ~/docker/almalinux9-devtoolset14-gcc14.tar
+            echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+            docker push dockbuild/almalinux9-devtoolset14-gcc14:latest
 workflows:
   build-test-deploy:
     jobs:
@@ -116,11 +146,16 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - almalinux9-devtoolset14-gcc14:
+          filters:
+            tags:
+              only: /.*/
       - deploy-master:
           requires:
             - ubuntu1804-gcc7
             - ubuntu2004-gcc9
             - almalinux8-devtoolset14-gcc14
+            - almalinux9-devtoolset14-gcc14
           filters:
             branches:
               only: master
